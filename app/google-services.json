@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "58122938732",
+    "firebase_url": "https://centrum-medyczne-8367d.firebaseio.com",
+    "project_id": "centrum-medyczne-8367d",
+    "storage_bucket": "centrum-medyczne-8367d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58122938732:android:45715a7fc8d46d5ab1ab49",
+        "android_client_info": {
+          "package_name": "com.example.centrummedyczne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58122938732-leluuss9elqsvsk4jap31n0m10lvjuhn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.centrummedyczne",
+            "certificate_hash": "6507bb7ce61dce60dffa0b243ba328f165077ef7"
+          }
+        },
+        {
+          "client_id": "58122938732-9qg46r4sgueqgb3h40i42lq868bbc3j6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDppeFR_d8hH0jNOHf6DK9CV9_ikaRtSTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58122938732-9qg46r4sgueqgb3h40i42lq868bbc3j6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
