@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Map<String,Object> address = new HashMap<>();
-                address.put("apartment","15");
-                address.put("building_number", "4b");
-                address.put("city","Lublin");
-                address.put("postal_code","21-212");
-                address.put("street","Makowa");
+                address.put("apartment",null);
+                address.put("building_number", "114");
+                address.put("city","Sosnowiec");
+                address.put("postal_code","75-102");
+                address.put("street","Sympatyczna");
 
 
                 db.collection("address")
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         //CollectionReference addressesRef = db.collection("address");
       //  Query query = addressesRef.whereEqualTo("city","Lublin");
 
-        db.collection("address")
+        /*db.collection("address")
                 .whereEqualTo("city","Lublin")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -105,6 +105,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
+   */
     }
 }
