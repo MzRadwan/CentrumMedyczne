@@ -27,17 +27,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="298dp"
-
-        android:layout_marginTop="20dp"
-        android:text="@string/login_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="607dp"
@@ -51,45 +40,32 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="121dp" />
+            android:layout_height="80dp" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Znajdź lekarza"
+            android:text="Aby uzyskać dostęp do wszystkich funkcji zaloguj sie"
             android:textAlignment="center"
             android:textSize="20sp" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="66dp" />
+            android:layout_height="80dp" />
 
-        <EditText
-            android:id="@+id/specializationEditText"
+        <Button
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="15"
-            android:hint="Specializacja"
-            android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/cityEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="15"
-            android:hint="@string/city"
-            android:inputType="textPersonName" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:text="@string/login_text" />
 
         <Button
             android:id="@+id/findButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Szukaj" />
+            android:text="Dowiedz sie więcej" />
 
     </LinearLayout>
 

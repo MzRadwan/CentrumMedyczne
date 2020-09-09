@@ -2,10 +2,14 @@ package com.example.centrummedyczne;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
+
+    Button mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +24,15 @@ public class StartActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
+
+        mLoginButton = (Button) findViewById(R.id.loginButton);
+
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PreLoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -57,7 +57,7 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Znajdź lekarza"
+            android:text="Zaloguj się za pomocą danych uzyskanych na wizycie"
             android:textAlignment="center"
             android:textSize="20sp" />
 
@@ -66,30 +66,28 @@
             android:layout_height="66dp" />
 
         <EditText
-            android:id="@+id/specializationEditText"
+            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:hint="Specializacja"
-            android:inputType="textPersonName" />
+            android:hint="Password" />
 
         <EditText
             android:id="@+id/cityEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="15"
-            android:hint="@string/city"
-            android:inputType="textPersonName" />
+            android:hint="Login" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="60dp" />
 
         <Button
-            android:id="@+id/findButton"
+            android:id="@+id/cancellButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Szukaj" />
+            android:text="Anuluj" />
 
     </LinearLayout>
 

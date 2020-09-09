@@ -2,4 +2,5 @@
     <string name="app_name">CentrumMedyczne</string>
     <string name="header_text">Centrum Medyczne</string>
     <string name="login_text">Zaloguj</string>
+    <string name="city">Miasto</string>
 </resources>
