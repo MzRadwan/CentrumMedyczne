@@ -13,7 +13,8 @@ public class PatientAccountActivity extends AppCompatActivity {
             mMyPrescriptionButton,
             mFavouriteButton,
             mAppointmentButton,
-            mMyMedsButton;
+            mMyMedsButton,
+            mLogOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class PatientAccountActivity extends AppCompatActivity {
         mEditPersonalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class); //TO DO
+                Intent intent = new Intent(v.getContext(), EditPatientActivity.class); //TO DO
                 startActivity(intent);
             }
         });
@@ -51,7 +52,7 @@ public class PatientAccountActivity extends AppCompatActivity {
         mFavouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class); //TO DO
+                Intent intent = new Intent(v.getContext(), FavDocsActivity.class); //TO DO
                 startActivity(intent);
             }
         });
@@ -70,6 +71,15 @@ public class PatientAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PrescriptionsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mLogOutButton = (Button) findViewById(R.id.logOutButton);
+        mLogOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), StartActivity.class);
                 startActivity(intent);
             }
         });

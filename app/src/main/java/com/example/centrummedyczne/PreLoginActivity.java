@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class PreLoginActivity extends AppCompatActivity {
-    Button mLoginButton;
+    Button mLoginButton, mMoreInfoButton;
+    TextView mPreTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,15 @@ public class PreLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        mMoreInfoButton = (Button) findViewById(R.id.findButton);
+        mPreTextView = (TextView) findViewById(R.id.preLoginTextView);
+        mMoreInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPreTextView.setText(R.string.preLoginFindMore);
             }
         });
     }

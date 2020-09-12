@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button mLoginButton;
+    Button mLoginButton, mCancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),PatientAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mCancelButton = (Button) findViewById(R.id.cancellButton);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),StartActivity.class);
                 startActivity(intent);
             }
         });
