@@ -54,6 +54,13 @@
             android:layout_height="40dp" />
 
         <Button
+            android:id="@+id/visitSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Szukaj wizyty" />
+
+        <Button
             android:id="@+id/editPersonalDataButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +111,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/accountImage"
         android:layout_width="69dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"

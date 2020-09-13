@@ -54,7 +54,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/accountImage"
         android:layout_width="69dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
