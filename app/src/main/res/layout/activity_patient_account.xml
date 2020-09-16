@@ -61,6 +61,13 @@
             android:text="Szukaj wizyty" />
 
         <Button
+            android:id="@+id/planedVisitsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Zaplanowane wizyty" />
+
+        <Button
             android:id="@+id/editPersonalDataButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,6 +81,20 @@
             android:layout_marginTop="1dp"
             android:textSize="20sp"
             android:text="Ulubieni lekarze" />
+        <Button
+            android:id="@+id/askDoctorButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textSize="20sp"
+            android:text="Zapytaj lekarza" />
+        <Button
+            android:id="@+id/appointmentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textSize="20sp"
+            android:text="Historia wizyt" />
 
         <Button
             android:id="@+id/myPrescriptionsButton"
@@ -83,13 +104,7 @@
             android:textSize="20sp"
             android:text="Recepty" />
 
-        <Button
-            android:id="@+id/appointmentButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Historia wizyt" />
+
 
         <Button
             android:id="@+id/myMedicineButton"
@@ -109,15 +124,5 @@
 
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/accountImage"
-        android:layout_width="69dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_baseline_account_box_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
