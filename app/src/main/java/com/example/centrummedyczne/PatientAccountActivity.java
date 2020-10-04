@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class PatientAccountActivity extends AppCompatActivity {
 
     Button mEditPersonalButton,
@@ -14,7 +16,8 @@ public class PatientAccountActivity extends AppCompatActivity {
             mFavouriteButton,
             mAppointmentButton,
             mMyMedsButton,
-            mLogOutButton;
+            mSignOutButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +78,13 @@ public class PatientAccountActivity extends AppCompatActivity {
             }
         });
 
-        mLogOutButton = (Button) findViewById(R.id.logOutButton);
-        mLogOutButton.setOnClickListener(new View.OnClickListener() {
+        mSignOutButton = (Button) findViewById(R.id.logOutButton);
+        mSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), StartActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                Intent intent = new Intent(PatientAccountActivity.this, StartActivity.class);
                 startActivity(intent);
             }
         });
