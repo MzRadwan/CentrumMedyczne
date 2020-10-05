@@ -37,6 +37,33 @@
         <item>Liczba ocen rosnąco</item>
         <item>Liczba opinii malejąco</item>
         <item>Liczba opinii rosnąco</item>
-        <item> </item>
+        <item>Średnia ocena malejąco</item>
+        <item>Średnia ocena rosnąco</item>
+    </string-array>
+
+    <string-array name="doctors">
+        <item>dr Jan Kowalski</item>
+        <item>dr Jan Nowak</item>
+        <item>dr Barbara Kowalska</item>
+        <item>dr Marta Nowak</item>
+        <item>dr Janina Miła</item>
+        <item>dr Joanna Kowalska</item>
+        <item>dr Katarzyna Biela</item>
+        <item>dr Małgorzata Droga</item>
+        <item>dr Natalia Mróz</item>
+        <item>dr Katarzyna Poręba</item>
+    </string-array>
+
+    <string-array name="description">
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
+        <item>This is random description</item>
     </string-array>
 </resources>
