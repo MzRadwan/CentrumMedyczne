@@ -33,12 +33,18 @@
     </string-array>
 
     <string-array name="sort_options">
-        <item>Liczba ocen malejąco</item>
-        <item>Liczba ocen rosnąco</item>
-        <item>Liczba opinii malejąco</item>
-        <item>Liczba opinii rosnąco</item>
-        <item>Średnia ocena malejąco</item>
-        <item>Średnia ocena rosnąco</item>
+        <item>Średnia ocena</item>
+        <item>Czas oczekiwania na wizytę</item>
+        <item>Liczba ocen</item>
+        <item>Liczba opinii</item>
+        <item>Cena za wizytę</item>
+        <item>Odległość</item>
+        <item>Nazwisko lekarza</item>
+    </string-array>
+
+    <string-array name="sort_direction">
+        <item>Rosnąco</item>
+        <item>Malejąco</item>
     </string-array>
 
     <string-array name="doctors">
