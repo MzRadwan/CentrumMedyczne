@@ -8,6 +8,15 @@
     <string name="preLoginFindMore">Aby uzyskać pełny dostęp do systemu zarejestruj się w jednej z placówek lub pod nr telefonu 123456789 </string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="sortuj">Sortuj</string>
+    <string name="filtruj">Filtruj</string>
+    <string name="rednia_ocena">Średnia ocena</string>
+    <string name="czas_oczekiwania_na_wizyt">Czas oczekiwania na wizytę</string>
+    <string name="liczba_opinii">Liczba opinii</string>
+    <string name="liczba_ocen">Liczba ocen</string>
+    <string name="cena_za_wizyt">Cena za wizytę</string>
+    <string name="odleg_o">Odległość</string>
+    <string name="zastosuj">Zastosuj</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>
