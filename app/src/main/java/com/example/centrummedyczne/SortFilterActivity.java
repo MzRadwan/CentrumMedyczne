@@ -40,8 +40,8 @@ public class SortFilterActivity extends AppCompatActivity {
         mAverageBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                averageMin = i;
-                averageMax = i1;
+                setAverageMin(i);
+                setAverageMax(i1);
             }
         });
 
@@ -68,32 +68,40 @@ public class SortFilterActivity extends AppCompatActivity {
         mDistanceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                distanceMin = i;
-                distanceMax = i1;
+                setDistanceMin(i);
+                setDistanceMax(i1);
+            }
+        });
+
+        mPriceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+            @Override
+            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                setPriceMin(i);
+                setPriceMax(i1);
             }
         });
 
         mOpinionsNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                opinionsMin = i;
-                opinionsMax = i1;
+                setOpinionsMin(i);
+                setOpinionsMax(i1);
             }
         });
 
         mRatesNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                ratesMin = i;
-                ratesMax = i1;
+                setRatesMin(i);
+                setRatesMax(i1);
             }
         });
 
         mWaitTimeBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                waitTimeMin = i;
-                waitTimeMax = i1;
+                setWaitTimeMin(i);
+                setWaitTimeMax(i1);
             }
         });
 
@@ -115,7 +123,67 @@ public class SortFilterActivity extends AppCompatActivity {
         applyIntent.putExtra("sortOption", option);
         String direction = mSortDirection.getSelectedItem().toString();
         applyIntent.putExtra("sortDirection", direction);
+        applyIntent.putExtra("averageMin", averageMin);
+        applyIntent.putExtra("averageMax", averageMax);
+        applyIntent.putExtra("distanceMin", distanceMin);
+        applyIntent.putExtra("distanceMax", distanceMax);
+        applyIntent.putExtra("priceMin", priceMin);
+        applyIntent.putExtra("priceMax", priceMax);
+        applyIntent.putExtra("opinionsMin", opinionsMin);
+        applyIntent.putExtra("opinionsMax", opinionsMax);
+        applyIntent.putExtra("ratesMin", ratesMin);
+        applyIntent.putExtra("ratesMax", ratesMax);
+        applyIntent.putExtra("waitTimeMin", waitTimeMin);
+        applyIntent.putExtra("waitTimeMax", waitTimeMax);
         setResult(RESULT_OK, applyIntent);
         finish();
+    }
+
+    public void setAverageMin(int averageMin) {
+        this.averageMin = averageMin;
+    }
+
+    public void setWaitTimeMin(int waitTimeMin) {
+        this.waitTimeMin = waitTimeMin;
+    }
+
+    public void setOpinionsMin(int opinionsMin) {
+        this.opinionsMin = opinionsMin;
+    }
+
+    public void setRatesMin(int ratesMin) {
+        this.ratesMin = ratesMin;
+    }
+
+    public void setPriceMin(int priceMin) {
+        this.priceMin = priceMin;
+    }
+
+    public void setDistanceMin(int distanceMin) {
+        this.distanceMin = distanceMin;
+    }
+
+    public void setAverageMax(int averageMax) {
+        this.averageMax = averageMax;
+    }
+
+    public void setWaitTimeMax(int waitTimeMax) {
+        this.waitTimeMax = waitTimeMax;
+    }
+
+    public void setOpinionsMax(int opinionsMax) {
+        this.opinionsMax = opinionsMax;
+    }
+
+    public void setRatesMax(int ratesMax) {
+        this.ratesMax = ratesMax;
+    }
+
+    public void setPriceMax(int priceMax) {
+        this.priceMax = priceMax;
+    }
+
+    public void setDistanceMax(int distanceMax) {
+        this.distanceMax = distanceMax;
     }
 }

@@ -88,7 +88,8 @@ public class SearchResultActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String sortOption = data.getStringExtra("sortOption");
                 String sortDirection = data.getStringExtra("sortDirection");
-                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase(), Toast.LENGTH_LONG).show();
+                int filter = data.getIntExtra("waitTimeMax",1);
+                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase()+Integer.toString(filter), Toast.LENGTH_LONG).show();
 
             }
             else if(resultCode == RESULT_CANCELED){
