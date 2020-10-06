@@ -12,14 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
     String data1[], data2[];
     int images[];
     Context context;
 
-    public MyAdapter(Context ct, String s1[], String s2[], int img[]){
+    public SearchRecyclerAdapter(Context ct, String s1[], String s2[], int img[]){
         context = ct;
         data1 = s1;
         data2 = s2;

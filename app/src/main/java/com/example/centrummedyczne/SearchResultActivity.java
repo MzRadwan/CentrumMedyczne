@@ -1,5 +1,6 @@
 package com.example.centrummedyczne;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,11 +10,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class SearchResultActivity extends AppCompatActivity {
 
     String specs[], cities[];
     AutoCompleteTextView mSpecs, mCities;
+    Button mSortFilter;
 
     RecyclerView mRecyclerView;
 
@@ -62,8 +66,34 @@ public class SearchResultActivity extends AppCompatActivity {
         s1 = getResources().getStringArray(R.array.doctors);
         s2 = getResources().getStringArray(R.array.description);
 
-        MyAdapter myAdapter = new MyAdapter(this,s1, s2, images);
-        mRecyclerView.setAdapter(myAdapter);
+        SearchRecyclerAdapter searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
+        mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mSortFilter = (Button) findViewById(R.id.sortFilterButton);
+        mSortFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
+                startActivityForResult(intent1, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1){//defines parent activity
+            if(resultCode == RESULT_OK){
+                String sortOption = data.getStringExtra("sortOption");
+                String sortDirection = data.getStringExtra("sortDirection");
+                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase(), Toast.LENGTH_LONG).show();
+
+            }
+            else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
