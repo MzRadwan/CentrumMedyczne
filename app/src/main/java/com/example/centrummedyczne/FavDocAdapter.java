@@ -12,14 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
-
+public class FavDocAdapter extends RecyclerView.Adapter<FavDocAdapter.MyViewHolder>{
 
     String data1[], data2[];
     int images[];
     Context context;
 
-    public SearchRecyclerAdapter(Context ct, String s1[], String s2[], int img[]){
+    public FavDocAdapter(Context ct, String s1[], String s2[], int img[]){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -30,7 +29,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view  = inflater.inflate(R.layout.search_doc_row, parent, false);
+        View view  = inflater.inflate(R.layout.fav_doc_row, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -43,14 +42,13 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DoctorActivity.class);
+                Intent intent = new Intent(context, FavDocDetailsActivity.class);
                 intent.putExtra("data1", data1[position]);
                 intent.putExtra("data2", data2[position]);
                 intent.putExtra("images", images[position]);
                 context.startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -76,4 +74,5 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }
+
 }

@@ -1,6 +1,8 @@
 package com.example.centrummedyczne;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,6 +13,15 @@ import android.widget.ImageView;
 
 public class FavDocsActivity extends AppCompatActivity {
     ImageView mHomepageImg, mAccountImg;
+
+    RecyclerView mFavDocRecycler;
+
+    String s1[], s2[];
+    int images[] = {R.drawable.bear,R.drawable.bird,
+            R.drawable.chameleon, R.drawable.dog,
+            R.drawable.flamingo, R.drawable.koala,
+            R.drawable.lizard, R.drawable.rabbit,
+            R.drawable.sheep, R.drawable.zebra};
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +50,19 @@ public class FavDocsActivity extends AppCompatActivity {
         mHomepageImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),PatientAccountActivity.class);
+                Intent intent = new Intent(v.getContext(),StartActivity.class);
                 startActivity(intent);
             }
         });
+
+        mFavDocRecycler = (RecyclerView) findViewById(R.id.favDocRecycler);
+
+        s1 = getResources().getStringArray(R.array.doctors);
+        s2 = getResources().getStringArray(R.array.description);
+
+        FavDocAdapter favDocAdapter = new FavDocAdapter(this, s1, s2, images);
+        mFavDocRecycler.setAdapter(favDocAdapter);
+        mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
