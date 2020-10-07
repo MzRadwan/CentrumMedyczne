@@ -18,6 +18,11 @@
     <string name="odleg_o">Odległość</string>
     <string name="zastosuj">Zastosuj</string>
 
+    <string name="rate_doc">Jak oceniasz wizytę?</string>
+    <string name="add_opinion">Napisz co sądzisz o wizycie:</string>
+    <string name="cancel">Anuluj</string>
+    <string name="publish">Opublikuj</string>
+
     <string-array name="specs">
         <item>Kardiolog</item>
         <item>Chirurg</item>
