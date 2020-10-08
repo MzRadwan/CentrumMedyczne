@@ -3,7 +3,7 @@
     <string name="header_text">Centrum Medyczne</string>
     <string name="login_text">Zaloguj</string>
     <string name="city">Miasto</string>
-    <string name="title_activity_edit_patient">FullscreenActivity</string>
+
     <string name="preLoginDefault">Aby uzyskać dostęp do wszystkich funkcji zaloguj się za pomoca danych uzyskanych na wizycie</string>
     <string name="preLoginFindMore">Aby uzyskać pełny dostęp do systemu zarejestruj się w jednej z placówek lub pod nr telefonu 123456789 </string>
     <string name="dummy_button">Dummy Button</string>
@@ -27,6 +27,8 @@
 
 
     <string name="todo">TODO</string>
+    <string name="zaloguj">Zaloguj</string>
+    <string name="kontynuuj_jako_go">Kontynuuj jako gość</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>

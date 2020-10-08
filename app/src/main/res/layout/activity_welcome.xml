@@ -45,13 +45,19 @@
         android:text="@string/medyczne" />
     <Space
         android:layout_width="match_parent"
-        android:layout_height="50sp" />
+        android:layout_height="40sp" />
 
     <Button
         android:id="@+id/loginStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Zaloguj" />
+        android:fontFamily="@font/verdana"
+        android:textColor="@color/navy"
+        android:layout_marginStart="20dp"
+        android:textSize="30sp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/white_button"
+        android:text="@string/zaloguj" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="12sp" />
@@ -59,5 +65,11 @@
         android:id="@+id/guestStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kontynuuj jako gość" />
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/white_button"
+        android:fontFamily="@font/verdana"
+        android:textColor="@color/navy"
+        android:textSize="20sp"
+        android:text="@string/kontynuuj_jako_go" />
 </LinearLayout>
