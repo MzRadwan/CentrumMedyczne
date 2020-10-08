@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fair"
     tools:context=".StartActivity">
 
     <ImageView
@@ -13,41 +14,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header" />
+        app:srcCompat="@drawable/ic_header_gradient" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
-        android:text="@string/header_text"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="Moje konto"
+        android:fontFamily="@font/verdana"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="607dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Moje konto"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <Space
             android:layout_width="match_parent"
@@ -57,53 +50,54 @@
             android:id="@+id/visitSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Szukaj wizyty" />
+            android:text="Szukaj wizyty"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/planedVisitsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Zaplanowane wizyty" />
+            android:text="Zaplanowane wizyty"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/editPersonalDataButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Edytuj dane osobowe" />
+            android:text="Edytuj dane osobowe"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/favouriteDoctorsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Ulubieni lekarze" />
+            android:text="Ulubieni lekarze"
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/askDoctorButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Zapytaj lekarza" />
+            android:text="Zapytaj lekarza"
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/appointmentButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Historia wizyt" />
+            android:text="Historia wizyt"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/myPrescriptionsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Recepty" />
-
+            android:text="Recepty"
+            android:textSize="20sp" />
 
 
         <Button
@@ -111,16 +105,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Moje leki" />
+            android:text="Moje leki"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/logOutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:textSize="20sp"
-            android:text="Wyloguj się" />
+            android:text="Wyloguj się"
+            android:textSize="20sp" />
 
 
     </LinearLayout>
