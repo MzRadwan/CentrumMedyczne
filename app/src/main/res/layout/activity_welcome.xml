@@ -57,7 +57,8 @@
         android:textSize="30sp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/white_button"
-        android:text="@string/zaloguj" />
+        android:text="@string/zaloguj"
+        android:onClick="onClickLogin"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="12sp" />
@@ -71,5 +72,6 @@
         android:fontFamily="@font/verdana"
         android:textColor="@color/navy"
         android:textSize="20sp"
-        android:text="@string/kontynuuj_jako_go" />
+        android:text="@string/kontynuuj_jako_go"
+        android:onClick="onClickContinue"/>
 </LinearLayout>
