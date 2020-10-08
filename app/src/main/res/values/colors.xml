@@ -7,11 +7,13 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
 
-    <color name="navy">#0C0636</color>
-    <color name="teal">#095169</color>
-    <color name="blue">#059B9A</color>
-    <color name="green">#53BA83</color>
-    <color name="lime">#9FD86B</color>
+    <color name="navy">#003D51</color>
+    <color name="blue">#2183A2</color>
+    <color name="lagoon">#03B6BD</color>
+    <color name="sky">#81C6D4</color>
+    <color name="fair">#E6E5DF</color>
+
+
 
     <color name="black_overlay">#66000000</color>
 </resources>

@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/r_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FavDocDetailsActivity"></activity>
+        <activity android:name=".WelcomeActivity"></activity>
+        <activity android:name=".FavDocDetailsActivity" />
         <activity android:name=".RateVisitActivity" />
         <activity android:name=".SortFilterActivity" />
         <activity android:name=".DoctorActivity" />

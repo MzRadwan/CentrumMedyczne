@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/ic_final_gradient"
+    tools:context=".WelcomeActivity">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="100sp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/heart_logo"
+        android:gravity="center"
+        android:contentDescription="@string/todo" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50sp" />
+
+    <TextView
+        android:id="@+id/startTopText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:fontFamily="@font/verdana"
+        android:textColor="@color/white"
+        android:textSize="45sp"
+        android:text="@string/c_e_n_t_r_u_m" />
+
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/verdana_bold"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:text="@string/medyczne" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50sp" />
+
+    <Button
+        android:id="@+id/loginStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zaloguj" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="12sp" />
+    <Button
+        android:id="@+id/guestStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kontynuuj jako gość" />
+</LinearLayout>

@@ -22,6 +22,11 @@
     <string name="add_opinion">Napisz co sądzisz o wizycie:</string>
     <string name="cancel">Anuluj</string>
     <string name="publish">Opublikuj</string>
+    <string name="c_e_n_t_r_u_m">C E N T R U M</string>
+    <string name="medyczne">MEDYCZNE</string>
+
+
+    <string name="todo">TODO</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>
