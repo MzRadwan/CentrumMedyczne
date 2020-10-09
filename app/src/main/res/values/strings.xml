@@ -40,6 +40,7 @@
     <string name="wyloguj_si">Wyloguj się</string>
     <string name="recepty">Recepty</string>
     <string name="header">header</string>
+    <string name="nie_pami_tasz_has_a">Nie pamiętasz hasła?</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>

@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button mLoginButton, mCancelButton;
     private EditText mEmailLogin, mPasswordLogin;
+    private TextView mForgetPassword;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -29,15 +32,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Full Screen Activity
-       /* this.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
-*/
+
+        mForgetPassword = (TextView) findViewById(R.id.forgetPassword);
+        mForgetPassword.setPaintFlags(mForgetPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         mAuth = FirebaseAuth.getInstance();
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -91,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this,"U Signed In successfully",Toast.LENGTH_LONG).show();
             startActivity(new Intent(this,PatientAccountActivity.class));
         }else {
-            Toast.makeText(this,"U Didnt signed in",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"U Didnt signed in",Toast.LENGTH_LONG).show();
         }
     }
 
