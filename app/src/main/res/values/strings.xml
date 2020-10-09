@@ -29,6 +29,17 @@
     <string name="todo">TODO</string>
     <string name="zaloguj">Zaloguj</string>
     <string name="kontynuuj_jako_go">Kontynuuj jako gość</string>
+    <string name="moje_konto">Moje konto</string>
+    <string name="zapytaj_lekarza">Zapytaj lekarza</string>
+    <string name="szukaj_wizyty">Szukaj wizyty</string>
+    <string name="zaplanowane_wizyty">Zaplanowane wizyty</string>
+    <string name="edytuj_dane_osobowe">Edytuj dane osobowe</string>
+    <string name="ulubieni_lekarze">Ulubieni lekarze</string>
+    <string name="historia_wizyt">Historia wizyt</string>
+    <string name="moje_leki">Moje leki</string>
+    <string name="wyloguj_si">Wyloguj się</string>
+    <string name="recepty">Recepty</string>
+    <string name="header">header</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>
