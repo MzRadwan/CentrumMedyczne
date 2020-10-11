@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         mForgetPassword = (TextView) findViewById(R.id.forgetPassword);
         mForgetPassword.setPaintFlags(mForgetPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+
         mAuth = FirebaseAuth.getInstance();
 
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -51,8 +52,19 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         };
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
+
+        mForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentUser == null){
+                    Intent intent = new Intent (LoginActivity.this, ResetPassword.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         mEmailLogin = (EditText) findViewById(R.id.emailEditText);
         mPasswordLogin = (EditText) findViewById(R.id.passwordEditText);
@@ -66,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Sign up error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -77,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),StartActivity.class);
+                Intent intent = new Intent(v.getContext(),WelcomeActivity.class);
                 startActivity(intent);
             }
         });
@@ -86,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     //Change UI according to user data.
     public void  updateUI(FirebaseUser account){
         if(account != null){
-            Toast.makeText(this,"U Signed In successfully",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Zalogowano poprawnie",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this,PatientAccountActivity.class));
         }else {
             //Toast.makeText(this,"U Didnt signed in",Toast.LENGTH_LONG).show();

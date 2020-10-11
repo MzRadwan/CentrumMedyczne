@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/fair"
 
-    tools:context=".StartActivity">
+    tools:context=".PatientAccountActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -59,9 +59,11 @@
             android:text="@string/szukaj_wizyty"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickVisitSearch"
             app:layout_constraintBottom_toTopOf="@+id/planedVisitsButton"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="30dp" />
+            tools:layout_editor_absoluteX="30dp"
+             />
 
 
         <Button
@@ -73,6 +75,7 @@
             android:text="@string/zaplanowane_wizyty"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickPlanned"
             app:layout_constraintBottom_toTopOf="@+id/editPersonalDataButton"
             app:layout_constraintTop_toBottomOf="@+id/visitSearch"
             tools:layout_editor_absoluteX="0dp" />
@@ -86,6 +89,7 @@
             android:text="@string/edytuj_dane_osobowe"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickEdit"
             app:layout_constraintBottom_toTopOf="@+id/favouriteDoctorsButton"
             app:layout_constraintTop_toBottomOf="@+id/planedVisitsButton"
             tools:layout_editor_absoluteX="0dp" />
@@ -99,6 +103,7 @@
             android:text="@string/ulubieni_lekarze"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickFavourite"
             app:layout_constraintBottom_toTopOf="@+id/askDoctorButton"
             app:layout_constraintTop_toBottomOf="@+id/editPersonalDataButton"
             tools:layout_editor_absoluteX="0dp" />
@@ -112,6 +117,7 @@
             android:text="@string/zapytaj_lekarza"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickAskDoctor"
             app:layout_constraintBottom_toTopOf="@+id/appointmentButton"
             app:layout_constraintTop_toBottomOf="@+id/favouriteDoctorsButton"
             tools:layout_editor_absoluteX="0dp" />
@@ -125,6 +131,7 @@
             android:text="@string/historia_wizyt"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickAppointement"
             app:layout_constraintBottom_toTopOf="@+id/myPrescriptionsButton"
             app:layout_constraintTop_toBottomOf="@+id/askDoctorButton"
             tools:layout_editor_absoluteX="0dp" />
@@ -138,6 +145,7 @@
             android:text="@string/recepty"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickPrescriptions"
             app:layout_constraintBottom_toTopOf="@+id/myMedicineButton"
             app:layout_constraintTop_toBottomOf="@+id/appointmentButton"
             tools:layout_editor_absoluteX="16dp" />
@@ -151,6 +159,7 @@
             android:text="@string/moje_leki"
             android:textColor="@color/navy"
             android:textSize="20sp"
+            android:onClick="onClickMedicine"
             app:layout_constraintBottom_toTopOf="@+id/logOutButton"
             app:layout_constraintTop_toBottomOf="@+id/myPrescriptionsButton"
             tools:layout_editor_absoluteX="-16dp" />
@@ -166,7 +175,8 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myMedicineButton"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:onClick="onClickLogOut"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

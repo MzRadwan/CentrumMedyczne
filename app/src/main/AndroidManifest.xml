@@ -9,6 +9,9 @@
         android:roundIcon="@drawable/r_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ResetPassword"></activity>
+        <activity android:name=".PlannedVisitsActivity" />
+        <activity android:name=".DoctorsChat" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +24,7 @@
         <activity android:name=".SortFilterActivity" />
         <activity android:name=".DoctorActivity" />
         <activity android:name=".SearchResultActivity" />
-        <activity android:name=".EditPatientActivity"  />
+        <activity android:name=".EditPatientActivity" />
         <activity android:name=".FavDocsActivity" />
         <activity android:name=".MyMedsActivity" />
         <activity android:name=".PrescriptionsActivity" />
@@ -29,9 +32,7 @@
         <activity android:name=".AppointmentHistoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".PreLoginActivity" />
-        <activity android:name=".StartActivity">
-
-        </activity>
+        <activity android:name=".StartActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

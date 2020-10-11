@@ -16,68 +16,76 @@ public class PatientAccountActivity extends AppCompatActivity {
             mFavouriteButton,
             mAppointmentButton,
             mMyMedsButton,
-            mSignOutButton;
-
+            mSignOutButton,
+            mPlannedButton,
+            mAskButton,
+            mVisitButtton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_account);
 
+        setButtons();
+
+    }
+
+    private void setButtons(){
+        mPlannedButton = (Button) findViewById(R.id.planedVisitsButton);
+        mVisitButtton =(Button) findViewById(R.id.visitSearch);
         mAppointmentButton = (Button) findViewById(R.id.appointmentButton);
-        mAppointmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AppointmentHistoryActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mEditPersonalButton = (Button) findViewById(R.id.editPersonalDataButton);
-        mEditPersonalButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EditPatientActivity.class); //TO DO
-                startActivity(intent);
-            }
-        });
-
         mFavouriteButton = (Button) findViewById(R.id.favouriteDoctorsButton);
-        mFavouriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), FavDocsActivity.class); //TO DO
-                startActivity(intent);
-            }
-        });
-
         mMyMedsButton = (Button) findViewById(R.id.myMedicineButton);
-        mMyMedsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MyMedsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mMyPrescriptionButton = (Button) findViewById(R.id.myPrescriptionsButton);
-        mMyPrescriptionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PrescriptionsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mSignOutButton = (Button) findViewById(R.id.logOutButton);
-        mSignOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                Intent intent = new Intent(PatientAccountActivity.this, WelcomeActivity.class);
-                startActivity(intent);
-            }
-        });
+        mAskButton = (Button) findViewById(R.id.askDoctorButton);
+    }
+
+    public void onClickVisitSearch(View view){
+        Intent intent = new Intent(view.getContext(), StartActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickEdit(View view){
+        Intent intent = new Intent(view.getContext(), EditPatientActivity.class); //TO DO
+        startActivity(intent);
+    }
+
+    public void onClickPlanned(View view){
+        Intent intent = new Intent(view.getContext(), PlannedVisitsActivity.class); //TO DO
+        startActivity(intent);
+    }
+
+    public void onClickFavourite(View view){
+        Intent intent = new Intent(view.getContext(), FavDocsActivity.class); //TO DO
+        startActivity(intent);
+    }
+
+    public void onClickAskDoctor(View view){
+        Intent intent = new Intent(view.getContext(), DoctorsChat.class); //TO DO
+        startActivity(intent);
+    }
+
+    public void onClickAppointement(View view){
+        Intent intent = new Intent(view.getContext(), AppointmentHistoryActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickPrescriptions(View view){
+        Intent intent = new Intent(view.getContext(), PrescriptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickMedicine(View view){
+        Intent intent = new Intent(view.getContext(), MyMedsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickLogOut(View view){
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        Intent intent = new Intent(PatientAccountActivity.this, WelcomeActivity.class);
+        startActivity(intent);
     }
 }
