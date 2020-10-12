@@ -74,14 +74,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmailLogin.getText().toString();
                 String password = mPasswordLogin.getText().toString();
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
+                if(email.equals(null) || password.equals(null))
+                    Toast.makeText(LoginActivity.this,"Niepoprawny email lubg hasło.", Toast.LENGTH_LONG).show();
+                else {
+                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(!task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

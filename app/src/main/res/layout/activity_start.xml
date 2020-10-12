@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fair"
     tools:context=".StartActivity">
 
     <ImageView
@@ -13,27 +14,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header" />
+        app:srcCompat="@drawable/ic_header_gradient" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
-        android:text="@string/header_text"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="Znajdź lekarza"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:fontFamily="@font/verdana"
+        android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/loginButtonStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="298dp"
-
-        android:layout_marginTop="20dp"
+        android:background="@drawable/white_button"
+        android:fontFamily="@font/verdana"
+        android:textColor="@color/navy"
+        android:layout_marginTop="25dp"
         android:text="@string/login_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -47,46 +51,72 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="121dp" />
-
-        <TextView
-            android:id="@+id/preLoginTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Znajdź lekarza"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="66dp" />
+            android:layout_height="50dp" />
 
         <AutoCompleteTextView
             android:id="@+id/specsAutoComplete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Specjalizacja" />
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/white_button"
+            android:hint="Specjalizacja"
+            android:paddingStart="20sp"
+            android:textColor="@color/navy"
+            android:textColorHint="@color/sky"
+            android:textSize="22sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
         <AutoCompleteTextView
             android:id="@+id/citiesAutoComplete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Miasto" />
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/white_button"
+            android:hint="Miasto"
+            android:paddingStart="20sp"
+            android:textColor="@color/navy"
+            android:textColorHint="@color/sky"
+
+            android:textSize="22sp" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:layout_height="50dp" />
 
         <Button
             android:id="@+id/docSearchButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Szukaj" />
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/lagoon_button"
+            android:fontFamily="@font/verdana"
+            android:text="Szukaj"
+            android:textColor="@color/navy"
+            android:textSize="22sp" />
 
     </LinearLayout>
+    <ImageView
+        android:id="@+id/accountImageStart"
+        android:layout_width="69dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="profil pacjenta"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:srcCompat="@drawable/ic_account_box_white" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

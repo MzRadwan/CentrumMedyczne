@@ -26,6 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void onClickContinue(View view){
+
         Intent intent = new Intent(view.getContext(),StartActivity.class);
         startActivity(intent);
     }
