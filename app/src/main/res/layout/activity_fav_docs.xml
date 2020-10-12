@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartActivity">
+    android:background="@color/fair"
+    tools:context=".FavDocsActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -13,17 +14,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header" />
+        app:srcCompat="@drawable/ic_header_gradient" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
-        android:text="@string/header_text"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="Ulubieni lekarze"
         android:textColor="@color/white"
         android:textSize="24sp"
+        android:fontFamily="@font/verdana"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,17 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Ulubieni lekarze"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favDocRecycler"
@@ -59,22 +51,24 @@
 
     <ImageView
         android:id="@+id/accountImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="69dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="profil pacjenta"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_baseline_account_box_24" />
+        app:srcCompat="@drawable/ic_account_box_white" />
 
     <ImageView
-        android:id="@+id/homepageImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="76dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_baseline_home_24" />
+        android:id="@+id/searchIcon"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="90dp"
+        android:contentDescription="wyszukiwanie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

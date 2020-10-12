@@ -33,13 +33,21 @@ public class StartActivity extends AppCompatActivity {
     private Button mLoginButton, mSearchButton;
     private String specs[], cities[];
     private ImageView mAccount;
-    private Specialization specialization;
+    private List<Specialization> s;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference specializations = db.collection("specialization");
 
     private static final String TAG = "StartActivity";
 
+
+    public List<Specialization> getS() {
+        return s;
+    }
+
+    public void setS(List<Specialization> s) {
+        this.s = s;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,25 +106,32 @@ public class StartActivity extends AppCompatActivity {
                 Specializations specializations = (Specializations) queryDocumentSnapshots.toObjects(Specializations.class);
             }
         });*/
-        final String sp[];
-        specializations.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        specializations
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    int i = 0;
+
                     for (QueryDocumentSnapshot document : task.getResult()){
-                        specialization = document.toObject(Specialization.class);
-                        sp[i] = specialization.getS_name();
+                        List<Specialization> l = new ArrayList<>();
+                        l.add(document.toObject(Specialization.class));
+                        setS(l);
+                        //System.out.println(document.toObject(Specialization.class).getS_name().toString());
+
                     }
                 }
             }
         });
 
+
+
         specs = getResources().getStringArray(R.array.specs);
         cities = getResources().getStringArray(R.array.cities);
 
         ArrayAdapter<String> specsAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line, sp);
+                (this, android.R.layout.simple_dropdown_item_1line, specs);
         final AutoCompleteTextView mSpecs = (AutoCompleteTextView) findViewById(R.id.specsAutoComplete);
         mSpecs.setAdapter(specsAdapter);
 

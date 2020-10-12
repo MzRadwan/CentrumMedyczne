@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fair"
     tools:context=".RateVisitActivity">
 
     <ImageView
@@ -13,14 +14,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header" />
+        app:srcCompat="@drawable/ic_header_gradient" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
         android:text="Ocena wizyty"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -34,6 +35,7 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -42,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="dr Jan Kowalski, dermatolog"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/navy"
+            android:fontFamily="@font/verdana"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
             android:textAlignment="center"
@@ -55,6 +58,7 @@
             android:textAlignment="center"
             android:layout_marginBottom="10sp"
             android:textSize="20sp"
+            android:fontFamily="@font/verdana"
             android:text="@string/rate_doc" />
 
         <RatingBar
@@ -66,6 +70,7 @@
             android:rating="5"
             android:stepSize="1"
             android:isIndicator="false"
+            android:theme="@style/RatingBar"
             android:layout_marginBottom="10sp"/>
 
         <TextView
@@ -73,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
+            android:fontFamily="@font/verdana"
             android:textSize="20sp"
             android:text="@string/add_opinion"
             android:layout_marginBottom="10sp"/>
@@ -84,9 +90,26 @@
             android:layout_marginBottom="10sp"
             android:ems="10"
             android:gravity="start|top"
+            android:fontFamily="@font/verdana"
+            android:background="@drawable/white_button"
+            android:padding="10dp"
             android:layout_marginStart="10sp"
             android:layout_marginEnd="10sp"
+            android:hint="Twoja opinia..."
             android:inputType="textMultiLine" />
+
+        <Switch
+            android:id="@+id/anonSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anonimowa"
+            android:fontFamily="@font/verdana"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/navy"
+            android:theme="@style/Switch"
+            android:textSize="20sp"
+            android:checked="true"
+            android:layout_marginBottom="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,6 +121,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/verdana"
+                android:textAllCaps="false"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                android:background="@drawable/lagoon_button"
                 android:text="@string/cancel" />
 
             <Button
@@ -105,6 +135,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textAllCaps="false"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/navy"
+                android:fontFamily="@font/verdana"
+                android:textSize="20sp"
+                android:background="@drawable/lagoon_button"
                 android:text="@string/publish" />
         </LinearLayout>
 
@@ -114,22 +151,24 @@
 
     <ImageView
         android:id="@+id/accountImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="69dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:contentDescription="profil pacjenta"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_baseline_account_box_24" />
+        app:srcCompat="@drawable/ic_account_box_white" />
 
     <ImageView
-        android:id="@+id/homepageImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="76dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_baseline_home_24" />
+        android:id="@+id/searchIcon"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="90dp"
+        android:contentDescription="wyszukiwanie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
