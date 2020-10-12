@@ -14,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,8 +33,11 @@ public class StartActivity extends AppCompatActivity {
     private Button mLoginButton, mSearchButton;
     private String specs[], cities[];
     private ImageView mAccount;
+    private Specialization specialization;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference specializations = db.collection("specialization");
+
     private static final String TAG = "StartActivity";
 
 
@@ -52,7 +58,7 @@ public class StartActivity extends AppCompatActivity {
             mAccount.setVisibility(View.GONE);
         }
 
-        db.collection("specialization")
+       /* specializations
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -64,29 +70,53 @@ public class StartActivity extends AppCompatActivity {
                                 //Log.d(TAG, document.getId() + " => " + document.getData());
                                 //Toast.makeText(StartActivity.this, document.get("specialization_name").toString(),Toast.LENGTH_LONG).show();
 
-                                String s = document.getString("specialization_name");
+                               /* String s = document.getString("specialization_name");
                                 s1.add(s);
-                                specs[i] = s;
-                                i++;
+                                addToSpecs(s, i);
+                                i++;*/
 
 
-
+/*
                             }
                             for (String st : s1 ){
                                 System.out.println(st);
+                                for(int j = 0; j < specs.length; j++ ){
+                                    System.out.println(specs[j]+"0");
+                                }
                             }
                         }
                         else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                });
+                });*/
+
+
+        /*specializations.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                Specializations specializations = (Specializations) queryDocumentSnapshots.toObjects(Specializations.class);
+            }
+        });*/
+        final String sp[];
+        specializations.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    int i = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()){
+                        specialization = document.toObject(Specialization.class);
+                        sp[i] = specialization.getS_name();
+                    }
+                }
+            }
+        });
 
         specs = getResources().getStringArray(R.array.specs);
         cities = getResources().getStringArray(R.array.cities);
 
         ArrayAdapter<String> specsAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_dropdown_item_1line, specs);
+                (this, android.R.layout.simple_dropdown_item_1line, sp);
         final AutoCompleteTextView mSpecs = (AutoCompleteTextView) findViewById(R.id.specsAutoComplete);
         mSpecs.setAdapter(specsAdapter);
 
@@ -112,7 +142,10 @@ public class StartActivity extends AppCompatActivity {
 
     public void onClickLogin(View view){
         Intent intent = new Intent(view.getContext(), LoginActivity.class);
-
         startActivity(intent);
+    }
+
+    private void addToSpecs(String s, int i){
+        specs[i] = s;
     }
 }
