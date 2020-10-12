@@ -58,6 +58,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/white_button"
         android:text="@string/zaloguj"
+        android:textAllCaps="false"
         android:onClick="onClickLogin"/>
     <Space
         android:layout_width="match_parent"
@@ -72,6 +73,7 @@
         android:fontFamily="@font/verdana"
         android:textColor="@color/navy"
         android:textSize="20sp"
+        android:textAllCaps="false"
         android:text="@string/kontynuuj_jako_go"
         android:onClick="onClickContinue"/>
 </LinearLayout>

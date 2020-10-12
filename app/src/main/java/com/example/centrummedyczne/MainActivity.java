@@ -90,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
         //CollectionReference addressesRef = db.collection("address");
       //  Query query = addressesRef.whereEqualTo("city","Lublin");
 
+
+        //Query query = db.collection("address").whereEqualTo("city","Lublin");
+        //query.get().addOnCompleteListener()
+
+
         /*db.collection("address")
                 .whereEqualTo("city","Lublin")
                 .get()

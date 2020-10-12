@@ -96,15 +96,6 @@ public class StartActivity extends AppCompatActivity {
         mCities.setAdapter(citiesAdapter);
 
 
-
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PreLoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
         mSearchButton = (Button) findViewById(R.id.docSearchButton);
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,5 +108,11 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void onClickLogin(View view){
+        Intent intent = new Intent(view.getContext(), LoginActivity.class);
+
+        startActivity(intent);
     }
 }

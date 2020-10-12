@@ -39,6 +39,7 @@
         android:textColor="@color/navy"
         android:layout_marginTop="25dp"
         android:text="@string/login_text"
+        android:onClick="onClickLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
