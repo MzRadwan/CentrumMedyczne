@@ -104,6 +104,7 @@
             android:background="@drawable/lagoon_button"
             android:fontFamily="@font/verdana"
             android:text="Szukaj"
+            android:onClick="onClickSearch"
             android:textColor="@color/navy"
             android:textSize="22sp" />
 
