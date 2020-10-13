@@ -39,7 +39,7 @@ public class FavDocAdapter extends RecyclerView.Adapter<FavDocAdapter.MyViewHold
         holder.mytextView1.setText((data1[position]));
         holder.myTextView2.setText(data2[position]);
         holder.myImage.setImageResource(images[position]);
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+        holder.favLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, FavDocDetailsActivity.class);
@@ -61,17 +61,17 @@ public class FavDocAdapter extends RecyclerView.Adapter<FavDocAdapter.MyViewHold
         TextView mytextView1, myTextView2;
         ImageView myImage;
 
-        ConstraintLayout mainLayout;
+        ConstraintLayout favLayout;
 
 
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mytextView1 = itemView.findViewById(R.id.topTextView);
-            myTextView2 = itemView.findViewById(R.id.bottomTextView);
-            myImage = itemView.findViewById(R.id.myImageView);
+            mytextView1 = itemView.findViewById(R.id.favDocName);
+            myTextView2 = itemView.findViewById(R.id.favDocSpec);
+            myImage = itemView.findViewById(R.id.favProfileImg);
 
-            mainLayout = itemView.findViewById(R.id.mainLayout);
+            favLayout = itemView.findViewById(R.id.favLayout);
         }
     }
 

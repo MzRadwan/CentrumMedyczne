@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@color/white"
-    android:id="@+id/mainLayout">
+    android:id="@+id/favLayout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/myImageView"
+                android:id="@+id/favProfileImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -33,32 +33,32 @@
                 app:srcCompat="@drawable/ic_profile_blue" />
 
             <TextView
-                android:id="@+id/topTextView"
+                android:id="@+id/favDocName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="dr Janusz Kowalski"
-                android:textSize="18sp"
                 android:fontFamily="@font/verdana_bold"
+                android:text="dr Janusz Kowalski"
                 android:textColor="@color/navy"
+                android:textSize="18sp"
 
-                app:layout_constraintStart_toEndOf="@+id/myImageView"
+                app:layout_constraintStart_toEndOf="@+id/favProfileImg"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/bottomTextView"
+                android:id="@+id/favDocSpec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/verdana"
                 android:text="Dermatolog"
                 android:textColor="@color/navy"
-                android:fontFamily="@font/verdana"
                 android:textSize="16sp"
 
-                app:layout_constraintStart_toEndOf="@+id/myImageView"
-                app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+                app:layout_constraintStart_toEndOf="@+id/favProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/favDocName" />
 
             <RatingBar
                 android:id="@+id/rateAvg"
@@ -68,14 +68,14 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="4"
-                android:stepSize="1"
-                android:theme="@style/RatingBar"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
                 android:transformPivotX="15dp"
                 android:transformPivotY="5dp"
-                app:layout_constraintStart_toEndOf="@+id/myImageView"
-                app:layout_constraintTop_toBottomOf="@+id/bottomTextView" />
+                app:layout_constraintStart_toEndOf="@+id/favProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/favDocSpec" />
 
             <TextView
                 android:id="@+id/ratesNumber"
@@ -83,9 +83,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="33dp"
                 android:layout_marginEnd="100dp"
+                android:fontFamily="@font/verdana"
                 android:text="21 opinii"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/favDocName" />
+
+            <ImageView
+                android:id="@+id/favImg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_favorite_full" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="25dp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:text="Centrum Medyczne\nKraków, ul. Długa 12a"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/favProfileImg" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

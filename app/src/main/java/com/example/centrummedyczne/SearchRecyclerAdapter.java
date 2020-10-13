@@ -69,7 +69,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mytextView1 = itemView.findViewById(R.id.topTextView);
+            mytextView1 = itemView.findViewById(R.id.favDocName);
             myTextView2 = itemView.findViewById(R.id.bottomTextView);
             myImage = itemView.findViewById(R.id.myImageView);
 

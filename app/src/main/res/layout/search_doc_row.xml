@@ -31,7 +31,7 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
-                android:id="@+id/topTextView"
+                android:id="@+id/favDocName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -52,7 +52,7 @@
                 android:textStyle="normal"
                 android:text="Description"
                 app:layout_constraintStart_toEndOf="@+id/myImageView"
-                app:layout_constraintTop_toBottomOf="@+id/topTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/favDocName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
