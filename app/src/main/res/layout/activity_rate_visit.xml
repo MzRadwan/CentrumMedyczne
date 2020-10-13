@@ -102,7 +102,7 @@
             android:id="@+id/anonSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anonimowa"
+            android:text="@string/anonimowa"
             android:fontFamily="@font/verdana"
             android:layout_marginTop="10dp"
             android:textColor="@color/navy"
@@ -158,6 +158,7 @@
         android:contentDescription="profil pacjenta"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:onClick="onClickAccount"
         app:srcCompat="@drawable/ic_account_box_white" />
 
     <ImageView
@@ -169,6 +170,7 @@
         android:contentDescription="wyszukiwanie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_search_icon" />
+        android:onClick="onClickSearch"
+        app:srcCompat="@drawable/ic_search_white_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

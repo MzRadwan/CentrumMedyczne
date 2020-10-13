@@ -43,6 +43,8 @@
     <string name="nie_pami_tasz_has_a">Nie pamiętasz hasła?</string>
     <string name="reset_insr">Wpisz swój adres e-mail. Następnie postępuj zgodnie z instrukcją przysłaną na podany adres.</string>
     <string name="send_again">Wyślij email ponownie</string>
+    <string name="profile_pic">profile pic</string>
+    <string name="anonimowa">Anonimowa</string>
 
     <string-array name="specs">
         <item>Kardiolog</item>
