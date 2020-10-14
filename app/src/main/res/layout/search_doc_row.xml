@@ -7,12 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:background="@color/white"
     android:id="@+id/mainLayout">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
@@ -22,37 +23,90 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/myImageView"
+                android:id="@+id/searchProfileImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:srcCompat="@drawable/ic_profile_blue" />
 
             <TextView
-                android:id="@+id/favDocName"
+                android:id="@+id/searchDocName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="16dp"
-                android:textSize="26dp"
-                android:textStyle="bold"
-                android:text="Title"
-                app:layout_constraintStart_toEndOf="@+id/myImageView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/verdana_bold"
+                android:text="dr Mateusz Kowalski"
+                android:textColor="@color/navy"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/bottomTextView"
+                android:id="@+id/searchDocSpec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="24dp"
-                android:textSize="16dp"
-                android:textStyle="normal"
-                android:text="Description"
-                app:layout_constraintStart_toEndOf="@+id/myImageView"
-                app:layout_constraintTop_toBottomOf="@+id/favDocName" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/verdana"
+                android:text="Kardiolog, Kardiochirurg"
+                android:textColor="@color/navy"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocName" />
+
+            <RatingBar
+                android:id="@+id/searchRateAvg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="4"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
+                android:transformPivotX="15dp"
+                android:transformPivotY="5dp"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocSpec" />
+
+            <ImageView
+                android:id="@+id/favImgFull"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_favorite_full" />
+
+            <ImageView
+                android:id="@+id/favImgBorder"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_favorite_border" />
+
+            <TextView
+                android:id="@+id/searchDocCM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/verdana"
+                android:text="Centrum Medyczne\nKraków, ul. Długa 12a"
+                android:textColor="@color/navy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

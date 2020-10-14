@@ -100,12 +100,6 @@ public class StartActivity extends AppCompatActivity {
                 });*/
 
 
-        /*specializations.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                Specializations specializations = (Specializations) queryDocumentSnapshots.toObjects(Specializations.class);
-            }
-        });*/
 
 
 
@@ -114,7 +108,8 @@ public class StartActivity extends AppCompatActivity {
 
 
 
-        System.out.println("\n\n\nspec1\n\n\n");
+
+
         String[] el = getSpec1();
         //for (int i = 0; i < el.length; i++) {
           //  System.out.println("1+" + el[i]);

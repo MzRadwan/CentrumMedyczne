@@ -186,10 +186,10 @@
         android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/lagoon_button"
         android:fontFamily="@font/verdana"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textColor="@color/navy"
         android:textAllCaps="false"
         android:text="@string/zastosuj" />
