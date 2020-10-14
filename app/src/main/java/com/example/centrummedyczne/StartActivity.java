@@ -199,6 +199,10 @@ public class StartActivity extends AppCompatActivity {
         mSearchButton = (Button) findViewById(R.id.docSearchButton);
 
     }
+    public void onClickAccount(View view){
+        Intent intent = new Intent(view.getContext(), PatientAccountActivity.class);
+        startActivity(intent);
+    }
 
 
     public void onClickSearch(View view){

@@ -44,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
-                    Intent intent = new Intent(LoginActivity.this, PatientAccountActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, StartActivity.class);
+                    Toast.makeText(LoginActivity.this,"Zalogowano poprawnie",Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     finish();
                     return;
@@ -74,8 +75,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmailLogin.getText().toString();
                 String password = mPasswordLogin.getText().toString();
-                if(email.equals(null) || password.equals(null))
-                    Toast.makeText(LoginActivity.this,"Niepoprawny email lubg hasło.", Toast.LENGTH_LONG).show();
+                if(email.equals("") || password.equals(""))
+                    Toast.makeText(LoginActivity.this,"Niepoprawny email lub hasło.", Toast.LENGTH_LONG).show();
                 else {
                     mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
