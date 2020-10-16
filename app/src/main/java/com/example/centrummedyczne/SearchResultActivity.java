@@ -11,35 +11,70 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
 
-    String specs[], cities[];
-    AutoCompleteTextView mSpecs, mCities;
-    Button mSortFilter;
+    private AutoCompleteTextView mSpecs, mCities;
+    private Button mSortFilter, mLoginButton;
+
+    private ImageView mAccount;
+
+    private List<String> specs;
+    private List<String> cities;
+    private ArrayAdapter <String> specsAdapter;
+    private ArrayAdapter <String> citiesAdapter;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference specializations = db.collection("specialization");
+    private CollectionReference clinics = db.collection("clinic");
+    private CollectionReference address = db.collection("address");
+
 
     RecyclerView mRecyclerView;
 
     String s1[], s2[];
-    int images[] = {R.drawable.bear,R.drawable.bird,
-            R.drawable.chameleon, R.drawable.dog,
-            R.drawable.flamingo, R.drawable.koala,
-            R.drawable.lizard, R.drawable.rabbit,
-            R.drawable.sheep, R.drawable.zebra};
+    int images[] = {R.drawable.ic_profile_blue,R.drawable.ic_profile_blue,
+            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_lagoon,
+            R.drawable.ic_profile_blue, R.drawable.ic_profile_lagoon,
+            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_blue,
+            R.drawable.ic_profile_blue, R.drawable.ic_profile_blue};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
-        //Full Screen Activity
-        this.getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        );
+
+        mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
+        mAccount = (ImageView) findViewById(R.id.accountImageSearch);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            mLoginButton.setVisibility(View.GONE);
+
+        } else {
+            // No user is signed in
+            mAccount.setVisibility(View.GONE);
+        }
+
+
+        //search text views settings
 
         mSpecs = (AutoCompleteTextView) findViewById(R.id.specializationTextView);
         mCities = (AutoCompleteTextView) findViewById(R.id.cityTextView);
@@ -50,16 +85,59 @@ public class SearchResultActivity extends AppCompatActivity {
         String chosenCity = intent.getStringExtra("city");
         mCities.setHint(chosenCity);
 
-        specs = getResources().getStringArray(R.array.specs);
-        cities = getResources().getStringArray(R.array.cities);
-
-        ArrayAdapter<String> specsAdapter = new ArrayAdapter<String>
+        specs = new ArrayList<>();
+        specsAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, specs);
         mSpecs.setAdapter(specsAdapter);
 
-        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<String>
+        cities = new ArrayList<>();
+        citiesAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
+
+        // spec hints from Firestore
+
+        specializations.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    Specialization specialization = documentSnapshot.toObject(Specialization.class);
+                    specialization.setDocID(documentSnapshot.getId());
+                    String s_name = specialization.getSpecialization_name();
+                    specs.add(s_name);
+                    specsAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        //cities hint from Firestore
+        clinics.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
+                        for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                            DocumentReference addressRef = clinic.getAddress_id();
+                            String addressId = addressRef.getPath().substring(8);
+                            System.out.println(addressId);
+                            address.document(addressId);
+                            addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        Address address = documentSnapshot.toObject(Address.class);
+                                        String city = address.getCity();
+                                        cities.add(city);
+                                        citiesAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                        }
+                    }
+                });
+
+
+        //search results
 
         mRecyclerView = findViewById(R.id.docRecyler);
 
@@ -80,6 +158,11 @@ public class SearchResultActivity extends AppCompatActivity {
         });
     }
 
+    public void onClickLogin(View view){
+        Intent intent = new Intent(view.getContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,5 +179,14 @@ public class SearchResultActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void onClickSearckAgain(View view){
+        Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
+        String specializaion = mSpecs.getText().toString();
+        intent.putExtra("specialization", specializaion);
+        String city = mCities.getText().toString();
+        intent.putExtra("city", city);
+        startActivity(intent);
     }
 }

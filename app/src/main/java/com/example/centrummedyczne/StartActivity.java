@@ -54,8 +54,11 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+
+
         mLoginButton = (Button) findViewById(R.id.loginButtonStart);
         mAccount = (ImageView) findViewById(R.id.accountImageStart);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
@@ -66,91 +69,6 @@ public class StartActivity extends AppCompatActivity {
             mAccount.setVisibility(View.GONE);
         }
 
-       /* specializations
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> s1 = new ArrayList<>();
-                            int i = 0;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                                //Toast.makeText(StartActivity.this, document.get("specialization_name").toString(),Toast.LENGTH_LONG).show();
-
-                               /* String s = document.getString("specialization_name");
-                                s1.add(s);
-                                addToSpecs(s, i);
-                                i++;*/
-
-
-/*
-                            }
-                            for (String st : s1 ){
-                                System.out.println(st);
-                                for(int j = 0; j < specs.length; j++ ){
-                                    System.out.println(specs[j]+"0");
-                                }
-                            }
-                        }
-                        else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });*/
-
-
-
-
-
-
-
-
-
-
-
-
-        String[] el = getSpec1();
-        //for (int i = 0; i < el.length; i++) {
-          //  System.out.println("1+" + el[i]);
-       // }
-        //mSpecs = (AutoCompleteTextView) findViewById(R.id.specsAutoComplete);
-
-        /*s = new ArrayList<>();
-        //specialization = new Specialization();
-
-        specializations
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
-                    List<Specialization> l = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()){
-
-                        l.add(document.toObject(Specialization.class));
-                        specialization = document.toObject(Specialization.class);
-                        specialization.setS_name(document.toObject(Specialization.class).);
-                        //System.out.println(specialization.getS_name()+"\n\n\n");
-
-                        System.out.println(document.toObject(Specialization.class).getS_name().toString());
-
-                    }
-                    s = l;
-
-
-
-                }
-            }
-        });
-
-        //System.out.println(specialization.getS_name());
-
-        /*int i = 0;
-        for (Specialization ls : getS()){
-            specs[i] = ls.getS_name().toString();
-            i++;
-        }*/
 
         specs = getResources().getStringArray(R.array.specs);
         cities = getResources().getStringArray(R.array.cities);
@@ -208,10 +126,13 @@ public class StartActivity extends AppCompatActivity {
     public void onClickSearch(View view){
         Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
         String specializaion = mSpecs.getText().toString();
-        intent.putExtra("specialization", specializaion);
         String city = mCities.getText().toString();
-        intent.putExtra("city", city);
-        startActivity(intent);
+
+        if(!specializaion.equals("") && !city.equals("")){
+            intent.putExtra("specialization", specializaion);
+            intent.putExtra("city", city);
+            startActivity(intent);
+        }
     }
     public void setSpec1(String[] spec1) {
         this.spec1 = spec1;

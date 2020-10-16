@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header_gradient" />
+        app:srcCompat="@drawable/ic_header_thin" />
 
     <TextView
         android:id="@+id/textView"
@@ -32,26 +32,46 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <ImageView
-        android:id="@+id/accountImage"
+        android:id="@+id/accountImageSearch"
         android:layout_width="69dp"
         android:layout_height="56dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:srcCompat="@drawable/ic_account_box_white" />
 
+    <Button
+        android:id="@+id/loginButtonSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/white_button"
+        android:fontFamily="@font/verdana"
+        android:onClick="onClickLogin"
+        android:text="@string/login_text"
+        android:textColor="@color/navy"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:layout_width="406dp"
-        android:layout_height="591dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_width="409dp"
+        android:layout_height="625dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
 
         <LinearLayout
@@ -106,9 +126,12 @@
                 android:background="@drawable/lagoon_button"
                 android:fontFamily="@font/verdana"
                 android:text="Szukaj"
+                android:onClick="onClickSearckAgain"
                 android:textAllCaps="false"
                 android:textColor="@color/navy"
                 android:textSize="18sp" />
+
+
 
             <Button
                 android:id="@+id/sortFilterButton"
@@ -120,12 +143,17 @@
                 android:textAllCaps="false"
                 android:textColor="@color/navy"
                 android:textSize="18sp" />
-        </LinearLayout>
 
+
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/docRecyler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

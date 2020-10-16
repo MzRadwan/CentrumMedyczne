@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bear" />
+        app:srcCompat="@drawable/heart_logo" />
 
     <TextView
         android:id="@+id/title"
