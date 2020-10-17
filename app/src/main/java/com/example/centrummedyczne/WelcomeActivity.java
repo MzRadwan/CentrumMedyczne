@@ -26,8 +26,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void onClickContinue(View view){
-
         Intent intent = new Intent(view.getContext(),StartActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickAdmin(View view){
+        Intent intent = new Intent(view.getContext(),AdminActivity.class);
         startActivity(intent);
     }
 }

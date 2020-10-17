@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/heart_logo"
         android:gravity="center"
+        android:onClick="onClickAdmin"
         android:contentDescription="logo_image" />
     <Space
         android:layout_width="match_parent"

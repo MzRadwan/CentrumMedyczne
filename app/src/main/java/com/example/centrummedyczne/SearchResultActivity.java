@@ -103,7 +103,7 @@ public class SearchResultActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     Specialization specialization = documentSnapshot.toObject(Specialization.class);
-                    specialization.setDocID(documentSnapshot.getId());
+                    //specialization.setDocID(documentSnapshot.getId());
                     String s_name = specialization.getSpecialization_name();
                     specs.add(s_name);
                     specsAdapter.notifyDataSetChanged();

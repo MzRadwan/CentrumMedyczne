@@ -31,7 +31,7 @@
         <activity android:name=".PatientAccountActivity" />
         <activity android:name=".AppointmentHistoryActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".PreLoginActivity" />
+        <activity android:name=".AdminActivity" />
         <activity android:name=".StartActivity" />
         <activity android:name=".MainActivity" />
     </application>
