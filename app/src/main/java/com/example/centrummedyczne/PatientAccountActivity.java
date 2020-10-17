@@ -11,36 +11,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class PatientAccountActivity extends AppCompatActivity {
 
-    Button mEditPersonalButton,
-            mMyPrescriptionButton,
-            mFavouriteButton,
-            mAppointmentButton,
-            mMyMedsButton,
-            mSignOutButton,
-            mPlannedButton,
-            mAskButton,
-            mVisitButtton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_account);
 
-        setButtons();
-
     }
 
-    private void setButtons(){
-        mPlannedButton = (Button) findViewById(R.id.planedVisitsButton);
-        mVisitButtton =(Button) findViewById(R.id.visitSearch);
-        mAppointmentButton = (Button) findViewById(R.id.appointmentButton);
-        mEditPersonalButton = (Button) findViewById(R.id.editPersonalDataButton);
-        mFavouriteButton = (Button) findViewById(R.id.favouriteDoctorsButton);
-        mMyMedsButton = (Button) findViewById(R.id.myMedicineButton);
-        mMyPrescriptionButton = (Button) findViewById(R.id.myPrescriptionsButton);
-        mSignOutButton = (Button) findViewById(R.id.logOutButton);
-        mAskButton = (Button) findViewById(R.id.askDoctorButton);
-    }
 
     public void onClickVisitSearch(View view){
         Intent intent = new Intent(view.getContext(), StartActivity.class);

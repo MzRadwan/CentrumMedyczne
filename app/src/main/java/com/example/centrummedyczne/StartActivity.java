@@ -83,8 +83,8 @@ public class StartActivity extends AppCompatActivity {
                         for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                             Specialization specialization = documentSnapshot.toObject(Specialization.class);
                             String s_name = specialization.getSpecialization_name();
-                            specs.add(s_name);
-                            specsAdapter.notifyDataSetChanged();
+                                specs.add(s_name);
+                                specsAdapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -115,8 +115,10 @@ public class StartActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     Address address = documentSnapshot.toObject(Address.class);
                                     String city = address.getCity();
-                                    cities.add(city);
-                                    citiesAdapter.notifyDataSetChanged();
+                                    if(!cities.contains(city)){
+                                        cities.add(city);
+                                        citiesAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             });
 

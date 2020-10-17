@@ -24,6 +24,46 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <!-- address -->
+
+            <EditText
+                android:id="@+id/streetAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="street" />
+
+            <EditText
+                android:id="@+id/buildingNrAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="building_number" />
+
+            <EditText
+                android:id="@+id/apartmentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="apartment" />
+
+            <EditText
+                android:id="@+id/cityAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="city" />
+
+            <EditText
+                android:id="@+id/postalCodeAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="postal code" />
+
+            <Button
+                android:id="@+id/addAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddAddress"
+                android:text="add address to firestore" />
+
+            <!-- clinic -->
 
             <EditText
                 android:id="@+id/clinicName"
@@ -51,6 +91,29 @@
                 android:layout_height="wrap_content"
                 android:onClick="onAddClinic"
                 android:text="add clinic to firestore" />
+
+            <!-- drug -->
+
+            <EditText
+                android:id="@+id/activeSubstanceDrug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="active_substance" />
+
+            <EditText
+                android:id="@+id/tradeNameDrug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="trade_name" />
+
+            <Button
+                android:id="@+id/addDrug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddDrug"
+                android:text="add drug to firestore" />
+
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
