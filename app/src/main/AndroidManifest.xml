@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/r_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ResetPassword"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".ResetPassword" />
         <activity android:name=".PlannedVisitsActivity" />
         <activity android:name=".DoctorsChat" />
         <activity android:name=".WelcomeActivity">
