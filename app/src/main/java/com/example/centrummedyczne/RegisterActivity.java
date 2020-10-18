@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextView mAlreadySignedUp;
-
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference addressCol = db.collection("address");
@@ -41,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAlreadySignedUp = (TextView) findViewById(R.id.alreadySignedUp);
+        TextView mAlreadySignedUp = (TextView) findViewById(R.id.alreadySignedUp);
         mAlreadySignedUp.setPaintFlags(mAlreadySignedUp.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mAlreadySignedUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    assert user != null;
                                     final String userId = user.getUid();
                                     createPatient(userId);
                                     updateUI(user);
@@ -170,11 +169,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     //Change UI according to user data.
     public void  updateUI(FirebaseUser account){
-        if(account != null){
-            Toast.makeText(this,"Zalogowano poprawnie",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this,PatientAccountActivity.class));
-        }else {
-            //Toast.makeText(this,"U Didnt signed in",Toast.LENGTH_LONG).show();
+        if(account != null) {
+            Toast.makeText(this, "Zalogowano poprawnie", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, PatientAccountActivity.class));
         }
     }
 }
