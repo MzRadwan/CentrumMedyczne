@@ -45,29 +45,10 @@
     <string name="send_again">Wyślij email ponownie</string>
     <string name="profile_pic">profile pic</string>
     <string name="anonimowa">Anonimowa</string>
+    <string name="notFoundEmail">Użytkownik o podanym email\'u nie istnieje</string>
+    <string name="wrongPassword">Podane hasło jest błędne</string>
+    <string name="networkError">Wystąpił błąd sieci</string>
 
-    <string-array name="specs">
-        <item>Kardiolog</item>
-        <item>Chirurg</item>
-        <item>Pediatra</item>
-        <item>Ortopeda</item>
-        <item>Stomatolog</item>
-        <item>Endokrynolog</item>
-        <item>Psycholog</item>
-        <item>Neurolog</item>
-        <item>Psychiatra</item>
-    </string-array>
-
-    <string-array name="cities">
-        <item>Kraków</item>
-        <item>Lublin</item>
-        <item>Warszawa</item>
-        <item>Gdynia</item>
-        <item>Gdańsk</item>
-        <item>Sopot</item>
-        <item>Wrocław</item>
-        <item>Poznań</item>
-    </string-array>
 
     <string-array name="sort_options">
         <item>Średnia ocena</item>
