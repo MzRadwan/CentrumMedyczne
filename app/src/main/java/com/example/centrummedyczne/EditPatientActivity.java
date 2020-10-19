@@ -3,14 +3,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,24 +43,34 @@ public class EditPatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_patient);
 
-        mApartmentEdit = (EditText) findViewById(R.id.apartmentEdit);
-        mBuildingEdit = (EditText) findViewById(R.id.buildingNrEdit);
-        mCityEdit = (EditText) findViewById(R.id.cityEdit);
-        mPhoneEdit = (EditText) findViewById(R.id.phoneEdit);
-        mStreetEdit = (EditText) findViewById(R.id.streetEdit);
-        mPostalCode = (EditText) findViewById(R.id.postalCodeEdit);
+        TextView mForgotPass = (TextView) findViewById(R.id.forgetPasswordSettings);
+        mForgotPass.setPaintFlags(mForgotPass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        mForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (EditPatientActivity.this, ResetPassword.class);
+                startActivity(intent);
+            }
+        });
+
+        mApartmentEdit = findViewById(R.id.apartmentEdit);
+        mBuildingEdit = findViewById(R.id.buildingNrEdit);
+        mCityEdit = findViewById(R.id.cityEdit);
+        mPhoneEdit = findViewById(R.id.phoneEdit);
+        mStreetEdit =  findViewById(R.id.streetEdit);
+        mPostalCode = findViewById(R.id.postalCodeEdit);
 
         setHints();
 
     }
 
     public void onClickSearch(View view){
-        Intent intent = new Intent(view.getContext(), StartActivity.class);
+        Intent intent = new Intent(EditPatientActivity.this, StartActivity.class);
         startActivity(intent);
     }
 
     public void onClickAccount(View view){
-        Intent intent = new Intent(view.getContext(), PatientAccountActivity.class);
+        Intent intent = new Intent(EditPatientActivity.this, PatientAccountActivity.class);
         startActivity(intent);
     }
 
@@ -70,6 +87,7 @@ public class EditPatientActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             Log.d("EditPatientActivity", "Phone number updated");
                             Toast.makeText(EditPatientActivity.this, "Zapisano zmiany.", Toast.LENGTH_SHORT).show();
+                            setHints();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -117,6 +135,7 @@ public class EditPatientActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(EditPatientActivity.this, "Zapisano zmiany.", Toast.LENGTH_SHORT).show();
+                                    setHints();
                                 }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -130,6 +149,60 @@ public class EditPatientActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void onClickReady(View view){
+        Intent intent = new Intent(EditPatientActivity.this, PatientAccountActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickChangePassword(View view){
+        EditText mCurrentPass = findViewById(R.id.currentPassEdit);
+
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(user.getEmail(),mCurrentPass.getText().toString());
+
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("EditPatientActivity", "User re-authenticated.");
+                            EditText mRepeatPass = findViewById(R.id.repeatPassEdit);
+                            EditText mNewPass = findViewById(R.id.newPassEdit);
+                            String newPass = mNewPass.getText().toString();
+                            String repeatPass = mRepeatPass.getText().toString();
+                            if (newPass.equals("") || repeatPass.equals("")) { //empty password inputs
+                                Toast.makeText(EditPatientActivity.this,
+                                        "Niekompletne pola! ", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (!newPass.equals(repeatPass)) {//different passwords
+                                Toast.makeText(EditPatientActivity.this,
+                                        "Podane hasła różnią się!", Toast.LENGTH_SHORT).show();
+                            }
+                            else { //correct passwords
+                                user.updatePassword(newPass)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(EditPatientActivity.this,
+                                                            "Hasło zaaktualizowane.", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else {
+                                                    Toast.makeText(EditPatientActivity.this,
+                                                            "Błąd zmiany hasła. ", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                        else {
+                            Toast.makeText(EditPatientActivity.this,
+                                    "Nieudana weryfikacja obecnego hasła.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void setHints(){
