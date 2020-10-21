@@ -37,19 +37,18 @@ public class LoginActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
-
         firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
                     Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                    Toast.makeText(LoginActivity.this, R.string.login_successful,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,
+                            R.string.login_successful,Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                     return;
                 }
-
             }
         };
 
@@ -66,50 +65,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mEmailLogin = (EditText) findViewById(R.id.emailEditText);
-        mPasswordLogin = (EditText) findViewById(R.id.passwordEditText);
-        Button mLoginButton = (Button) findViewById(R.id.loginButton);
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mEmailLogin.getText().toString();
-                String password = mPasswordLogin.getText().toString();
-                if(email.equals("") || password.equals(""))
-                    Toast.makeText(LoginActivity.this, R.string.incorrect_email_or_password, Toast.LENGTH_LONG).show();
-                else {
-                    mAuth.signInWithEmailAndPassword(email,password)
-                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                //Toast.makeText(LoginActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
-                                try
-                                {
-                                    throw task.getException();
-                                }
-                                catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                   // Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                    switch (e.getMessage()) {
-                                        case "There is no user record corresponding to this identifier. The user may have been deleted.":
-                                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.notFoundEmail), Toast.LENGTH_SHORT).show();
-                                            break;
-                                        case "The password is invalid or the user does not have a password.":
-                                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.wrongPassword), Toast.LENGTH_SHORT).show();
-                                            break;
-                                        case "A network error (such as timeout, interrupted connection or unreachable host) has occurred.":
-                                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.networkError), Toast.LENGTH_SHORT).show();
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
         mCancelButton = (Button) findViewById(R.id.cancelButton);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +77,52 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void onClickLoginPatient(View view){
+        mEmailLogin = (EditText) findViewById(R.id.emailEditText);
+        mPasswordLogin = (EditText) findViewById(R.id.passwordEditText);
+        String email = mEmailLogin.getText().toString();
+        String password = mPasswordLogin.getText().toString();
+        if(email.equals("") || password.equals(""))
+            Toast.makeText(LoginActivity.this,
+                    R.string.incorrect_email_or_password, Toast.LENGTH_LONG).show();
+        else {
+            loginUser(email, password);
+        }
+    }
+
+    private void loginUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email,password)
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(!task.isSuccessful()){
+                            try{
+                                throw task.getException();
+                            }
+                            catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                switch (e.getMessage()) {
+                                    case "There is no user record corresponding to this identifier." +
+                                            " The user may have been deleted.":
+                                        Toast.makeText(LoginActivity.this,
+                                                R.string.notFoundEmail, Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case "The password is invalid or the user does not have a password.":
+                                        Toast.makeText(LoginActivity.this,
+                                                R.string.wrongPassword, Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case "A network error (such as timeout, " +
+                                            "interrupted connection or unreachable host) has occurred.":
+                                        Toast.makeText(LoginActivity.this,
+                                                R.string.networkError, Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     //Change UI according to user data.
