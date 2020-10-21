@@ -82,6 +82,8 @@
     <string name="empty_email_input">Podaj adres email</string>
     <string name="email_sent">Wysłano email</string>
     <string name="send_error">Błąd wysyłania</string>
+    <string name="login_successful">Zalogowano poprawnie</string>
+    <string name="incorrect_email_or_password">Niepoprawny email lub hasło</string>
 
 
     <string-array name="sort_options">

@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
                     Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-                    Toast.makeText(LoginActivity.this,"Zalogowano poprawnie",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.login_successful,Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                     finish();
                     return;
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmailLogin.getText().toString();
                 String password = mPasswordLogin.getText().toString();
                 if(email.equals("") || password.equals(""))
-                    Toast.makeText(LoginActivity.this,"Niepoprawny email lub hasło.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.incorrect_email_or_password, Toast.LENGTH_LONG).show();
                 else {
                     mAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                     throw task.getException();
                                 }
                                 catch (Exception e) {
-                                    System.out.println(e.getMessage().toString());
+                                    System.out.println(e.getMessage());
                                    // Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                                     switch (e.getMessage()) {
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     //Change UI according to user data.
     public void  updateUI(FirebaseUser account){
         if(account != null){
-            Toast.makeText(this,"Zalogowano poprawnie",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.login_successful,Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this,PatientAccountActivity.class));
         }else {
             //Toast.makeText(this,"U Didnt signed in",Toast.LENGTH_LONG).show();
