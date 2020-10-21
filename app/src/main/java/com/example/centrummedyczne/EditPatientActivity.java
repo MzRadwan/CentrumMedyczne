@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,7 +32,6 @@ public class EditPatientActivity extends AppCompatActivity {
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-   // private CollectionReference addressCol = db.collection("address");
     private CollectionReference patientCol = db.collection("patient");
 
     private EditText mPhoneEdit, mStreetEdit, mBuildingEdit, mApartmentEdit, mCityEdit, mPostalCode;
@@ -76,31 +74,11 @@ public class EditPatientActivity extends AppCompatActivity {
 
     public void onClickSaveNewData(View view){
         String userId = user.getUid();
+        updatePhone(userId);
+        updateAddress(userId, getNewAddress());
+    }
 
-        Map<String, Object> patient = new HashMap<>();
-        String mobile = mPhoneEdit.getText().toString();
-        if(mobile.length() == 9){//correct phone number length
-            patient.put("mobile", mobile);
-            patientCol.document(userId).update(patient)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("EditPatientActivity", "Phone number updated");
-                            Toast.makeText(EditPatientActivity.this, "Zapisano zmiany.", Toast.LENGTH_SHORT).show();
-                            setHints();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditPatientActivity.this, "Błąd zmiany telefonu!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-        else {
-            Toast.makeText(EditPatientActivity.this, "Niepoprawny numer telefonu!", Toast.LENGTH_SHORT).show();
-        }
-
+    private Map<String, Object> getNewAddress(){
         final Map<String, Object> address = new HashMap<>();
         String street = mStreetEdit.getText().toString();
         if(!street.equals("")){
@@ -120,9 +98,15 @@ public class EditPatientActivity extends AppCompatActivity {
         }
         String postalCode = mPostalCode.getText().toString();
         if(!postalCode.equals("")){
-            address.put("postalCode", postalCode);
+            if(postalCode.matches("\\d{2}-\\d{3}"))
+                address.put("postalCode", postalCode);
+            else
+                Toast.makeText(EditPatientActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
         }
+        return address;
+    }
 
+    private void updateAddress(String userId, final Map<String, Object> address){
         patientCol.document(userId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -132,23 +116,58 @@ public class EditPatientActivity extends AppCompatActivity {
                         final DocumentReference addressId = patient.getAddress_id();
                         addressId.update(address)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(EditPatientActivity.this, "Zapisano zmiany.", Toast.LENGTH_SHORT).show();
-                                    setHints();
-                                }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EditPatientActivity.this,
-                                        "Błąd zmiany adresu!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(EditPatientActivity.this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
+                                        cleanAddressInputs();
+                                        setHints();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(EditPatientActivity.this,
+                                                R.string.address_change_error, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
                     }
                 });
+    }
 
+    private void updatePhone(String userId){
+        Map<String, Object> patient = new HashMap<>();
+        String mobile = mPhoneEdit.getText().toString();
+        if(mobile.length() == 9){//correct phone number length
+            patient.put("mobile", mobile);
+            patientCol.document(userId).update(patient)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("EditPatientActivity", "Phone number updated");
+                            Toast.makeText(EditPatientActivity.this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
+                            mPhoneEdit.setText("");
+                            setHints();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EditPatientActivity.this, R.string.phone_change_error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else if (mobile.length() > 0) {
+            Toast.makeText(EditPatientActivity.this, R.string.incorrect_mobile, Toast.LENGTH_SHORT).show();
+            mPhoneEdit.setText("");
+        }
+    }
+    private void cleanAddressInputs(){
+        mApartmentEdit.setText("");
+        mBuildingEdit.setText("");
+        mCityEdit.setText("");
+        mPostalCode.setText("");
+        mStreetEdit.setText("");
     }
 
     public void onClickReady(View view){
@@ -174,11 +193,11 @@ public class EditPatientActivity extends AppCompatActivity {
                             String repeatPass = mRepeatPass.getText().toString();
                             if (newPass.equals("") || repeatPass.equals("")) { //empty password inputs
                                 Toast.makeText(EditPatientActivity.this,
-                                        "Niekompletne pola! ", Toast.LENGTH_SHORT).show();
+                                        R.string.incomplete_inputs, Toast.LENGTH_SHORT).show();
                             }
                             else if (!newPass.equals(repeatPass)) {//different passwords
                                 Toast.makeText(EditPatientActivity.this,
-                                        "Podane hasła różnią się!", Toast.LENGTH_SHORT).show();
+                                        R.string.different_passwords, Toast.LENGTH_SHORT).show();
                             }
                             else { //correct passwords
                                 user.updatePassword(newPass)
@@ -187,11 +206,11 @@ public class EditPatientActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     Toast.makeText(EditPatientActivity.this,
-                                                            "Hasło zaaktualizowane.", Toast.LENGTH_SHORT).show();
+                                                            R.string.pass_updated, Toast.LENGTH_SHORT).show();
                                                 }
                                                 else {
                                                     Toast.makeText(EditPatientActivity.this,
-                                                            "Błąd zmiany hasła. ", Toast.LENGTH_SHORT).show();
+                                                            R.string.pass_change_error, Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
@@ -199,7 +218,7 @@ public class EditPatientActivity extends AppCompatActivity {
                         }
                         else {
                             Toast.makeText(EditPatientActivity.this,
-                                    "Nieudana weryfikacja obecnego hasła.", Toast.LENGTH_SHORT).show();
+                                    R.string.incorrect_current_password, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

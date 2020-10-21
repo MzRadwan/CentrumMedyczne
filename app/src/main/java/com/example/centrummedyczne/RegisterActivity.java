@@ -64,16 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(email.equals("")){ // empty email input field
             Toast.makeText(RegisterActivity.this,
-                    "Wymagany adres email!", Toast.LENGTH_LONG).show();
+                    R.string.required_email, Toast.LENGTH_LONG).show();
         }
         else if(password.equals("")){ //empty password input field
             Toast.makeText(RegisterActivity.this,
-                    "Hasło nie może być puste!", Toast.LENGTH_LONG).show();
+                    R.string.empty_password, Toast.LENGTH_LONG).show();
         }
         else {
             if (!password.equals(repeatPass)){ //different passwords given
                 Toast.makeText(RegisterActivity.this,
-                        "Podane hasła różnia się!", Toast.LENGTH_LONG).show();
+                        R.string.different_passwords, Toast.LENGTH_LONG).show();
             }
             else{
                 mAuth.createUserWithEmailAndPassword(email, password)
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                                 else {
                                     Toast.makeText(RegisterActivity.this,
-                                            "Błąd rejestracji!", Toast.LENGTH_LONG).show();
+                                            R.string.register_error, Toast.LENGTH_LONG).show();
                                     updateUI(null);
                                 }
                             }
@@ -109,10 +109,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         Map<String, Object> address = new HashMap<>();
         address.put("city", mCity.getText().toString());
-        address.put("apartment", mApartment.getText().toString());
+        if (mApartment.getText().toString().equals(""))
+            address.put("apartment", null);
+        else
+            address.put("apartment", mApartment.getText().toString());
         address.put("building_number", mBuilding.getText().toString());
         address.put("street", mStreet.getText().toString());
-        address.put("postal_code", mPostalCode.getText().toString());
+        String postalCode =  mPostalCode.getText().toString();
+        if(postalCode.matches("\\d{2}-\\d{3}"))
+            address.put("postalCode", postalCode);
+        else
+            Toast.makeText(RegisterActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
 
         addressCol.add(address)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -129,7 +136,10 @@ public class RegisterActivity extends AppCompatActivity {
                         patient.put("blocked_to", null);
                         patient.put("mobile", mPhone.getText().toString());
                         patient.put("first_name", mName.getText().toString());
-                        patient.put("PESEL", mPesel.getText().toString());
+                        if(Validation.validatePesel(mPesel.getText().toString()))
+                            patient.put("PESEL", mPesel.getText().toString());
+                        else
+                            Toast.makeText(RegisterActivity.this, R.string.incorrect_pesel, Toast.LENGTH_SHORT).show();
                         patient.put("last_name", mSurname.getText().toString());
                         patient.put("address_id", documentReference);
 

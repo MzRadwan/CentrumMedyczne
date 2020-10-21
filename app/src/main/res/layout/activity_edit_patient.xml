@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/header_image"
         app:srcCompat="@drawable/ic_header_gradient" />
 
 
@@ -25,7 +26,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/verdana"
-        android:text="Ustawienia"
+        android:text="@string/settings"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,9 +38,8 @@
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:contentDescription="profil pacjenta"
+        android:contentDescription="@string/patient_profile"
         android:onClick="onClickReady"
-        android:clickable="true"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:srcCompat="@drawable/ic_account_box_white" />
@@ -50,10 +50,9 @@
         android:layout_height="45dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="90dp"
-        android:contentDescription="wyszukiwanie"
+        android:contentDescription="@string/searching"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:clickable="true"
         android:onClick="onClickSearch"
         app:srcCompat="@drawable/ic_search_white_box" />
 
@@ -79,10 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/verdana_bold"
-                android:text="Zmiana danych osobowych"
+                android:text="@string/personal_data_change"
                 android:textAlignment="center"
                 android:textColor="@color/navy"
-                android:textSize="24dp" />
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,9 +95,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Telefon"
+                    android:text="@string/phone"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/phoneEdit"
@@ -107,7 +106,6 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="15963278"
                     android:inputType="phone"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
@@ -119,9 +117,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Ulica"
+                    android:text="@string/street"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/streetEdit"
@@ -130,7 +128,6 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="Popiełuszki"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
                     android:textColorHint="@color/blue"
@@ -141,9 +138,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Numer budynku"
+                    android:text="@string/building_number"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/buildingNrEdit"
@@ -152,7 +149,6 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="26"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
                     android:textColorHint="@color/blue"
@@ -163,9 +159,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Numer lokalu"
+                    android:text="@string/apartment"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/apartmentEdit"
@@ -174,7 +170,6 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="31"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
                     android:textColorHint="@color/blue"
@@ -185,9 +180,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Miasto"
+                    android:text="@string/city"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/cityEdit"
@@ -196,9 +191,9 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="Lublin"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
+                    android:inputType="textCapWords"
                     android:textColorHint="@color/blue"
                     android:textSize="20sp" />
 
@@ -207,9 +202,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="Kod pocztowy"
+                    android:text="@string/postal_code"
                     android:textColor="@color/navy"
-                    android:textSize="22dp" />
+                    android:textSize="22sp" />
 
                 <EditText
                     android:id="@+id/postalCodeEdit"
@@ -218,7 +213,6 @@
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/white_button"
                     android:fontFamily="@font/verdana"
-                    android:hint="20-052"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
                     android:textColorHint="@color/blue"
@@ -232,7 +226,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/lagoon_button"
                     android:fontFamily="@font/verdana"
-                    android:text="Zapisz"
+                    android:text="@string/save_changes"
                     android:textAllCaps="false"
                     android:layout_marginBottom="30dp"
                     android:onClick="onClickSaveNewData"
@@ -248,10 +242,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/verdana_bold"
-                        android:text="Zmiana hasła"
+                        android:text="@string/password_change"
                         android:textAlignment="center"
                         android:textColor="@color/navy"
-                        android:textSize="24dp" />
+                        android:textSize="24sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -265,9 +259,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/verdana"
-                            android:text="Obecne hasło"
+                            android:text="@string/current_passsword"
                             android:textColor="@color/navy"
-                            android:textSize="22dp" />
+                            android:textSize="22sp" />
 
                         <EditText
                             android:id="@+id/currentPassEdit"
@@ -286,9 +280,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/verdana"
-                            android:text="Nowe hasło"
+                            android:text="@string/new_password"
                             android:textColor="@color/navy"
-                            android:textSize="22dp" />
+                            android:textSize="22sp" />
 
                         <EditText
                             android:id="@+id/newPassEdit"
@@ -306,9 +300,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/verdana"
-                            android:text="Powtórz nowe hasło"
+                            android:text="@string/repeat_password"
                             android:textColor="@color/navy"
-                            android:textSize="22dp" />
+                            android:textSize="22sp" />
 
                         <EditText
                             android:id="@+id/repeatPassEdit"
@@ -329,7 +323,7 @@
                             android:layout_marginTop="20dp"
                             android:background="@drawable/lagoon_button"
                             android:fontFamily="@font/verdana"
-                            android:text="Zmień hasło"
+                            android:text="@string/change_password"
                             android:onClick="onClickChangePassword"
                             android:textAllCaps="false"
                             android:textColor="@color/navy"
@@ -351,7 +345,7 @@
                             android:id="@+id/readyButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Gotowe"
+                            android:text="@string/ready"
                             android:onClick="onClickReady"
                             android:textAllCaps="false"
                             android:textColor="@color/navy"

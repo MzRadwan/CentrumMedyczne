@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPassword extends AppCompatActivity {
 
-    private EditText mEmail;
     private Button mSendResetEmail, mBackToLogin;
 
     @Override
@@ -31,11 +30,11 @@ public class ResetPassword extends AppCompatActivity {
 
     public void onClickSendReset(final View view){
 
-        mEmail = (EditText) findViewById(R.id.emailReset);
+        EditText mEmail = (EditText) findViewById(R.id.emailReset);
         mSendResetEmail = (Button) findViewById(R.id.sendResetEmail);
         String email = mEmail.getText().toString();
-        if (email.equals(null)){
-            Toast.makeText(ResetPassword.this, "Podaj adres email.", Toast.LENGTH_LONG).show();
+        if (email.equals("")){
+            Toast.makeText(ResetPassword.this, R.string.empty_email_input, Toast.LENGTH_LONG).show();
         }
         else {
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -44,12 +43,12 @@ public class ResetPassword extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
-                        Toast.makeText(ResetPassword.this, "Wysłano email.", Toast.LENGTH_LONG).show();
-                        mSendResetEmail.setText("Wyślij ponownie");
+                        Toast.makeText(ResetPassword.this, R.string.email_sent, Toast.LENGTH_LONG).show();
+                        mSendResetEmail.setText(R.string.send_again);
                         mBackToLogin.setVisibility(View.VISIBLE);
                     }
                     else {
-                        Toast.makeText(ResetPassword.this, "Błąd wysyłania.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ResetPassword.this, R.string.send_error, Toast.LENGTH_LONG).show();
                     }
                 }
             });
