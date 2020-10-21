@@ -84,6 +84,7 @@
     <string name="send_error">Błąd wysyłania</string>
     <string name="login_successful">Zalogowano poprawnie</string>
     <string name="incorrect_email_or_password">Niepoprawny email lub hasło</string>
+    <string name="incorrect_email">Wpisano niepoprawny adres email</string>
 
 
     <string-array name="sort_options">

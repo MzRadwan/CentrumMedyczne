@@ -66,6 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(RegisterActivity.this,
                     R.string.required_email, Toast.LENGTH_LONG).show();
         }
+        else if(!Validation.validateEmail(email)){
+            Toast.makeText(RegisterActivity.this,
+                    R.string.incorrect_email, Toast.LENGTH_LONG).show();
+        }
         else if(password.equals("")){ //empty password input field
             Toast.makeText(RegisterActivity.this,
                     R.string.empty_password, Toast.LENGTH_LONG).show();
@@ -116,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         address.put("building_number", mBuilding.getText().toString());
         address.put("street", mStreet.getText().toString());
         String postalCode =  mPostalCode.getText().toString();
-        if(postalCode.matches("\\d{2}-\\d{3}"))
+        if(Validation.validatePostalCode(postalCode))
             address.put("postalCode", postalCode);
         else
             Toast.makeText(RegisterActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
