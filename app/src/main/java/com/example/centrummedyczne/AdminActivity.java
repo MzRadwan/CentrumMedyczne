@@ -25,6 +25,7 @@ public class AdminActivity extends AppCompatActivity {
     private CollectionReference clinics = db.collection("clinic");
     private CollectionReference addressCol = db.collection("address");
     private CollectionReference drugs = db.collection("drug");
+    private CollectionReference appointments = db.collection("appointment");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +97,8 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     public void onClickAddDrug(View view){
-        EditText mTradeName = (EditText) findViewById(R.id.tradeNameDrug);
-        EditText mActiveSubstance = (EditText) findViewById(R.id.activeSubstanceDrug);
+        EditText mTradeName = findViewById(R.id.tradeNameDrug);
+        EditText mActiveSubstance = findViewById(R.id.activeSubstanceDrug);
 
         Map<String,Object> drug = new HashMap<>();
         drug.put("trade_name", mTradeName.getText().toString());
@@ -116,5 +117,37 @@ public class AdminActivity extends AppCompatActivity {
                         Log.w("AdminActivity","Error " ,e);
                     }
                 });
+    }
+
+    public void onClickAddAppointment(View view){
+        EditText mPrice = findViewById(R.id.priceAppointment);
+        Map< String, Object> appointment = new HashMap<>();
+        appointment.put("price", mPrice.getText().toString());
+        appointment.put("booked", false);
+        appointment.put("completed", false);
+        appointment.put("doctor_absent", false);
+        appointment.put("patient_absent", false);
+        appointment.put("notification-sent", false);
+        appointment.put("appointment_start", null);
+        appointment.put("appointment_stop", null);
+        appointment.put("department_id", null);
+        appointment.put("healthcard_id", null);
+        appointment.put("patient_id", null);
+        appointments.add(appointment)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AdminActivity", "added, ID = " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("AdminActivity","Error " ,e);
+                    }
+                });
+
+
+
     }
 }

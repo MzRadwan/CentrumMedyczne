@@ -38,17 +38,18 @@ public class ResetPassword extends AppCompatActivity {
         }
         else {
             FirebaseAuth auth = FirebaseAuth.getInstance();
-
             auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
-                        Toast.makeText(ResetPassword.this, R.string.email_sent, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ResetPassword.this,
+                                R.string.email_sent, Toast.LENGTH_LONG).show();
                         mSendResetEmail.setText(R.string.send_again);
                         mBackToLogin.setVisibility(View.VISIBLE);
                     }
                     else {
-                        Toast.makeText(ResetPassword.this, R.string.send_error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ResetPassword.this,
+                                R.string.send_error, Toast.LENGTH_LONG).show();
                     }
                 }
             });

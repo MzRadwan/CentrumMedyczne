@@ -136,16 +136,18 @@ public class EditPatientActivity extends AppCompatActivity {
     }
 
     private void updatePhone(String userId){
-        Map<String, Object> patient = new HashMap<>();
+
         String mobile = mPhoneEdit.getText().toString();
         if(mobile.length() == 9){//correct phone number length
+            Map<String, Object> patient = new HashMap<>();
             patient.put("mobile", mobile);
             patientCol.document(userId).update(patient)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d("EditPatientActivity", "Phone number updated");
-                            Toast.makeText(EditPatientActivity.this, R.string.changes_saved, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditPatientActivity.this,
+                                    R.string.changes_saved, Toast.LENGTH_SHORT).show();
                             mPhoneEdit.setText("");
                             setHints();
                         }
@@ -153,7 +155,8 @@ public class EditPatientActivity extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditPatientActivity.this, R.string.phone_change_error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditPatientActivity.this,
+                                    R.string.phone_change_error, Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -180,7 +183,6 @@ public class EditPatientActivity extends AppCompatActivity {
 
         AuthCredential credential = EmailAuthProvider
                 .getCredential(user.getEmail(),mCurrentPass.getText().toString());
-
         user.reauthenticate(credential)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -199,26 +201,29 @@ public class EditPatientActivity extends AppCompatActivity {
                                 Toast.makeText(EditPatientActivity.this,
                                         R.string.different_passwords, Toast.LENGTH_SHORT).show();
                             }
-                            else { //correct passwords
-                                user.updatePassword(newPass)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(EditPatientActivity.this,
-                                                            R.string.pass_updated, Toast.LENGTH_SHORT).show();
-                                                }
-                                                else {
-                                                    Toast.makeText(EditPatientActivity.this,
-                                                            R.string.pass_change_error, Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                            }
+                            else  //correct passwords
+                                updatePassword(newPass);
                         }
                         else {
                             Toast.makeText(EditPatientActivity.this,
                                     R.string.incorrect_current_password, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void updatePassword(String newPass){
+        user.updatePassword(newPass)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(EditPatientActivity.this,
+                                    R.string.pass_updated, Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(EditPatientActivity.this,
+                                    R.string.pass_change_error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

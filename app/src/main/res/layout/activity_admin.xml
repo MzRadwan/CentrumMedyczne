@@ -113,6 +113,22 @@
                 android:onClick="onClickAddDrug"
                 android:text="add drug to firestore" />
 
+            <!-- appointment -->
+
+            <EditText
+                android:id="@+id/priceAppointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:hint="price" />
+
+            <Button
+                android:id="@+id/addApointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddAppointment"
+                android:text="add appointment to firestore" />
+
 
         </LinearLayout>
     </ScrollView>

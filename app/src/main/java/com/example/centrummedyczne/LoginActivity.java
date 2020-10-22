@@ -103,26 +103,30 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             catch (Exception e) {
                                 System.out.println(e.getMessage());
-                                switch (e.getMessage()) {
-                                    case "There is no user record corresponding to this identifier." +
-                                            " The user may have been deleted.":
-                                        Toast.makeText(LoginActivity.this,
-                                                R.string.notFoundEmail, Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case "The password is invalid or the user does not have a password.":
-                                        Toast.makeText(LoginActivity.this,
-                                                R.string.wrongPassword, Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case "A network error (such as timeout, " +
-                                            "interrupted connection or unreachable host) has occurred.":
-                                        Toast.makeText(LoginActivity.this,
-                                                R.string.networkError, Toast.LENGTH_SHORT).show();
-                                        break;
-                                }
+                                dispalyErrorMessage(e.getMessage());
                             }
                         }
                     }
                 });
+    }
+
+    private void dispalyErrorMessage(String errorMessage){
+        switch (errorMessage) {
+            case "There is no user record corresponding to this identifier." +
+                    " The user may have been deleted.":
+                Toast.makeText(LoginActivity.this,
+                        R.string.notFoundEmail, Toast.LENGTH_SHORT).show();
+                break;
+            case "The password is invalid or the user does not have a password.":
+                Toast.makeText(LoginActivity.this,
+                        R.string.wrongPassword, Toast.LENGTH_SHORT).show();
+                break;
+            case "A network error (such as timeout, " +
+                    "interrupted connection or unreachable host) has occurred.":
+                Toast.makeText(LoginActivity.this,
+                        R.string.networkError, Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     //Change UI according to user data.
