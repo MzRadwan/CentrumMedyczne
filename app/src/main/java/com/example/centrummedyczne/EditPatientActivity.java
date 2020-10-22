@@ -62,12 +62,12 @@ public class EditPatientActivity extends AppCompatActivity {
 
     }
 
-    public void onClickSearch(View view){
+    public void onClickSettingsSearch(View view){
         Intent intent = new Intent(EditPatientActivity.this, StartActivity.class);
         startActivity(intent);
     }
 
-    public void onClickAccount(View view){
+    public void onClickSettingsAccount(View view){
         Intent intent = new Intent(EditPatientActivity.this, PatientAccountActivity.class);
         startActivity(intent);
     }
