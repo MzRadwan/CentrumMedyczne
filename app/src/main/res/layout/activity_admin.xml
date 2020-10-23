@@ -26,6 +26,13 @@
 
             <!-- address -->
 
+            <Button
+                android:id="@+id/createDoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickCreateDoc"
+                android:text="create doctor" />
+
             <EditText
                 android:id="@+id/streetAddress"
                 android:layout_width="match_parent"

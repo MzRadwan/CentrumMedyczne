@@ -3,6 +3,7 @@ package com.example.centrummedyczne;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,11 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+    }
+
+    public void onClickCreateDoc(View view){
+        Intent intent = new Intent(AdminActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void onAddClinic(View view){
