@@ -40,31 +40,27 @@
                 android:onClick="onClickCreateEmptySpec"
                 android:text="create empty doc_has_spec" />
 
+            <Button
+                android:id="@+id/createEmptyFavDoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickCreateEmptyFav"
+                android:text="create empty favourite" />
+
             <!-- healthcard -->
 
-            <TextView
-                android:id="@+id/textView25"
+            <EditText
+                android:id="@+id/symptomsHealthcard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView26"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:hint="symptoms" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:onClick="onClickAddHealthCard"
+                android:text="add healthcard to firestore" />
 
             <!-- address -->
 

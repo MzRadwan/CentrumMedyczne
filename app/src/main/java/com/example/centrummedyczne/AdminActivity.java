@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -28,6 +29,8 @@ public class AdminActivity extends AppCompatActivity {
     private CollectionReference drugs = db.collection("drug");
     private CollectionReference appointments = db.collection("appointment");
     private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+    private CollectionReference healthcardCol = db.collection("healthcard");
+    private CollectionReference favouriteCol = db.collection("favourite");
 
 
     @Override
@@ -59,6 +62,25 @@ public class AdminActivity extends AppCompatActivity {
                     Log.w("AdminActivity","Error " ,e);
                 }
             });
+    }
+
+    public void onClickCreateEmptyFav(View view){
+        Map<String, Object> fav = new HashMap<>();
+        fav.put("doctor_id", null);
+        fav.put("patient_id", null);
+        favouriteCol.add(fav)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AdminActivity", "added, ID = " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("AdminActivity","Error " ,e);
+                    }
+                });
     }
 
     public void onAddClinic(View view){
@@ -144,6 +166,30 @@ public class AdminActivity extends AppCompatActivity {
                         Log.w("AdminActivity","Error " ,e);
                     }
                 });
+    }
+
+    public void onClickAddHealthCard(View view){
+        Map< String, Object> healthcard = new HashMap<>();
+        healthcard.put("patient_note", "Lorem ipsum...");
+        healthcard.put("treatment", "Lorem ipsum...");
+        healthcard.put("time_created", FieldValue.serverTimestamp());
+        EditText mSymptoms = findViewById(R.id.symptomsHealthcard);
+        healthcard.put("symptoms", mSymptoms.getText().toString());
+
+        healthcardCol.add(healthcard)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AdminActivity", "added, ID = " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("AdminActivity","Error " ,e);
+                    }
+                });
+
     }
 
     public void onClickAddAppointment(View view){
