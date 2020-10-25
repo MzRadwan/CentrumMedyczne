@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!-- address -->
+
 
             <Button
                 android:id="@+id/createDoc"
@@ -32,6 +32,41 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClickCreateDoc"
                 android:text="create doctor" />
+
+            <Button
+                android:id="@+id/createEmptyDocSpec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickCreateEmptySpec"
+                android:text="create empty doc_has_spec" />
+
+            <!-- healthcard -->
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <!-- address -->
 
             <EditText
                 android:id="@+id/streetAddress"

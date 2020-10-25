@@ -156,20 +156,19 @@ public class MainActivity extends AppCompatActivity {
             address.put("postalCode", postalCode);
         else
             Toast.makeText(MainActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
-
+        address.put("used","doc");
         addressCol.add(address)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("MainActivity", "added, ID = " + documentReference.getId());
                         //create patient
-                        EditText mName = (EditText) findViewById(R.id.nameRegister);
-                        EditText mSurname = (EditText) findViewById(R.id.surnameRegister);
-                        EditText mPesel = (EditText) findViewById(R.id.peselRegister);
-                        EditText mPhone = (EditText) findViewById(R.id.phoneRegister);
+                        EditText mName = (EditText) findViewById(R.id.docNameRegister);
+                        EditText mSurname = (EditText) findViewById(R.id.docSurnameRegister);
+                        EditText mPesel = (EditText) findViewById(R.id.docPeselRegister);
+                        EditText mPhone = (EditText) findViewById(R.id.docPhoneRegister);
 
                         Map<String,Object> doctor = new HashMap<>();
-                        doctor.put("blocked_to", null);
                         doctor.put("mobile", mPhone.getText().toString());
                         doctor.put("first_name", mName.getText().toString());
                         if(Validation.validatePesel(mPesel.getText().toString()))
@@ -182,9 +181,9 @@ public class MainActivity extends AppCompatActivity {
                         doctor.put("appointment_price", 120);
                         doctor.put("average_rate", 3.45);
                         doctor.put("degree", "dr");
-                        doctor.put("department_id", null);
+                        doctor.put("clinic_id", null);
                         doctor.put("employment_start", FieldValue.serverTimestamp());
-                        doctor.put("employment_stop", null);
+                        //doctor.put("employment_stop", null);
                         doctor.put("is_active", true);
                         String lorem = getResources().getString(R.string.lorem_ipsum);
                         doctor.put("personal_info",lorem);

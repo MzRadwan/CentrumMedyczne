@@ -27,6 +27,8 @@ public class AdminActivity extends AppCompatActivity {
     private CollectionReference addressCol = db.collection("address");
     private CollectionReference drugs = db.collection("drug");
     private CollectionReference appointments = db.collection("appointment");
+    private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,25 @@ public class AdminActivity extends AppCompatActivity {
     public void onClickCreateDoc(View view){
         Intent intent = new Intent(AdminActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickCreateEmptySpec(View view){
+        Map<String, Object> dhs = new HashMap<>();
+        dhs.put("doctor_id", null);
+        dhs.put("specialization_id", null);
+        docHasSpec.add(dhs)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AdminActivity", "added, ID = " + documentReference.getId());
+                    }
+              })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w("AdminActivity","Error " ,e);
+                }
+            });
     }
 
     public void onAddClinic(View view){
@@ -136,7 +157,8 @@ public class AdminActivity extends AppCompatActivity {
         appointment.put("notification-sent", false);
         appointment.put("appointment_start", null);
         appointment.put("appointment_stop", null);
-        appointment.put("department_id", null);
+        appointment.put("clinic_id", null);
+        appointment.put("doctor_id", null);
         appointment.put("healthcard_id", null);
         appointment.put("patient_id", null);
         appointments.add(appointment)
