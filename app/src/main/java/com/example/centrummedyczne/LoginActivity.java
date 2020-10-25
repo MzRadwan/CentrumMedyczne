@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                 throw task.getException();
                             }
                             catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                //System.out.println(e.getMessage());
                                 dispalyErrorMessage(e.getMessage());
                             }
                         }

@@ -12,14 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
-    String data1[], data2[];
+    List<String> data1, data2;
     int images[];
     Context context;
 
-    public SearchRecyclerAdapter(Context ct, String s1[], String s2[], int img[]){
+    public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2, int[] img){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -37,15 +39,15 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        holder.mytextView1.setText((data1[position]));
-        holder.myTextView2.setText(data2[position]);
+        holder.mytextView1.setText(data1.get(position));
+        holder.myTextView2.setText(data2.get(position));
         holder.myImage.setImageResource(images[position]);
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DoctorActivity.class);
-                intent.putExtra("data1", data1[position]);
-                intent.putExtra("data2", data2[position]);
+                intent.putExtra("data1", data1.get(position));
+                intent.putExtra("data2", data2.get(position));
                 intent.putExtra("images", images[position]);
                 context.startActivity(intent);
             }

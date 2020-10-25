@@ -72,6 +72,7 @@ public class StartActivity extends AppCompatActivity {
         mSpecs = (AutoCompleteTextView) findViewById(R.id.specsAutoComplete);
 
         specs = new ArrayList<>();
+
         specsAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, specs);
         mSpecs.setAdapter(specsAdapter);
@@ -95,6 +96,7 @@ public class StartActivity extends AppCompatActivity {
         mCities = (AutoCompleteTextView) findViewById(R.id.citiesAutoComplete);
 
         cities = new ArrayList<>();
+
         citiesAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
@@ -108,7 +110,7 @@ public class StartActivity extends AppCompatActivity {
                             Clinic clinic = documentSnapshot.toObject(Clinic.class);
                             DocumentReference addressRef = clinic.getAddress_id();
                             String addressId = addressRef.getPath().substring(8);
-                            System.out.println(addressId);
+                           // System.out.println(addressId);
                             address.document(addressId);
                             addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -137,15 +139,21 @@ public class StartActivity extends AppCompatActivity {
         String specializaion = mSpecs.getText().toString();
         String city = mCities.getText().toString();
 
-        if(!specializaion.equals("") && !city.equals("")){
-            intent.putExtra("specialization", specializaion);
-            intent.putExtra("city", city);
-            startActivity(intent);
+        if(specializaion.equals("")) {
+            intent.putExtra("specialization", "Dowolna");
         }
         else{
-            Toast.makeText(StartActivity.this, "Wybierz miasto i specjalizację",
-                    Toast.LENGTH_LONG).show();
+            intent.putExtra("specialization", specializaion);
         }
+
+        if(city.equals("")){
+            intent.putExtra("city", "Dowolna");
+        }
+        else
+            intent.putExtra("city", city);
+
+        startActivity(intent);
+
     }
 
     public void onClickLogin(View view){

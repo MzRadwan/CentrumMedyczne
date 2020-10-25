@@ -1,5 +1,6 @@
 package com.example.centrummedyczne;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,7 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
@@ -41,13 +46,16 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference specializations = db.collection("specialization");
+    private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
     private CollectionReference clinics = db.collection("clinic");
     private CollectionReference address = db.collection("address");
 
 
     RecyclerView mRecyclerView;
 
-    String s1[], s2[];
+    private List<String> s1, s2;
+    private SearchRecyclerAdapter searchRecyclerAdapter;
+
     int images[] = {R.drawable.ic_profile_blue,R.drawable.ic_profile_blue,
             R.drawable.ic_profile_lagoon, R.drawable.ic_profile_lagoon,
             R.drawable.ic_profile_blue, R.drawable.ic_profile_lagoon,
@@ -73,9 +81,6 @@ public class SearchResultActivity extends AppCompatActivity {
             mAccount.setVisibility(View.GONE);
         }
 
-
-        //search text views settings
-
         mSpecs = (AutoCompleteTextView) findViewById(R.id.specializationTextView);
         mCities = (AutoCompleteTextView) findViewById(R.id.cityTextView);
 
@@ -94,6 +99,73 @@ public class SearchResultActivity extends AppCompatActivity {
         citiesAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
+
+        if(!chosenSpec.equals("Dowolna")){
+            System.out.println(chosenSpec.toUpperCase());
+            specializations
+                    .whereEqualTo("specialization_name",chosenSpec)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    System.out.println(document.getId() + " => " + document.getData());
+                                    docHasSpec
+                                            //.whereEqualTo("specialization_id", document) ---> test it
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                                            System.out.println(documentSnapshot.getId() +
+                                                                    " => " + documentSnapshot.getData());
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                }
+                            } else {
+                                System.out.println("Search" + "Error getting documents: " + task.getException());
+                            }
+                        }
+                    });
+
+
+                    /*.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess( QuerySnapshot queryDocumentSnapshots) {
+                            for ( QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                String specId = documentSnapshot.getId();
+                                System.out.println(specId);
+                                Log.d("SearchResultSpecID", specId);
+                                docHasSpec
+                                        .whereEqualTo("specialization_id", documentSnapshot)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                List<DocumentReference> docRefs = new ArrayList<>();
+                                                for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                                                    DoctorHasSpecialization dhs = documentSnapshot1.toObject(DoctorHasSpecialization.class);
+                                                    docRefs.add(dhs.getDoctor_id());
+                                                    System.out.println("LEKARZ: " + documentSnapshot1.get("first_name").toString()
+                                                            + documentSnapshot1.get("last_name").toString());
+                                                }
+
+                                            }
+                                        });
+
+
+                            }
+                        }
+                    });*/
+        }
+
+        //search text views settings
+
+
 
         // spec hints from Firestore
 
@@ -120,7 +192,7 @@ public class SearchResultActivity extends AppCompatActivity {
                             Clinic clinic = documentSnapshot.toObject(Clinic.class);
                             DocumentReference addressRef = clinic.getAddress_id();
                             String addressId = addressRef.getPath().substring(8);
-                            System.out.println(addressId);
+                            //System.out.println(addressId);
                             address.document(addressId);
                             addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
@@ -141,12 +213,24 @@ public class SearchResultActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.docRecyler);
 
-        s1 = getResources().getStringArray(R.array.doctors);
-        s2 = getResources().getStringArray(R.array.description);
+        s1 = new ArrayList<>();
+        s2 = new ArrayList<>();
 
-        SearchRecyclerAdapter searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
+
+
+
+        s1 = Arrays.asList(getResources().getStringArray(R.array.doctors));
+        //s2 = getResources().getStringArray(R.array.description);
+
+       /* searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));*/
+
+
+
+
+
+
 
         mSortFilter = (Button) findViewById(R.id.sortFilterButton);
         mSortFilter.setOnClickListener(new View.OnClickListener() {
@@ -184,9 +268,18 @@ public class SearchResultActivity extends AppCompatActivity {
     public void onClickSearckAgain(View view){
         Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
         String specializaion = mSpecs.getText().toString();
-        intent.putExtra("specialization", specializaion);
         String city = mCities.getText().toString();
-        intent.putExtra("city", city);
+
+        if(specializaion.equals(""))
+            intent.putExtra("specialization", "Dowolna");
+        else
+            intent.putExtra("specialization", specializaion);
+
+        if(city.equals(""))
+            intent.putExtra("city", "Dowolna");
+        else
+            intent.putExtra("city", city);
+
         startActivity(intent);
     }
 }
