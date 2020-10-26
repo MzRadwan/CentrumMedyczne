@@ -47,6 +47,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference specializations = db.collection("specialization");
     private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+    private CollectionReference doctors = db.collection("doctor");
     private CollectionReference clinics = db.collection("clinic");
     private CollectionReference address = db.collection("address");
 
@@ -100,6 +101,8 @@ public class SearchResultActivity extends AppCompatActivity {
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
 
+        //wyszukiwanie po specjalizacji
+
         if(!chosenSpec.equals("Dowolna")){
             System.out.println(chosenSpec.toUpperCase());
             specializations
@@ -109,10 +112,10 @@ public class SearchResultActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                for (final QueryDocumentSnapshot document : task.getResult()) {
                                     System.out.println(document.getId() + " => " + document.getData());
                                     docHasSpec
-                                            //.whereEqualTo("specialization_id", document) ---> test it
+                                            .whereEqualTo("specialization_id", document.getReference())
                                             .get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                 @Override
@@ -121,6 +124,21 @@ public class SearchResultActivity extends AppCompatActivity {
                                                         for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
                                                             System.out.println(documentSnapshot.getId() +
                                                                     " => " + documentSnapshot.getData());
+                                                            DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
+                                                            DocumentReference doctorRef = dhs.getDoctor_id();
+                                                            doctorRef.get()
+                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                                        @Override
+                                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                                            System.out.println(documentSnapshot.getId() +
+                                                                                    " => " + documentSnapshot.getData());
+                                                                            Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                                                                            System.out.println("DOKTOR");
+                                                                            System.out.println(foundDoctor.getFirst_name() + foundDoctor.getLast_name());
+
+                                                                        }
+                                                                    });
+
                                                         }
                                                     }
                                                 }

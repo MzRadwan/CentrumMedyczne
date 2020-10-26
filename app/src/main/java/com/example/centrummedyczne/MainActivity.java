@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                         doctor.put("degree", "dr");
                         doctor.put("clinic_id", null);
                         doctor.put("employment_start", FieldValue.serverTimestamp());
-                        //doctor.put("employment_stop", null);
+                        doctor.put("employment_stop", null);
                         doctor.put("is_active", true);
                         String lorem = getResources().getString(R.string.lorem_ipsum);
                         doctor.put("personal_info",lorem);
