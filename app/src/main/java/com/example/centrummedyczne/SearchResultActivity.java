@@ -88,7 +88,7 @@ public class SearchResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String chosenSpec = intent.getStringExtra("specialization");
         mSpecs.setHint(chosenSpec);
-        String chosenCity = intent.getStringExtra("city");
+        final String chosenCity = intent.getStringExtra("city");
         mCities.setHint(chosenCity);
 
         specs = new ArrayList<>();
@@ -106,84 +106,45 @@ public class SearchResultActivity extends AppCompatActivity {
         if(!chosenSpec.equals("Dowolna")){
             System.out.println(chosenSpec.toUpperCase());
             specializations
-                    .whereEqualTo("specialization_name",chosenSpec)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (final QueryDocumentSnapshot document : task.getResult()) {
-                                    System.out.println(document.getId() + " => " + document.getData());
-                                    docHasSpec
-                                            .whereEqualTo("specialization_id", document.getReference())
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()){
-                                                        for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                                            System.out.println(documentSnapshot.getId() +
-                                                                    " => " + documentSnapshot.getData());
-                                                            DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
-                                                            DocumentReference doctorRef = dhs.getDoctor_id();
-                                                            doctorRef.get()
-                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                                        @Override
-                                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                                            System.out.println(documentSnapshot.getId() +
-                                                                                    " => " + documentSnapshot.getData());
-                                                                            Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-                                                                            System.out.println("DOKTOR");
-                                                                            System.out.println(foundDoctor.getFirst_name() + foundDoctor.getLast_name());
-
-                                                                        }
-                                                                    });
-
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                }
-                            } else {
-                                System.out.println("Search" + "Error getting documents: " + task.getException());
-                            }
-                        }
-                    });
-
-
-                    /*.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess( QuerySnapshot queryDocumentSnapshots) {
-                            for ( QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                String specId = documentSnapshot.getId();
-                                System.out.println(specId);
-                                Log.d("SearchResultSpecID", specId);
+                .whereEqualTo("specialization_name",chosenSpec)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot document : task.getResult()) {
+                                System.out.println(document.getId() + " => " + document.getData());
                                 docHasSpec
-                                        .whereEqualTo("specialization_id", documentSnapshot)
-                                        .get()
-                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                List<DocumentReference> docRefs = new ArrayList<>();
-                                                for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
-                                                    DoctorHasSpecialization dhs = documentSnapshot1.toObject(DoctorHasSpecialization.class);
-                                                    docRefs.add(dhs.getDoctor_id());
-                                                    System.out.println("LEKARZ: " + documentSnapshot1.get("first_name").toString()
-                                                            + documentSnapshot1.get("last_name").toString());
+                                    .whereEqualTo("specialization_id", document.getReference())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                                System.out.println(documentSnapshot.getId() +
+                                                        " => " + documentSnapshot.getData());
+                                                DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
+                                                DocumentReference doctorRef = dhs.getDoctor_id();
+                                                getDoctorsData(doctorRef);
+                                                if(!chosenCity.equals("Dowolna")){
+                                                    checkDocsCity(chosenCity, doctorRef);
                                                 }
-
                                             }
-                                        });
-
-
+                                        }
+                                        }
+                                    });
                             }
+                        } else {
+                            System.out.println("Search" + "Error getting documents: " + task.getException());
                         }
-                    });*/
+                    }
+                });
         }
 
+
+
         //search text views settings
-
-
 
         // spec hints from Firestore
 
@@ -234,20 +195,12 @@ public class SearchResultActivity extends AppCompatActivity {
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
 
-
-
-
         s1 = Arrays.asList(getResources().getStringArray(R.array.doctors));
         //s2 = getResources().getStringArray(R.array.description);
 
        /* searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));*/
-
-
-
-
-
 
 
         mSortFilter = (Button) findViewById(R.id.sortFilterButton);
@@ -258,6 +211,55 @@ public class SearchResultActivity extends AppCompatActivity {
                 startActivityForResult(intent1, 1);
             }
         });
+    }
+
+    private void getDoctorsData(DocumentReference doctorRef){
+        doctorRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        System.out.println(documentSnapshot.getId() +
+                                " => " + documentSnapshot.getData());
+                        Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                        System.out.println("DOKTOR");
+                        System.out.println(foundDoctor.getFirst_name() + foundDoctor.getLast_name());
+                    }
+                });
+    }
+
+    private void checkDocsCity(final String chosenCity, final DocumentReference doctorRef){
+        //search based on city
+        doctorRef.get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    System.out.println(documentSnapshot.getId() +
+                            " => " + documentSnapshot.getData());
+                    Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                    DocumentReference docsClinic = foundDoctor.getClinic_id();
+                    docsClinic.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                                DocumentReference clinicAddress = clinic.getAddress_id();
+                                clinicAddress.get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            Address address = documentSnapshot.toObject(Address.class);
+                                            if (chosenCity.equals(address.getCity())){
+                                                System.out.println("DOKTOR w MIasto:" + chosenCity);
+                                                getDoctorsData(doctorRef);
+                                            }
+                                        }
+                                    });
+                            }
+                        });
+                }
+            });
+
+
     }
 
     public void onClickLogin(View view){
@@ -287,17 +289,22 @@ public class SearchResultActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
         String specializaion = mSpecs.getText().toString();
         String city = mCities.getText().toString();
+        if(specializaion.equals("") && city.equals("")){
+            Toast.makeText(this, "Podaj miasto lub specjalizaję", Toast.LENGTH_SHORT).show();
+        }
 
-        if(specializaion.equals(""))
-            intent.putExtra("specialization", "Dowolna");
-        else
-            intent.putExtra("specialization", specializaion);
+        else {
+            if(specializaion.equals(""))
+                intent.putExtra("specialization", "Dowolna");
+            else
+                intent.putExtra("specialization", specializaion);
 
-        if(city.equals(""))
-            intent.putExtra("city", "Dowolna");
-        else
-            intent.putExtra("city", city);
+            if(city.equals(""))
+                intent.putExtra("city", "Dowolna");
+            else
+                intent.putExtra("city", city);
 
-        startActivity(intent);
+            startActivity(intent);
+        }
     }
 }
