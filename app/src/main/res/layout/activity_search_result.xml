@@ -1,121 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fair"
+    android:orientation="vertical"
     tools:context=".SearchResultActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header_thin" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wyniki wyszukiwania"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.078"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <ImageView
-        android:id="@+id/accountImageSearch"
-        android:layout_width="69dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_account_box_white" />
-
-    <Button
-        android:id="@+id/loginButtonSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/white_button"
-        android:fontFamily="@font/verdana"
-        android:onClick="onClickLogin"
-        android:text="@string/login_text"
-        android:textColor="@color/navy"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="625dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_header_thin" />
 
-            <AutoCompleteTextView
-                android:id="@+id/specializationTextView"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_button"
-                android:hint="Specializacja"
-                android:paddingStart="10dp"
-                android:textColor="@color/navy"
-                android:textColorHint="@color/blue" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wyniki wyszukiwania"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.078"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
 
-            <AutoCompleteTextView
-                android:id="@+id/cityTextView"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/white_button"
-                android:hint="Miasto"
-                android:paddingStart="10dp"
-                android:textColor="@color/navy"
-                android:textColorHint="@color/blue" />
+        <ImageView
+            android:id="@+id/accountImageSearch"
+            android:layout_width="69dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:srcCompat="@drawable/ic_account_box_white" />
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/loginButtonSearch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp">
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/white_button"
+            android:fontFamily="@font/verdana"
+            android:onClick="onClickLogin"
+            android:text="@string/login_text"
+            android:textColor="@color/navy"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/specializationTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_button"
+                    android:hint="Specializacja"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/navy"
+                    android:textColorHint="@color/blue" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/cityTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="5dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_button"
+                    android:hint="Miasto"
+                    android:paddingStart="10dp"
+                    android:textColor="@color/navy"
+                    android:textColorHint="@color/blue" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/searchAgainButton"
@@ -125,35 +120,31 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/lagoon_button"
                 android:fontFamily="@font/verdana"
-                android:text="Szukaj"
                 android:onClick="onClickSearckAgain"
+                android:text="Szukaj"
                 android:textAllCaps="false"
                 android:textColor="@color/navy"
                 android:textSize="18sp" />
-
-
-
             <Button
                 android:id="@+id/sortFilterButton"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/sky_button"
                 android:fontFamily="@font/verdana"
+                android:onClick="onClickSortFilter"
+                android:layout_marginBottom="10dp"
+
                 android:text="Sortuj / Filtruj"
                 android:textAllCaps="false"
                 android:textColor="@color/navy"
                 android:textSize="18sp" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/docRecyler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/docRecyler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    </ScrollView>
 
-
-
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

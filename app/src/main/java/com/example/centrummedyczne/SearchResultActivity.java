@@ -35,21 +35,17 @@ import java.util.List;
 public class SearchResultActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mSpecs, mCities;
-    private Button mSortFilter, mLoginButton;
+    private String chosenCity, chosenSpec;
 
-    private ImageView mAccount;
+    private List<String> specs, cities;
+    private ArrayAdapter <String> specsAdapter,citiesAdapter;
 
-    private List<String> specs;
-    private List<String> cities;
-    private ArrayAdapter <String> specsAdapter;
-    private ArrayAdapter <String> citiesAdapter;
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference specializations = db.collection("specialization");
-    private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
-    private CollectionReference doctors = db.collection("doctor");
-    private CollectionReference clinics = db.collection("clinic");
-    private CollectionReference address = db.collection("address");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference specializations = db.collection("specialization");
+    private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+    private final CollectionReference doctors = db.collection("doctor");
+    private final CollectionReference clinics = db.collection("clinic");
+    private final CollectionReference address = db.collection("address");
 
 
     RecyclerView mRecyclerView;
@@ -57,11 +53,11 @@ public class SearchResultActivity extends AppCompatActivity {
     private List<String> s1, s2;
     private SearchRecyclerAdapter searchRecyclerAdapter;
 
-    int images[] = {R.drawable.ic_profile_blue,R.drawable.ic_profile_blue,
+    private List<Integer> images;/*,
             R.drawable.ic_profile_lagoon, R.drawable.ic_profile_lagoon,
             R.drawable.ic_profile_blue, R.drawable.ic_profile_lagoon,
             R.drawable.ic_profile_lagoon, R.drawable.ic_profile_blue,
-            R.drawable.ic_profile_blue, R.drawable.ic_profile_blue};
+            R.drawable.ic_profile_blue, R.drawable.ic_profile_blue};*/
 
 
     @Override
@@ -69,26 +65,15 @@ public class SearchResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
-        mAccount = (ImageView) findViewById(R.id.accountImageSearch);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            mLoginButton.setVisibility(View.GONE);
-
-        } else {
-            // No user is signed in
-            mAccount.setVisibility(View.GONE);
-        }
+        isUserLogged();
 
         mSpecs = (AutoCompleteTextView) findViewById(R.id.specializationTextView);
         mCities = (AutoCompleteTextView) findViewById(R.id.cityTextView);
 
         Intent intent = getIntent();
-        String chosenSpec = intent.getStringExtra("specialization");
+        chosenSpec = intent.getStringExtra("specialization");
         mSpecs.setHint(chosenSpec);
-        final String chosenCity = intent.getStringExtra("city");
+        chosenCity = intent.getStringExtra("city");
         mCities.setHint(chosenCity);
 
         specs = new ArrayList<>();
@@ -101,82 +86,93 @@ public class SearchResultActivity extends AppCompatActivity {
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
 
-        //wyszukiwanie
-
-        if(!chosenSpec.equals("Dowolna"))
-            docSearch(chosenSpec, chosenCity);
-        else
-            citySearch(chosenCity);
-
 
 
         //search text views settings
+        setSpecHints();
+        setCityHints();
 
-        // spec hints from Firestore
-
-        specializations.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    Specialization specialization = documentSnapshot.toObject(Specialization.class);
-                    //specialization.setDocID(documentSnapshot.getId());
-                    String s_name = specialization.getSpecialization_name();
-                    specs.add(s_name);
-                    specsAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-
-        //cities hint from Firestore
-        clinics.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
-                        for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            Clinic clinic = documentSnapshot.toObject(Clinic.class);
-                            DocumentReference addressRef = clinic.getAddress_id();
-                            String addressId = addressRef.getPath().substring(8);
-                            //System.out.println(addressId);
-                            address.document(addressId);
-                            addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        Address address = documentSnapshot.toObject(Address.class);
-                                        String city = address.getCity();
-                                        cities.add(city);
-                                        citiesAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                        }
-                    }
-                });
-
-
-        //search results
+        //search results display
 
         mRecyclerView = findViewById(R.id.docRecyler);
 
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
+        images = new ArrayList<>();
 
-        s1 = Arrays.asList(getResources().getStringArray(R.array.doctors));
-        //s2 = getResources().getStringArray(R.array.description);
-
-       /* searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));*/
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //search results
+        if(!chosenSpec.equals("Dowolna"))
+            docSearch();
+        else
+            citySearch();
+    }
 
-        mSortFilter = (Button) findViewById(R.id.sortFilterButton);
-        mSortFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
-                startActivityForResult(intent1, 1);
-            }
-        });
+    private void setSpecHints(){
+        // spec hints from Firestore
+        specializations.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            Specialization specialization = documentSnapshot.toObject(Specialization.class);
+                            //specialization.setDocID(documentSnapshot.getId());
+                            String s_name = specialization.getSpecialization_name();
+                            specs.add(s_name);
+                            specsAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+    }
+
+    private void setCityHints(){
+        //cities hint from Firestore
+        clinics.get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
+                    for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                        Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                        DocumentReference addressRef = clinic.getAddress_id();
+                        String addressId = addressRef.getPath().substring(8);
+                        //System.out.println(addressId);
+                        address.document(addressId);
+                        addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Address address = documentSnapshot.toObject(Address.class);
+                                String city = address.getCity();
+                                cities.add(city);
+                                citiesAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    }
+                }
+            });
+    }
+
+    public void onClickSortFilter(View v){
+        Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
+        startActivityForResult(intent1, 1);
+    }
+
+    private void isUserLogged(){
+        Button mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
+        ImageView mAccount = (ImageView) findViewById(R.id.accountImageSearch);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            mLoginButton.setVisibility(View.GONE);
+
+        } else {
+            // No user is signed in
+            mAccount.setVisibility(View.GONE);
+        }
     }
 
     private void getDoctorsData(DocumentReference doctorRef){
@@ -184,16 +180,22 @@ public class SearchResultActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        System.out.println(documentSnapshot.getId() +
-                                " => " + documentSnapshot.getData());
                         Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-                        System.out.println("DOKTOR");
-                        System.out.println(foundDoctor.getFirst_name() + foundDoctor.getLast_name());
+
+
+                        s1.add(foundDoctor.getDegree() + " "
+                                + foundDoctor.getFirst_name() + " "
+                                + foundDoctor.getLast_name());
+                        s2.add(chosenSpec);
+                        images.add(R.drawable.ic_profile_lagoon);
+                        searchRecyclerAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
-    private void docSearch(String chosenSpec, final String chosenCity){
+    private void displayResults(){}
+
+    private void docSearch(){
         System.out.println(chosenSpec.toUpperCase());
         specializations
             .whereEqualTo("specialization_name",chosenSpec)
@@ -216,14 +218,14 @@ public class SearchResultActivity extends AppCompatActivity {
                                                     " => " + documentSnapshot.getData());
                                             DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
                                             DocumentReference doctorRef = dhs.getDoctor_id();
-                                            getDoctorsData(doctorRef);
-                                            if(!chosenCity.equals("Dowolna")){
-                                                checkDocsCity(chosenCity, doctorRef);
-                                            }
+                                            if(!chosenCity.equals("Dowolna"))
+                                                checkDocsCity(doctorRef);
+                                            else
+                                                getDoctorsData(doctorRef);
                                         }
                                     }
-                                    }
-                                });
+                                }
+                            });
                         }
                     } else {
                         System.out.println("Search" + "Error getting documents: " + task.getException());
@@ -232,7 +234,7 @@ public class SearchResultActivity extends AppCompatActivity {
             });
     }
 
-    private void citySearch(final String chosenCity){
+    private void citySearch(){
         doctors
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -240,22 +242,20 @@ public class SearchResultActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.isSuccessful()){
                         for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                            DocumentReference doctorRef = documentSnapshot.getReference();
-                            checkDocsCity(chosenCity, doctorRef);
+                            //DocumentReference doctorRef = documentSnapshot.getReference();
+                            checkDocsCity(documentSnapshot.getReference());
                         }
                     }
                 }
             });
     }
 
-    private void checkDocsCity(final String chosenCity, final DocumentReference doctorRef){
+    private void checkDocsCity(final DocumentReference doctorRef){
         //search based on city
         doctorRef.get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    System.out.println(documentSnapshot.getId() +
-                            " => " + documentSnapshot.getData());
                     Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
                     DocumentReference docsClinic = foundDoctor.getClinic_id();
                     docsClinic.get()
@@ -269,10 +269,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             Address address = documentSnapshot.toObject(Address.class);
-                                            if (chosenCity.equals(address.getCity())){
-                                                System.out.println("DOKTOR w MIasto:" + chosenCity);
+                                            if (chosenCity.equals(address.getCity()))
                                                 getDoctorsData(doctorRef);
-                                            }
                                         }
                                     });
                             }
@@ -298,10 +296,6 @@ public class SearchResultActivity extends AppCompatActivity {
                 String sortDirection = data.getStringExtra("sortDirection");
                 int filter = data.getIntExtra("waitTimeMax",1);
                 Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase()+Integer.toString(filter), Toast.LENGTH_LONG).show();
-
-            }
-            else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }
         }
     }

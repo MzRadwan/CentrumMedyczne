@@ -18,10 +18,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
     List<String> data1, data2;
-    int images[];
+    List<Integer> images;
     Context context;
 
-    public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2, int[] img){
+    public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2, List<Integer> img){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -39,16 +39,16 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        holder.mytextView1.setText(data1.get(position));
+        holder.myTextView1.setText(data1.get(position));
         holder.myTextView2.setText(data2.get(position));
-        holder.myImage.setImageResource(images[position]);
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+        holder.myImage.setImageResource(images.get(position));
+        holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DoctorActivity.class);
                 intent.putExtra("data1", data1.get(position));
                 intent.putExtra("data2", data2.get(position));
-                intent.putExtra("images", images[position]);
+                intent.putExtra("images", images.get(position));
                 context.startActivity(intent);
             }
         });
@@ -57,25 +57,25 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return images.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView mytextView1, myTextView2;
+        TextView myTextView1, myTextView2;
         ImageView myImage;
 
-        ConstraintLayout mainLayout;
+        ConstraintLayout searchLayout;
 
 
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mytextView1 = itemView.findViewById(R.id.searchDocName);
+            myTextView1 = itemView.findViewById(R.id.searchDocName);
             myTextView2 = itemView.findViewById(R.id.searchDocSpec);
             myImage = itemView.findViewById(R.id.searchProfileImg);
 
-            mainLayout = itemView.findViewById(R.id.mainLayout);
+            searchLayout = itemView.findViewById(R.id.searchLayout);
         }
     }
 }
