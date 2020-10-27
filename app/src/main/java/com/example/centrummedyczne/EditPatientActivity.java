@@ -99,7 +99,7 @@ public class EditPatientActivity extends AppCompatActivity {
         String postalCode = mPostalCode.getText().toString();
         if(!postalCode.equals("")){
             if(postalCode.matches("\\d{2}-\\d{3}"))
-                address.put("postalCode", postalCode);
+                address.put("postal_code", postalCode);
             else
                 Toast.makeText(EditPatientActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
         }
@@ -236,7 +236,7 @@ public class EditPatientActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Patient patient = documentSnapshot.toObject(Patient.class);
-                        assert patient != null;
+                        //assert patient != null;
                         mPhoneEdit.setHint(patient.getMobile());
                         final DocumentReference addressId = patient.getAddress_id();
                         addressId.get()

@@ -121,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
         address.put("street", mStreet.getText().toString());
         String postalCode =  mPostalCode.getText().toString();
         if(Validation.validatePostalCode(postalCode))
-            address.put("postalCode", postalCode);
+            address.put("postal_code", postalCode);
         else
             Toast.makeText(RegisterActivity.this, R.string.incorrect_postal_code, Toast.LENGTH_SHORT).show();
 

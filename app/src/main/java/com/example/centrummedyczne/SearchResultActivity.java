@@ -101,46 +101,12 @@ public class SearchResultActivity extends AppCompatActivity {
                 (this, android.R.layout.simple_dropdown_item_1line, cities);
         mCities.setAdapter(citiesAdapter);
 
-        //wyszukiwanie po specjalizacji
+        //wyszukiwanie
 
-        if(!chosenSpec.equals("Dowolna")){
-            System.out.println(chosenSpec.toUpperCase());
-            specializations
-                .whereEqualTo("specialization_name",chosenSpec)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
-                                System.out.println(document.getId() + " => " + document.getData());
-                                docHasSpec
-                                    .whereEqualTo("specialization_id", document.getReference())
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if(task.isSuccessful()){
-                                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                                System.out.println(documentSnapshot.getId() +
-                                                        " => " + documentSnapshot.getData());
-                                                DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
-                                                DocumentReference doctorRef = dhs.getDoctor_id();
-                                                getDoctorsData(doctorRef);
-                                                if(!chosenCity.equals("Dowolna")){
-                                                    checkDocsCity(chosenCity, doctorRef);
-                                                }
-                                            }
-                                        }
-                                        }
-                                    });
-                            }
-                        } else {
-                            System.out.println("Search" + "Error getting documents: " + task.getException());
-                        }
-                    }
-                });
-        }
+        if(!chosenSpec.equals("Dowolna"))
+            docSearch(chosenSpec, chosenCity);
+        else
+            citySearch(chosenCity);
 
 
 
@@ -225,6 +191,61 @@ public class SearchResultActivity extends AppCompatActivity {
                         System.out.println(foundDoctor.getFirst_name() + foundDoctor.getLast_name());
                     }
                 });
+    }
+
+    private void docSearch(String chosenSpec, final String chosenCity){
+        System.out.println(chosenSpec.toUpperCase());
+        specializations
+            .whereEqualTo("specialization_name",chosenSpec)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (final QueryDocumentSnapshot document : task.getResult()) {
+                            System.out.println(document.getId() + " => " + document.getData());
+                            docHasSpec
+                                .whereEqualTo("specialization_id", document.getReference())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                            System.out.println(documentSnapshot.getId() +
+                                                    " => " + documentSnapshot.getData());
+                                            DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
+                                            DocumentReference doctorRef = dhs.getDoctor_id();
+                                            getDoctorsData(doctorRef);
+                                            if(!chosenCity.equals("Dowolna")){
+                                                checkDocsCity(chosenCity, doctorRef);
+                                            }
+                                        }
+                                    }
+                                    }
+                                });
+                        }
+                    } else {
+                        System.out.println("Search" + "Error getting documents: " + task.getException());
+                    }
+                }
+            });
+    }
+
+    private void citySearch(final String chosenCity){
+        doctors
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                            DocumentReference doctorRef = documentSnapshot.getReference();
+                            checkDocsCity(chosenCity, doctorRef);
+                        }
+                    }
+                }
+            });
     }
 
     private void checkDocsCity(final String chosenCity, final DocumentReference doctorRef){
