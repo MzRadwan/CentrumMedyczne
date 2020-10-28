@@ -85,7 +85,7 @@
     <string name="login_successful">Zalogowano poprawnie</string>
     <string name="incorrect_email_or_password">Niepoprawny email lub hasło</string>
     <string name="incorrect_email">Wpisano niepoprawny adres email</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci.</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</string>
     <string name="patient_account">profil pacjenta</string>
     <string name="search_icon">wyszukiwanie</string>
     <string name="back_to_results">Powrót do wyników wyszukiwania</string>
