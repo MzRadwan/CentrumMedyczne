@@ -12,6 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.List;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
@@ -20,6 +30,13 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     List<String> data1, data2;
     List<Integer> images;
     Context context;
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference specializations = db.collection("specialization");
+    private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+    private final CollectionReference doctors = db.collection("doctor");
+    private final CollectionReference clinics = db.collection("clinic");
+    private final CollectionReference address = db.collection("address");
 
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2, List<Integer> img){
         context = ct;
@@ -37,10 +54,59 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        holder.myTextView1.setText(data1.get(position));
-        holder.myTextView2.setText(data2.get(position));
+        String docId = data1.get(position);
+
+        doctors.document(docId).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                holder.myTextView1.setText(foundDoctor.getDegree() + " "
+                        + foundDoctor.getFirst_name() + " "
+                        + foundDoctor.getLast_name());
+                DocumentReference doctorRef = documentSnapshot.getReference();
+                docHasSpec
+                    .whereEqualTo("doctor_id",doctorRef)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                DocumentReference docSpecs = documentSnapshot
+                                        .getDocumentReference("specialization_id");
+                                docSpecs.get()
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            String docSpec= documentSnapshot.getString("specialization_name");
+                                            System.out.println(docSpec);
+                                            String currentSpec = "";
+
+                                            currentSpec = holder.myTextView2.getText().toString();
+                                            holder.myTextView2.setText(docSpec);
+                                            /*if(currentSpec.equals("")){
+                                                holder.myTextView2.setText(docSpec);
+
+                                            }
+                                            else {
+                                                holder.myTextView2.setText(currentSpec +", "+ docSpec);
+
+                                            }*/
+
+                                            }
+                                        });
+                                }
+                            }
+                            }
+                        });
+            }
+        });
+
+
+        //holder.myTextView2.setText(data2.get(position));
         holder.myImage.setImageResource(images.get(position));
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -94,6 +94,8 @@
     <string name="_3">3</string>
     <string name="_4">4</string>
     <string name="_5">5</string>
+    <string name="rates_avg">Średnia ocen:</string>
+    <string name="doc_price">Cena za wizytę:</string>
 
 
     <string-array name="sort_options">

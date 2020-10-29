@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <ImageView
-            android:id="@+id/searchIcon"
+            android:id="@+id/searchIconDocActivity"
             android:layout_width="45dp"
             android:layout_height="42dp"
             android:layout_marginTop="14dp"
@@ -42,10 +42,11 @@
             android:contentDescription="@string/search_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onClickSearchDocActivity"
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
-            android:id="@+id/accountImageSearch"
+            android:id="@+id/accountImageSearchDocActivity"
             android:layout_width="70dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -53,6 +54,7 @@
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onClickAccountDocActivity"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:srcCompat="@drawable/ic_account_box_white" />
 
@@ -186,166 +188,38 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/white_background"
                 android:padding="10dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/textView25"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:textAllCaps="false"
+                    android:text="@string/rates_avg"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textColor="@color/navy"
                     android:textSize="16sp"
-                    android:text="Średnia ocen: 4.78 \t\t 12 ocen "
-                    />
+                    android:fontFamily="@font/verdana"
+                    android:text="4.78" />
 
-                <TableLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/white_background">
+                    android:layout_weight="1"
+                    android:textColor="@color/navy"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/verdana"
+                    android:textAlignment="textEnd"
+                    android:text="12 ocen" />
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <TextView
-                            android:id="@+id/textView26"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/verdana"
-                            android:textColor="@color/navy"
-                            android:textSize="16sp"
-                            android:text="@string/_5" />
-
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_star_lagoon" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar5"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="300dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-
-                        <TextView
-                            android:id="@+id/textView28"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/verdana"
-                            android:textColor="@color/navy"
-                            android:textSize="16sp"
-                            android:text="@string/_4" />
-
-                        <ImageView
-                            android:id="@+id/imageView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_star_lagoon" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar4"
-                            android:layout_marginTop="5dp"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:id="@+id/textView29"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/verdana"
-                            android:textColor="@color/navy"
-                            android:textSize="16sp"
-                            android:text="@string/_3" />
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_star_lagoon" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_height="wrap_content" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:id="@+id/textView27"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/verdana"
-                            android:textColor="@color/navy"
-                            android:textSize="16sp"
-                            android:text="@string/_2" />
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_star_lagoon" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar2"
-                            android:layout_marginTop="5dp"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:id="@+id/textView30"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/verdana"
-                            android:textColor="@color/navy"
-                            android:textSize="16sp"
-                            android:text="@string/_1" />
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_star_lagoon" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBar3"
-                            android:layout_marginTop="5dp"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </TableRow>
-                </TableLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -387,6 +261,37 @@
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:text="Wyświetl więcej" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/white_background"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/verdana"
+                    android:text="@string/doc_price"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/docPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/verdana"
+                    android:text="125 PLN" />
+
+
+
             </LinearLayout>
 
             <LinearLayout

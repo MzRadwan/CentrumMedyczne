@@ -175,20 +175,65 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void getDoctorsData(DocumentReference doctorRef){
+    private void getDoctorsData(final DocumentReference doctorRef){
         doctorRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-
-
-                        s1.add(foundDoctor.getDegree() + " "
+                        final Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                        System.out.println(doctorRef.getId());
+                        s1.add(doctorRef.getId());
+                        /*s1.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
-                                + foundDoctor.getLast_name());
+                                + foundDoctor.getLast_name());*/
                         s2.add(chosenSpec);
                         images.add(R.drawable.ic_profile_lagoon);
                         searchRecyclerAdapter.notifyDataSetChanged();
+                        System.out.println(foundDoctor.getDegree() + " "
+                                + foundDoctor.getFirst_name() + " "
+                                + foundDoctor.getLast_name() +" Specjalizacje: ");
+                        docHasSpec
+                                .whereEqualTo("doctor_id",doctorRef)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+
+                                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                                //System.out.println(documentSnapshot.getId() +
+                                                       // " => " + documentSnapshot.getData());
+                                                DocumentReference docSpecs = documentSnapshot
+                                                                            .getDocumentReference("specialization_id");
+                                                docSpecs.get()
+                                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        String docSpec= documentSnapshot.getString("specialization_name");
+                                                        System.out.println(docSpec);
+                                                        /*if(s2.size() < s1.size()){
+                                                            s2.add(docSpec);
+                                                            searchRecyclerAdapter.notifyDataSetChanged();
+                                                        }
+                                                        else if(s2.size() == s1.size()){
+                                                            String s = "";
+                                                            s += s2.get(s2.size()-1);
+                                                            s2.remove(s2.size()-1);
+                                                            s += ", " + docSpec;
+                                                            s2.add(s);
+                                                            searchRecyclerAdapter.notifyDataSetChanged();
+                                                        }*/
+
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    }
+                                });
+
+
                     }
                 });
     }
