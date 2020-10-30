@@ -230,6 +230,7 @@ public class AdminActivity extends AppCompatActivity {
         appointment.put("doctor_id", null);
         appointment.put("healthcard_id", null);
         appointment.put("patient_id", null);
+        appointment.put("rated", false);
         appointments.add(appointment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
