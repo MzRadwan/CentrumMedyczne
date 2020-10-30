@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,7 +28,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
@@ -50,7 +48,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
 
-    private List<String> s1, s2;
+    private List<String> s1, s2, docNames, docInfos;
+    private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
 
     private List<Integer> images;/*,
@@ -99,8 +98,12 @@ public class SearchResultActivity extends AppCompatActivity {
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
         images = new ArrayList<>();
+        docRates = new ArrayList<>();
+        docPrices = new ArrayList<>();
+        docNames = new ArrayList<>();
+        docInfos = new ArrayList<>();
 
-        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -183,15 +186,18 @@ public class SearchResultActivity extends AppCompatActivity {
                         final Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
                         System.out.println(doctorRef.getId());
                         s1.add(doctorRef.getId());
-                        /*s1.add(foundDoctor.getDegree() + " "
+                        docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
-                                + foundDoctor.getLast_name());*/
+                                + foundDoctor.getLast_name());
                         s2.add(chosenSpec);
                         images.add(R.drawable.ic_profile_lagoon);
+                        docRates.add(foundDoctor.getAverage_rate());
+                        docPrices.add(foundDoctor.getAppointment_price());
+                        docInfos.add(foundDoctor.getPersonal_info());
                         searchRecyclerAdapter.notifyDataSetChanged();
-                        System.out.println(foundDoctor.getDegree() + " "
-                                + foundDoctor.getFirst_name() + " "
-                                + foundDoctor.getLast_name() +" Specjalizacje: ");
+                        //System.out.println(foundDoctor.getDegree() + " "
+                          //      + foundDoctor.getFirst_name() + " "
+                            //    + foundDoctor.getLast_name() +" Specjalizacje: ");
                         docHasSpec
                                 .whereEqualTo("doctor_id",doctorRef)
                                 .get()
@@ -211,19 +217,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                         String docSpec= documentSnapshot.getString("specialization_name");
-                                                        System.out.println(docSpec);
-                                                        /*if(s2.size() < s1.size()){
-                                                            s2.add(docSpec);
-                                                            searchRecyclerAdapter.notifyDataSetChanged();
-                                                        }
-                                                        else if(s2.size() == s1.size()){
-                                                            String s = "";
-                                                            s += s2.get(s2.size()-1);
-                                                            s2.remove(s2.size()-1);
-                                                            s += ", " + docSpec;
-                                                            s2.add(s);
-                                                            searchRecyclerAdapter.notifyDataSetChanged();
-                                                        }*/
+                                                        //System.out.println(docSpec);
 
                                                     }
                                                 });
@@ -250,7 +244,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (final QueryDocumentSnapshot document : task.getResult()) {
-                            System.out.println(document.getId() + " => " + document.getData());
+                           // System.out.println(document.getId() + " => " + document.getData());
                             docHasSpec
                                 .whereEqualTo("specialization_id", document.getReference())
                                 .get()
@@ -259,8 +253,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if(task.isSuccessful()){
                                         for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                            System.out.println(documentSnapshot.getId() +
-                                                    " => " + documentSnapshot.getData());
+                                           // System.out.println(documentSnapshot.getId() +
+                                             //       " => " + documentSnapshot.getData());
                                             DoctorHasSpecialization dhs = documentSnapshot.toObject(DoctorHasSpecialization.class);
                                             DocumentReference doctorRef = dhs.getDoctor_id();
                                             if(!chosenCity.equals("Dowolna"))

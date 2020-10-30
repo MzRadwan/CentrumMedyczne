@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class DoctorActivity extends AppCompatActivity {
 
     ImageView mainImageView;
-    TextView title, description;
+    TextView title, description, mDocPrice, mDocInfo;
+    TextView mDocRate;
 
-    String data1, data2;
+    String data1, data2, name, info;
+    float rate, price;
     int myImage;
 
     @Override
@@ -25,6 +28,9 @@ public class DoctorActivity extends AppCompatActivity {
         mainImageView = findViewById(R.id.mainImageView);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
+        mDocRate = findViewById(R.id.docRateTextView);
+        mDocPrice = findViewById(R.id.docPriceDocActivity);
+        mDocInfo = findViewById(R.id.docInfoDocAcitivity);
 
         getData();
         setData();
@@ -36,7 +42,11 @@ public class DoctorActivity extends AppCompatActivity {
                 && getIntent().hasExtra("data2")){
             data1 = getIntent().getStringExtra("data1");
             data2 = getIntent().getStringExtra("data2");
+            name = getIntent().getStringExtra("name");
             myImage = getIntent().getIntExtra("images", 1);
+            rate = getIntent().getFloatExtra("rate", 0);
+            price = getIntent().getFloatExtra("price", 0);
+            info = getIntent().getStringExtra("info");
 
         }
         else{
@@ -46,8 +56,12 @@ public class DoctorActivity extends AppCompatActivity {
     }
 
     private void setData(){
-        title.setText(""+data1);
+        title.setText(""+name);
         description.setText(""+data2);
+        mDocInfo.setText(""+info);
+        mDocRate.setText(" "+Float.toString(rate));
+       // mDocPrice.setText(" "+Float.toString(price) + " PLN");
+        mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
         mainImageView.setImageResource(myImage);
     }
 

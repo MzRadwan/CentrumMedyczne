@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,13 +23,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
-    List<String> data1, data2;
+    List<String> data1, data2, docNames, docInfos;
     List<Integer> images;
+    List<Float> docRates, docPrices;
+    Map<String, String> docHasSpecs;
     Context context;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -38,11 +43,17 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     private final CollectionReference clinics = db.collection("clinic");
     private final CollectionReference address = db.collection("address");
 
-    public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2, List<Integer> img){
+    public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
+                                 List<Integer> img, List<Float> docRates, List<Float> docPrices,
+                                 List<String> docNames, List<String> docInfos){
         context = ct;
         data1 = s1;
         data2 = s2;
         images = img;
+        this.docRates = docRates;
+        this.docPrices = docPrices;
+        this.docNames = docNames;
+        this.docInfos = docInfos;
     }
 
     @NonNull
@@ -56,16 +67,17 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        String docId = data1.get(position);
+        final String docId = data1.get(position);
+        docHasSpecs = new HashMap<>();
 
         doctors.document(docId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-                holder.myTextView1.setText(foundDoctor.getDegree() + " "
-                        + foundDoctor.getFirst_name() + " "
-                        + foundDoctor.getLast_name());
+                //holder.myTextView1.setText(foundDoctor.getDegree() + " "
+                  //      + foundDoctor.getFirst_name() + " "
+                    //    + foundDoctor.getLast_name());
                 DocumentReference doctorRef = documentSnapshot.getReference();
                 docHasSpec
                     .whereEqualTo("doctor_id",doctorRef)
@@ -82,7 +94,9 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             String docSpec= documentSnapshot.getString("specialization_name");
-                                            System.out.println(docSpec);
+                                           // System.out.println(docSpec);
+
+                                            docHasSpecs.put(docId, docSpec);
                                             String currentSpec = "";
 
                                             currentSpec = holder.myTextView2.getText().toString();
@@ -100,14 +114,17 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                         });
                                 }
                             }
+                            //System.out.println(docId + docHasSpecs.get(docId));
                             }
                         });
             }
         });
 
-
+        holder.myTextView1.setText(docNames.get(position));
         //holder.myTextView2.setText(data2.get(position));
         holder.myImage.setImageResource(images.get(position));
+        holder.mDocRate.setRating(docRates.get(position));
+        holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +132,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("data1", data1.get(position));
                 intent.putExtra("data2", data2.get(position));
                 intent.putExtra("images", images.get(position));
+                intent.putExtra("rate", docRates.get(position));
+                intent.putExtra("price",docPrices.get(position));
+                intent.putExtra("name", docNames.get(position));
+                intent.putExtra("info", docInfos.get(position));
                 context.startActivity(intent);
             }
         });
@@ -128,7 +149,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView myTextView1, myTextView2;
+        TextView myTextView1, myTextView2, mDocPrice;
+        RatingBar mDocRate;
         ImageView myImage;
 
         ConstraintLayout searchLayout;
@@ -140,6 +162,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             myTextView1 = itemView.findViewById(R.id.searchDocName);
             myTextView2 = itemView.findViewById(R.id.searchDocSpec);
             myImage = itemView.findViewById(R.id.searchProfileImg);
+            mDocRate = itemView.findViewById(R.id.searchRateAvgDocRow);
+            mDocPrice = itemView.findViewById(R.id.docPriceSearchActivity);
 
             searchLayout = itemView.findViewById(R.id.searchLayout);
         }

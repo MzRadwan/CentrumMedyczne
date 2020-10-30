@@ -13,14 +13,15 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="15dp">
 
             <ImageView
                 android:id="@+id/searchProfileImg"
@@ -52,18 +53,17 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/verdana"
-                android:text="Kardiolog, Kardiochirurg"
+                android:text="Spec"
                 android:textColor="@color/navy"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
                 app:layout_constraintTop_toBottomOf="@+id/searchDocName" />
 
             <RatingBar
-                android:id="@+id/searchRateAvg"
+                android:id="@+id/searchRateAvgDocRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="4"
@@ -100,13 +100,24 @@
                 android:id="@+id/searchDocCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/verdana"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
                 android:text="Centrum Medyczne\nKraków, ul. Długa 12a"
                 android:textColor="@color/navy"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/searchProfileImg" />
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocSpec" />
+
+            <TextView
+                android:id="@+id/docPriceSearchActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:text="Cena za wizytę: 150 PLN"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocCM" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
