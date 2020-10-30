@@ -117,19 +117,42 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/description"
+                    android:id="@+id/docSpecDocActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginBottom="10dp"
-
-                    android:text="Kardiolog, Kardiochirurg \nCentrum Medyczne nr 10 \nWrocławek, Armii Krajowej 15"
+                    android:text="Kardiolog, Kardiochirurg"
                     android:textSize="15sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/navy"
                     app:layout_constraintStart_toEndOf="@+id/mainImageView"
                     app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <TextView
+                    android:id="@+id/docCMDocA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/verdana"
+                    android:textColor="@color/navy"
+                    android:text="Centrum Medyczne nr 10"
+                    app:layout_constraintStart_toEndOf="@+id/mainImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/docSpecDocActivity" />
+
+                <TextView
+                    android:id="@+id/docCMAddressDocA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/verdana"
+                    android:textColor="@color/navy"
+                    android:text="Kraków, Jasna 15"
+                    app:layout_constraintStart_toEndOf="@+id/mainImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/docCMDocA" />
 
                 <ImageView
                     android:id="@+id/favImgFull"

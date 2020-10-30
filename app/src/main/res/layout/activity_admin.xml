@@ -34,6 +34,20 @@
                 android:text="create doctor" />
 
             <Button
+                android:id="@+id/addReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddReview"
+                android:text="go to review" />
+
+            <Button
+                android:id="@+id/addRevievedField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAddReviewed"
+                android:text="add reviewed field" />
+
+            <Button
                 android:id="@+id/createEmptyDocSpec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

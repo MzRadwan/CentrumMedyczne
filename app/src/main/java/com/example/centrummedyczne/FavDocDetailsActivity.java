@@ -22,7 +22,7 @@ public class FavDocDetailsActivity extends AppCompatActivity {
 
         mainImageView = findViewById(R.id.mainImageView);
         title = findViewById(R.id.title);
-        description = findViewById(R.id.description);
+        description = findViewById(R.id.docSpecDocActivity);
 
         getData();
         setData();

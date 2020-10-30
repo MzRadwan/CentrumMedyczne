@@ -28,6 +28,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/searchIcon"
+        android:layout_width="53dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="90dp"
+        android:contentDescription="wyszukiwanie"
+        android:onClick="onClickSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search_white_box" />
+
+    <ImageView
+        android:id="@+id/accountImage"
+        android:layout_width="69dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="profil pacjenta"
+        android:onClick="onClickAccount"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:srcCompat="@drawable/ic_account_box_white" />
+
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="607dp"
@@ -141,6 +165,7 @@
                 android:textColor="@color/navy"
                 android:fontFamily="@font/verdana"
                 android:textSize="20sp"
+                android:onClick="onClickPublishReview"
                 android:background="@drawable/lagoon_button"
                 android:text="@string/publish" />
         </LinearLayout>
@@ -148,29 +173,5 @@
 
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/accountImage"
-        android:layout_width="69dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="profil pacjenta"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        android:onClick="onClickAccount"
-        app:srcCompat="@drawable/ic_account_box_white" />
-
-    <ImageView
-        android:id="@+id/searchIcon"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="90dp"
-        android:contentDescription="wyszukiwanie"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onClickSearch"
-        app:srcCompat="@drawable/ic_search_white_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

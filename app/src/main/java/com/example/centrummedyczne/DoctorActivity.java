@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ public class DoctorActivity extends AppCompatActivity {
 
         mainImageView = findViewById(R.id.mainImageView);
         title = findViewById(R.id.title);
-        description = findViewById(R.id.description);
+        description = findViewById(R.id.docSpecDocActivity);
         mDocRate = findViewById(R.id.docRateTextView);
         mDocPrice = findViewById(R.id.docPriceDocActivity);
         mDocInfo = findViewById(R.id.docInfoDocAcitivity);
