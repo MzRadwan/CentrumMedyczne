@@ -66,7 +66,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull  MyViewHolder holder, final int position) {
 
         final String docId = data1.get(position);
         docHasSpecs = new HashMap<>();
@@ -100,8 +100,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                             docHasSpecs.put(docId, docSpec);
                                             String currentSpec = "";
 
-                                            currentSpec = holder.myTextView2.getText().toString();
-                                            holder.myTextView2.setText(docSpec);
+                                            //currentSpec = holder.myTextView2.getText().toString();
+                                           // holder.myTextView2.setText(docSpec);
                                             /*if(currentSpec.equals("")){
                                                 holder.myTextView2.setText(docSpec);
 
@@ -129,7 +129,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         if(docCMs.size() == docNames.size())
             holder.mDocCM.setText(docCMs.get(position));
         else
-            holder.mDocCM.setText(" ");
+          holder.mDocCM.setText(" ");
 
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -214,6 +214,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                         searchRecyclerAdapter.notifyDataSetChanged();
 
 
+
                                     }
                                 });
                         docClinicRef.get()
@@ -221,7 +222,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         Clinic clinic = documentSnapshot.toObject(Clinic.class);
-                                        docCMs.add(clinic.getClinic_name());
+                                        //docCMs.add(clinic.getClinic_name());
                                         //searchRecyclerAdapter.notifyDataSetChanged();
 
                                         DocumentReference clinicAddress = clinic.getAddress_id();
