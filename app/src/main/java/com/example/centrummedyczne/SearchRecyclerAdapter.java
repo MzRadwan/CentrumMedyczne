@@ -30,7 +30,7 @@ import java.util.Map;
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
-    List<String> data1, data2, docNames, docInfos;
+    List<String> data1, data2, docNames, docInfos, docCMs;
     List<Integer> images;
     List<Float> docRates, docPrices;
     Map<String, String> docHasSpecs;
@@ -45,7 +45,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
-                                 List<String> docNames, List<String> docInfos){
+                                 List<String> docNames, List<String> docInfos, List<String> docCMs){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -54,6 +54,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.docPrices = docPrices;
         this.docNames = docNames;
         this.docInfos = docInfos;
+        this.docCMs = docCMs;
     }
 
     @NonNull
@@ -125,6 +126,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
         holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
+        if(docCMs.size() == docNames.size())
+            holder.mDocCM.setText(docCMs.get(position));
+        else
+            holder.mDocCM.setText(" ");
+
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +142,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("price",docPrices.get(position));
                 intent.putExtra("name", docNames.get(position));
                 intent.putExtra("info", docInfos.get(position));
+                intent.putExtra("cm", docCMs.get(position));
                 context.startActivity(intent);
             }
         });
@@ -149,7 +156,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView myTextView1, myTextView2, mDocPrice;
+        TextView myTextView1, myTextView2, mDocPrice, mDocCM;
         RatingBar mDocRate;
         ImageView myImage;
 
@@ -164,6 +171,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             myImage = itemView.findViewById(R.id.searchProfileImg);
             mDocRate = itemView.findViewById(R.id.searchRateAvgDocRow);
             mDocPrice = itemView.findViewById(R.id.docPriceSearchActivity);
+            mDocCM = itemView.findViewById(R.id.searchDocCM);
 
             searchLayout = itemView.findViewById(R.id.searchLayout);
         }

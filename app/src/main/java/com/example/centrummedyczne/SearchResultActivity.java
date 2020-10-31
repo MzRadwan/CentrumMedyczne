@@ -48,7 +48,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
 
-    private List<String> s1, s2, docNames, docInfos;
+    private List<String> s1, s2, docNames, docInfos, docCMs, docCities;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
 
@@ -102,8 +102,9 @@ public class SearchResultActivity extends AppCompatActivity {
         docPrices = new ArrayList<>();
         docNames = new ArrayList<>();
         docInfos = new ArrayList<>();
+        docCMs = new ArrayList<>();
 
-        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos, docCMs);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -195,6 +196,47 @@ public class SearchResultActivity extends AppCompatActivity {
                         docPrices.add(foundDoctor.getAppointment_price());
                         docInfos.add(foundDoctor.getPersonal_info());
                         searchRecyclerAdapter.notifyDataSetChanged();
+
+                        //DocumentReference docClinicRef = foundDoctor.getClinic_id();
+                        DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
+                        System.out.println("Clinic_ref" );
+                        System.out.println(foundDoctor.getClinic_id().toString());
+                        System.out.println(documentSnapshot.getDocumentReference("clinic_id").toString());
+                        docClinicRef.get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        System.out.println("Clinic_data" );
+                                        System.out.println(documentSnapshot.getId() +
+                                         " => " + documentSnapshot.getData());
+                                        docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
+                                        System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
+                                        searchRecyclerAdapter.notifyDataSetChanged();
+
+
+                                    }
+                                });
+                        docClinicRef.get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                                        docCMs.add(clinic.getClinic_name());
+                                        //searchRecyclerAdapter.notifyDataSetChanged();
+
+                                        DocumentReference clinicAddress = clinic.getAddress_id();
+                                        clinicAddress.get()
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        Address address = documentSnapshot.toObject(Address.class);
+
+                                                    }
+                                                });
+                                    }
+                                });
+
+
                         //System.out.println(foundDoctor.getDegree() + " "
                           //      + foundDoctor.getFirst_name() + " "
                             //    + foundDoctor.getLast_name() +" Specjalizacje: ");
