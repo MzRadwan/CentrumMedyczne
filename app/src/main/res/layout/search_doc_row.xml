@@ -103,10 +103,21 @@
                 android:fontFamily="@font/verdana"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
-                android:text="Centrum Medyczne\nKraków, ul. Długa 12a"
+                android:text="Centrum Medyczne"
                 android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
                 app:layout_constraintTop_toBottomOf="@+id/searchDocSpec" />
+
+            <TextView
+                android:id="@+id/searchDocCityAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocCM"
+                android:text="Kraków, ul. Długa 12a" />
 
             <TextView
                 android:id="@+id/docPriceSearchActivity"
@@ -117,7 +128,7 @@
                 android:textColor="@color/navy"
                 android:text="Cena za wizytę: 150 PLN"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
-                app:layout_constraintTop_toBottomOf="@+id/searchDocCM" />
+                app:layout_constraintTop_toBottomOf="@+id/searchDocCityAddress" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

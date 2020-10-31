@@ -103,8 +103,9 @@ public class SearchResultActivity extends AppCompatActivity {
         docNames = new ArrayList<>();
         docInfos = new ArrayList<>();
         docCMs = new ArrayList<>();
+        docCities  = new ArrayList<>();
 
-        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos, docCMs);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos, docCMs, docCities);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -213,11 +214,30 @@ public class SearchResultActivity extends AppCompatActivity {
                                         System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
                                         searchRecyclerAdapter.notifyDataSetChanged();
 
+                                        DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
+                                        clinicAddress.get()
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        Address address = documentSnapshot.toObject(Address.class);
+                                                        System.out.println(address.getCity() + address.getStreet() + address.getBuilding_number() + address.getApartment());
+                                                        String cmAddress = "";
+                                                        cmAddress += address.getCity() + ", "
+                                                                + address.getStreet() + " " + address.getBuilding_number();
+                                                        //if (!address.getApartment().equals(null)){
+                                                          //  cmAddress += "/" + address.getApartment();
+                                                        //}
+
+                                                        docCities.add(cmAddress);
+                                                        searchRecyclerAdapter.notifyDataSetChanged();
+                                                    }
+                                                });
+
 
 
                                     }
                                 });
-                        docClinicRef.get()
+                      /*  docClinicRef.get()
                                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -235,7 +255,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                                     }
                                                 });
                                     }
-                                });
+                                });*/
 
 
                         //System.out.println(foundDoctor.getDegree() + " "

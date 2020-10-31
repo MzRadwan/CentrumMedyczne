@@ -30,7 +30,7 @@ import java.util.Map;
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
-    List<String> data1, data2, docNames, docInfos, docCMs;
+    List<String> data1, data2, docNames, docInfos, docCMs, docCities;
     List<Integer> images;
     List<Float> docRates, docPrices;
     Map<String, String> docHasSpecs;
@@ -45,7 +45,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
-                                 List<String> docNames, List<String> docInfos, List<String> docCMs){
+                                 List<String> docNames, List<String> docInfos, List<String> docCMs,
+                                    List<String> docCities){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -55,6 +56,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.docNames = docNames;
         this.docInfos = docInfos;
         this.docCMs = docCMs;
+        this.docCities = docCities;
+
     }
 
     @NonNull
@@ -131,6 +134,10 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         else
           holder.mDocCM.setText(" ");
 
+        if(docCities.size() == docNames.size())
+            holder.mDocCity.setText(docCities.get(position));
+
+
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +150,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("name", docNames.get(position));
                 intent.putExtra("info", docInfos.get(position));
                 intent.putExtra("cm", docCMs.get(position));
+                intent.putExtra("city", docCities.get(position));
                 context.startActivity(intent);
             }
         });
@@ -156,7 +164,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView myTextView1, myTextView2, mDocPrice, mDocCM;
+        TextView myTextView1, myTextView2, mDocPrice, mDocCM, mDocCity;
         RatingBar mDocRate;
         ImageView myImage;
 
@@ -172,6 +180,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             mDocRate = itemView.findViewById(R.id.searchRateAvgDocRow);
             mDocPrice = itemView.findViewById(R.id.docPriceSearchActivity);
             mDocCM = itemView.findViewById(R.id.searchDocCM);
+            mDocCity = itemView.findViewById(R.id.searchDocCityAddress);
 
             searchLayout = itemView.findViewById(R.id.searchLayout);
         }

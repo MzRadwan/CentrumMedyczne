@@ -12,10 +12,10 @@ import android.widget.Toast;
 public class DoctorActivity extends AppCompatActivity {
 
     ImageView mainImageView;
-    TextView title, description, mDocPrice, mDocInfo, mDocCM;
+    TextView title, description, mDocPrice, mDocInfo, mDocCM, mDocCity;
     TextView mDocRate;
 
-    String data1, data2, name, info, docCM;
+    String data1, data2, name, info, docCM, docCity;
     float rate, price;
     int myImage;
 
@@ -31,6 +31,7 @@ public class DoctorActivity extends AppCompatActivity {
         mDocPrice = findViewById(R.id.docPriceDocActivity);
         mDocInfo = findViewById(R.id.docInfoDocAcitivity);
         mDocCM = findViewById(R.id.docCMDocA);
+        mDocCity = findViewById(R.id.docCMAddressDocA);
 
         getData();
         setData();
@@ -48,6 +49,7 @@ public class DoctorActivity extends AppCompatActivity {
             price = getIntent().getFloatExtra("price", 0);
             info = getIntent().getStringExtra("info");
             docCM = getIntent().getStringExtra("cm");
+            docCity = getIntent().getStringExtra("city");
 
         }
         else{
@@ -65,6 +67,7 @@ public class DoctorActivity extends AppCompatActivity {
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
         mainImageView.setImageResource(myImage);
           mDocCM.setText(""+docCM);
+        mDocCity.setText(""+docCity);
     }
 
     public void onClickSearchDocActivity(View view){
