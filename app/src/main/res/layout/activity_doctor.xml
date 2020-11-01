@@ -155,7 +155,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/docCMDocA" />
 
                 <ImageView
-                    android:id="@+id/favImgFull"
+                    android:id="@+id/favImgFullDocA"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="5dp"
@@ -165,7 +165,7 @@
                     app:srcCompat="@drawable/ic_favorite_full" />
 
                 <ImageView
-                    android:id="@+id/favImgBorder"
+                    android:id="@+id/favImgBorderDocA"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="5dp"

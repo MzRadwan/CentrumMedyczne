@@ -82,9 +82,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-                //holder.myTextView1.setText(foundDoctor.getDegree() + " "
-                  //      + foundDoctor.getFirst_name() + " "
-                    //    + foundDoctor.getLast_name());
+
                 DocumentReference doctorRef = documentSnapshot.getReference();
                 docHasSpec
                     .whereEqualTo("doctor_id",doctorRef)
@@ -101,7 +99,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             String docSpec= documentSnapshot.getString("specialization_name");
-                                           // System.out.println(docSpec);
 
                                             docHasSpecs.put(docId, docSpec);
                                             String currentSpec = "";
@@ -157,6 +154,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("info", docInfos.get(position));
                 intent.putExtra("cm", docCMs.get(position));
                 intent.putExtra("city", docCities.get(position));
+                intent.putExtra("isFav", favourites.get(position));
                 context.startActivity(intent);
             }
         });

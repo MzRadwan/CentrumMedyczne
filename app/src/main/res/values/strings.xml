@@ -96,6 +96,8 @@
     <string name="_5">5</string>
     <string name="rates_avg">Średnia ocen: </string>
     <string name="doc_price">Cena za wizytę: </string>
+    <string name="doctor_added_to_favorites">Dodano lekarza do ulubionych</string>
+    <string name="doctor_deleted_from_favourites">Usunięto lekarza z ulubionych</string>
 
 
     <string-array name="sort_options">

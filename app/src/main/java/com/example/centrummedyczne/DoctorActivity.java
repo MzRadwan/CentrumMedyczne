@@ -1,5 +1,6 @@
 package com.example.centrummedyczne;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,15 +10,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.centrummedyczne.R.string.doctor_added_to_favorites;
+import static com.example.centrummedyczne.R.string.doctor_deleted_from_favourites;
+
 public class DoctorActivity extends AppCompatActivity {
 
-    ImageView mainImageView;
+    ImageView mainImageView, mHeartFull, mHeartBorder;
     TextView title, description, mDocPrice, mDocInfo, mDocCM, mDocCity;
     TextView mDocRate;
 
-    String data1, data2, name, info, docCM, docCity;
-    float rate, price;
-    int myImage;
+    private String data1, data2, name, info, docCM, docCity;
+    private boolean isFav;
+    private float rate, price;
+    private int myImage;
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference favourites = db.collection("favourite");
+    private final CollectionReference patients = db.collection("patient");
+    private final CollectionReference doctors = db.collection("doctor");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +57,8 @@ public class DoctorActivity extends AppCompatActivity {
         mDocInfo = findViewById(R.id.docInfoDocAcitivity);
         mDocCM = findViewById(R.id.docCMDocA);
         mDocCity = findViewById(R.id.docCMAddressDocA);
+        mHeartFull = findViewById(R.id.favImgFullDocA);
+        mHeartBorder = findViewById(R.id.favImgBorderDocA);
 
         getData();
         setData();
@@ -50,6 +77,7 @@ public class DoctorActivity extends AppCompatActivity {
             info = getIntent().getStringExtra("info");
             docCM = getIntent().getStringExtra("cm");
             docCity = getIntent().getStringExtra("city");
+            isFav = getIntent().getBooleanExtra("isFav", false);
 
         }
         else{
@@ -63,11 +91,103 @@ public class DoctorActivity extends AppCompatActivity {
         description.setText(""+data2);
         mDocInfo.setText(""+info);
         mDocRate.setText(" "+Float.toString(rate));
-       // mDocPrice.setText(" "+Float.toString(price) + " PLN");
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
         mainImageView.setImageResource(myImage);
           mDocCM.setText(""+docCM);
         mDocCity.setText(""+docCity);
+        updateFavHeart();
+
+    }
+
+    private void updateFavHeart(){
+        if(isFav){
+            mHeartBorder.setVisibility(View.GONE);
+            mHeartFull.setVisibility(View.VISIBLE);
+            mHeartFull.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = user.getUid();
+
+                    patients.document(userId).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                final DocumentReference userRef = documentSnapshot.getReference();
+                                String docId = data1;
+                                doctors.document(docId).get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                final DocumentReference doctorRef = documentSnapshot.getReference();
+                                                favourites.whereEqualTo("patient_id", userRef)
+                                                        .get()
+                                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                                for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                                                                    if (documentSnapshot1.getDocumentReference("doctor_id").equals(doctorRef)){
+                                                                        DocumentReference favRef = documentSnapshot1.getReference();
+                                                                        favRef.delete();
+                                                                        Toast.makeText(DoctorActivity.this,
+                                                                                doctor_deleted_from_favourites, Toast.LENGTH_SHORT).show();
+
+                                                                        isFav = false;
+                                                                        updateFavHeart();
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+
+                                            }
+                                        });
+                            }
+                        });
+
+                }
+            });
+        }
+        else {
+            mHeartFull.setVisibility(View.GONE);
+            mHeartBorder.setVisibility(View.VISIBLE);
+            mHeartBorder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId = user.getUid();
+
+                    patients.document(userId).get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    final DocumentReference userRef = documentSnapshot.getReference();
+                                    String docId = data1;
+                                    doctors.document(docId).get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    final DocumentReference doctorRef = documentSnapshot.getReference();
+                                                    Map<String, Object> fav = new HashMap<>();
+                                                    fav.put("doctor_id", doctorRef);
+                                                    fav.put("patient_id", userRef);
+                                                    favourites.add(fav)
+                                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                                    Toast.makeText(DoctorActivity.this,
+                                                                            doctor_added_to_favorites, Toast.LENGTH_SHORT).show();
+                                                                    isFav = true;
+                                                                    updateFavHeart();
+                                                                }
+                                                            });
+
+                                                }
+                                            });
+                                }
+                            });
+                }
+            });
+        }
     }
 
     public void onClickSearchDocActivity(View view){
