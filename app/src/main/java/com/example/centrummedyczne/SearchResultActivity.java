@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,11 +45,14 @@ public class SearchResultActivity extends AppCompatActivity {
     private final CollectionReference doctors = db.collection("doctor");
     private final CollectionReference clinics = db.collection("clinic");
     private final CollectionReference address = db.collection("address");
+    private final CollectionReference favouriteCol = db.collection("favourite");
+    private final CollectionReference patients = db.collection("patient");
 
 
     RecyclerView mRecyclerView;
 
     private List<String> s1, s2, docNames, docInfos, docCMs, docCities;
+    private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
 
@@ -104,8 +108,10 @@ public class SearchResultActivity extends AppCompatActivity {
         docInfos = new ArrayList<>();
         docCMs = new ArrayList<>();
         docCities  = new ArrayList<>();
+        favourites = new ArrayList<>();
 
-        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2, images, docRates, docPrices, docNames, docInfos, docCMs, docCities);
+        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
+                images, docRates, docPrices, docNames, docInfos, docCMs, docCities, favourites);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -198,6 +204,47 @@ public class SearchResultActivity extends AppCompatActivity {
                         docInfos.add(foundDoctor.getPersonal_info());
                         searchRecyclerAdapter.notifyDataSetChanged();
 
+                        //check if isFav
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String userId = user.getUid();
+
+                        patients.document(userId).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        DocumentReference userRef = documentSnapshot.getReference();
+                                        favouriteCol.whereEqualTo("patient_id", userRef)
+                                                .get()
+                                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                        boolean isFav = false;
+                                                        for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                                                            if (documentSnapshot1.getDocumentReference("doctor_id").equals(doctorRef)){
+                                                                isFav = true;
+                                                            }
+                                                        }
+                                                        favourites.add(isFav);
+                                                        searchRecyclerAdapter.notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        favourites.add(false);
+                                                        searchRecyclerAdapter.notifyDataSetChanged();
+
+                                                }
+                                        });
+                                    }
+                                });
+
+
+
+
+
+                        //clinics data
+
                         //DocumentReference docClinicRef = foundDoctor.getClinic_id();
                         DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
                         System.out.println("Clinic_ref" );
@@ -232,30 +279,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                                         searchRecyclerAdapter.notifyDataSetChanged();
                                                     }
                                                 });
-
-
-
                                     }
                                 });
-                      /*  docClinicRef.get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        Clinic clinic = documentSnapshot.toObject(Clinic.class);
-                                        //docCMs.add(clinic.getClinic_name());
-                                        //searchRecyclerAdapter.notifyDataSetChanged();
-
-                                        DocumentReference clinicAddress = clinic.getAddress_id();
-                                        clinicAddress.get()
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                        Address address = documentSnapshot.toObject(Address.class);
-
-                                                    }
-                                                });
-                                    }
-                                });*/
 
 
                         //System.out.println(foundDoctor.getDegree() + " "

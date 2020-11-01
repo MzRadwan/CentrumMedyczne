@@ -2,6 +2,7 @@ package com.example.centrummedyczne;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     List<String> data1, data2, docNames, docInfos, docCMs, docCities;
     List<Integer> images;
     List<Float> docRates, docPrices;
+    List<Boolean> favourites;
     Map<String, String> docHasSpecs;
     Context context;
 
@@ -46,7 +48,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
                                  List<String> docNames, List<String> docInfos, List<String> docCMs,
-                                    List<String> docCities){
+                                    List<String> docCities, List<Boolean> favourites){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -56,6 +58,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.docNames = docNames;
         this.docInfos = docInfos;
         this.docCMs = docCMs;
+        this.favourites = favourites;
         this.docCities = docCities;
 
     }
@@ -131,11 +134,14 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
         if(docCMs.size() == docNames.size())
             holder.mDocCM.setText(docCMs.get(position));
-        else
-          holder.mDocCM.setText(" ");
 
         if(docCities.size() == docNames.size())
             holder.mDocCity.setText(docCities.get(position));
+
+        if (favourites.size() == docNames.size()){
+            if(favourites.get(position) )
+                holder.mFullHeart.setVisibility(View.VISIBLE);
+        }
 
 
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +172,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         TextView myTextView1, myTextView2, mDocPrice, mDocCM, mDocCity;
         RatingBar mDocRate;
-        ImageView myImage;
+        ImageView myImage, mFullHeart;
 
         ConstraintLayout searchLayout;
 
@@ -181,6 +187,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             mDocPrice = itemView.findViewById(R.id.docPriceSearchActivity);
             mDocCM = itemView.findViewById(R.id.searchDocCM);
             mDocCity = itemView.findViewById(R.id.searchDocCityAddress);
+            mFullHeart = itemView.findViewById(R.id.favImgFullSearch);
 
             searchLayout = itemView.findViewById(R.id.searchLayout);
         }
