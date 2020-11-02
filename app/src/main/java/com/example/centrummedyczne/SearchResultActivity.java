@@ -53,7 +53,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
 
-    private List<String> s1, s2, docNames, docInfos, docCMs, docCities;
+    private List<String> s1, s2, docNames, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
@@ -114,10 +114,11 @@ public class SearchResultActivity extends AppCompatActivity {
         favourites = new ArrayList<>();
         opinionCounters = new ArrayList<>();
         rateCounters = new ArrayList<>();
+        docReviews = new ArrayList<>();
 
         searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
-                docCities, favourites, opinionCounters, rateCounters);
+                docCities, favourites, opinionCounters, rateCounters, docReviews);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -259,6 +260,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         //opinions
                         opinionCounters.add(0);
                         rateCounters.add(0);
+                        docReviews.add("");
                         searchRecyclerAdapter.notifyDataSetChanged();
 
                         appointments.whereEqualTo("doctor_id", doctorRef)
@@ -279,7 +281,23 @@ public class SearchResultActivity extends AppCompatActivity {
                                                             for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                                                 if(documentSnapshot.get("accepted").equals(true)){
                                                                     System.out.println(documentSnapshot.get("review"));
-
+                                                                    String text = documentSnapshot.getString("review");
+                                                                    String author = "";
+                                                                    if(documentSnapshot.get("anonymous").equals(true)){
+                                                                        author = "Anonimowa";
+                                                                    }
+                                                                    else {
+                                                                        author = "Pacjent";
+                                                                    }
+                                                                    String review = docReviews.get(docNum);
+                                                                    if (review.equals("")){
+                                                                        review += author + "\n" + text;
+                                                                    }
+                                                                    else {
+                                                                        review += "\n" + "\n" + author + "\n" + text;
+                                                                    }
+                                                                    docReviews.set(docNum, review);
+                                                                    searchRecyclerAdapter.notifyDataSetChanged();
                                                                 }
                                                             }
 

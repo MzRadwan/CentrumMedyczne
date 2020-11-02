@@ -34,6 +34,12 @@
                 android:text="create doctor" />
 
             <Button
+                android:id="@+id/updateRateAvg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="update rate avg" />
+
+            <Button
                 android:id="@+id/addReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,6 +186,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClickAddAppointment"
                 android:text="add appointment to firestore" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
 
         </LinearLayout>

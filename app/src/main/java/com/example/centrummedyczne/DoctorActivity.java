@@ -40,7 +40,7 @@ public class DoctorActivity extends AppCompatActivity {
     private Button mMoreOpinions;
 
 
-    private String data1, data2, name, info, docCM, docCity;
+    private String data1, data2, name, info, docCM, docCity, docReview;
     private boolean isFav;
     private float rate, price;
     private int myImage, rateCount, opinionCount;
@@ -93,6 +93,7 @@ public class DoctorActivity extends AppCompatActivity {
             isFav = getIntent().getBooleanExtra("isFav", false);
             rateCount = getIntent().getIntExtra("rateCounter", 0);
             opinionCount = getIntent().getIntExtra("opinionCounter", 0);
+            docReview = getIntent().getStringExtra("docReviews");
 
         }
         else{
@@ -105,7 +106,7 @@ public class DoctorActivity extends AppCompatActivity {
         title.setText(""+name);
         description.setText(""+data2);
         mDocInfo.setText(""+info);
-        mDocRate.setText(" "+Float.toString(rate));
+
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
         mainImageView.setImageResource(myImage);
           mDocCM.setText(""+docCM);
@@ -122,12 +123,22 @@ public class DoctorActivity extends AppCompatActivity {
             mRateText.setText(R.string.no_rates);
 
         }
+        else {
+            mRateCount.setText(""+opinionCount+" ocen");
+            mDocRate.setText(" "+Float.toString(rate));
+        }
+
 
         if (opinionCount == 0){
             mOpinionsDisplay.setVisibility(View.GONE);
             mMoreOpinions.setVisibility(View.GONE);
             mOpinionCount.setVisibility(View.GONE);
             mOpinionsHeader.setText(R.string.no_opinions);
+        }
+
+        else {
+            mOpinionCount.setText(""+opinionCount+" opinii");
+            mOpinionsDisplay.setText(""+docReview);
         }
     }
 

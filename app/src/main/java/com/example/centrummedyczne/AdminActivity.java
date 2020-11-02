@@ -35,6 +35,8 @@ public class AdminActivity extends AppCompatActivity {
     private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
     private CollectionReference healthcardCol = db.collection("healthcard");
     private CollectionReference favouriteCol = db.collection("favourite");
+    private CollectionReference reviewCol = db.collection("review");
+    private CollectionReference doctorCol = db.collection("doctor");
 
 
     @Override
@@ -61,6 +63,12 @@ public class AdminActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void onClickUpdateReviews(View view){
+
+
+
     }
 
     public void onClickCreateDoc(View view){

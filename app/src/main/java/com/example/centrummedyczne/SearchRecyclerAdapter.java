@@ -31,7 +31,7 @@ import java.util.Map;
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.MyViewHolder> {
 
 
-    List<String> data1, data2, docNames, docInfos, docCMs, docCities;
+    List<String> data1, data2, docNames, docInfos, docCMs, docCities, docReviews;
     List<Integer> images, rateCounters, opinionCounters;
     List<Float> docRates, docPrices;
     List<Boolean> favourites;
@@ -49,7 +49,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
                                  List<String> docNames, List<String> docInfos, List<String> docCMs,
                                  List<String> docCities, List<Boolean> favourites,
-                                 List<Integer> opinionCounters, List<Integer> rateCounters){
+                                 List<Integer> opinionCounters, List<Integer> rateCounters, List<String> docReviews){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -63,6 +63,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.docCities = docCities;
         this.rateCounters = rateCounters;
         this.opinionCounters = opinionCounters;
+        this.docReviews = docReviews;
 
     }
 
@@ -97,7 +98,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 DocumentReference docSpecs = documentSnapshot
                                         .getDocumentReference("specialization_id");
-
                                 }
                             }
                             }
@@ -124,10 +124,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         if (rateCounters.get(position) == 0) { // no ratings
 
         }
-        for (int i:rateCounters) {
-            System.out.println(i);
 
-        }
 
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +142,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("isFav", favourites.get(position));
                 intent.putExtra("rateCounter", rateCounters.get(position));
                 intent.putExtra("opinionCounter", opinionCounters.get(position));
+                intent.putExtra("docReviews", docReviews.get(position));
                 context.startActivity(intent);
             }
         });
