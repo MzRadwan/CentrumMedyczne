@@ -32,7 +32,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
     List<String> data1, data2, docNames, docInfos, docCMs, docCities;
-    List<Integer> images;
+    List<Integer> images, rateCounters, opinionCounters;
     List<Float> docRates, docPrices;
     List<Boolean> favourites;
     Map<String, String> docHasSpecs;
@@ -48,7 +48,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
                                  List<String> docNames, List<String> docInfos, List<String> docCMs,
-                                    List<String> docCities, List<Boolean> favourites){
+                                 List<String> docCities, List<Boolean> favourites,
+                                 List<Integer> opinionCounters, List<Integer> rateCounters){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -60,6 +61,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.docCMs = docCMs;
         this.favourites = favourites;
         this.docCities = docCities;
+        this.rateCounters = rateCounters;
+        this.opinionCounters = opinionCounters;
 
     }
 
@@ -125,7 +128,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         });
 
         holder.myTextView1.setText(docNames.get(position));
-        //holder.myTextView2.setText(data2.get(position));
         holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
         holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
@@ -140,6 +142,13 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 holder.mFullHeart.setVisibility(View.VISIBLE);
         }
 
+        if (rateCounters.get(position) == 0) { // no ratings
+
+        }
+        for (int i:rateCounters) {
+            System.out.println(i);
+
+        }
 
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +164,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("cm", docCMs.get(position));
                 intent.putExtra("city", docCities.get(position));
                 intent.putExtra("isFav", favourites.get(position));
+                intent.putExtra("rateCounter", rateCounters.get(position));
+                intent.putExtra("opinionCounter", opinionCounters.get(position));
                 context.startActivity(intent);
             }
         });
@@ -168,7 +179,8 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView myTextView1, myTextView2, mDocPrice, mDocCM, mDocCity;
+        TextView myTextView1, myTextView2, mDocPrice, mDocCM,
+                mDocCity;
         RatingBar mDocRate;
         ImageView myImage, mFullHeart;
 

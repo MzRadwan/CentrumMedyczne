@@ -89,9 +89,11 @@
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/white_button"
-                    android:hint="Specializacja"
+                    android:hint="Lekarz medycyny pracy"
                     android:paddingStart="10dp"
                     android:textColor="@color/navy"
+                    android:fontFamily="@font/verdana"
+                    android:textSize="14sp"
                     android:textColorHint="@color/blue" />
 
                 <AutoCompleteTextView
@@ -107,6 +109,8 @@
                     android:background="@drawable/white_button"
                     android:hint="Miasto"
                     android:paddingStart="10dp"
+                    android:fontFamily="@font/verdana"
+                    android:textSize="14sp"
                     android:textColor="@color/navy"
                     android:textColorHint="@color/blue" />
 

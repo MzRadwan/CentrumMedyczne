@@ -98,6 +98,9 @@
     <string name="doc_price">Cena za wizytę: </string>
     <string name="doctor_added_to_favorites">Dodano lekarza do ulubionych</string>
     <string name="doctor_deleted_from_favourites">Usunięto lekarza z ulubionych</string>
+    <string name="opinions_t">Opinie: </string>
+    <string name="no_rates">Ten lekarz nie ma jeszcze wystawionych ocen</string>
+    <string name="no_opinions">Ten lekarz nie ma jeszcze opinii</string>
 
 
     <string-array name="sort_options">
