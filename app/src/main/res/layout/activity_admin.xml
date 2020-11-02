@@ -50,7 +50,7 @@
                 android:id="@+id/addRevievedField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onClickAddReviewed"
+
                 android:text="add reviewed field" />
 
             <Button
