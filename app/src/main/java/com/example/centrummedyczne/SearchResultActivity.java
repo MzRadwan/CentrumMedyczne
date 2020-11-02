@@ -45,6 +45,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private final CollectionReference doctors = db.collection("doctor");
     private final CollectionReference clinics = db.collection("clinic");
     private final CollectionReference address = db.collection("address");
+    private final CollectionReference appointments = db.collection("appointment");
     private final CollectionReference favouriteCol = db.collection("favourite");
     private final CollectionReference patients = db.collection("patient");
     private final CollectionReference reviews = db.collection("review");
@@ -200,38 +201,120 @@ public class SearchResultActivity extends AppCompatActivity {
                         docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
                                 + foundDoctor.getLast_name());
-                        s2.add(chosenSpec);
+                        //s2.add(chosenSpec);
                         images.add(R.drawable.ic_profile_lagoon);
                         docRates.add(foundDoctor.getAverage_rate());
                         docPrices.add(foundDoctor.getAppointment_price());
                         docInfos.add(foundDoctor.getPersonal_info());
                         searchRecyclerAdapter.notifyDataSetChanged();
 
+                        final int docNum = s1.size() - 1;
+
+
+                        //specs
+
+                        s2.add("");
+                        searchRecyclerAdapter.notifyDataSetChanged();
+
+                        docHasSpec
+                            .whereEqualTo("doctor_id",doctorRef)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                            DocumentReference docSpecs = documentSnapshot
+                                                    .getDocumentReference("specialization_id");
+                                            docSpecs.get()
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        String docSpec= documentSnapshot.getString("specialization_name");
+                                                        String allSpecs = s2.get(docNum);
+                                                        if(allSpecs.equals("")){
+                                                            allSpecs += docSpec;
+                                                        }
+                                                        else {
+                                                            allSpecs += ", " + docSpec;
+                                                        }
+                                                        if(allSpecs.length() > 30){
+                                                            for (int i = allSpecs.length(); i > 5; i--){
+                                                                if(allSpecs.substring(i-1, i).equals(",")){
+                                                                    allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
+                                                                }
+                                                            }
+                                                        }
+                                                        s2.set(docNum, allSpecs);
+                                                        searchRecyclerAdapter.notifyDataSetChanged();
+                                                    }
+                                                });
+                                        }
+                                    }
+                                }
+                            });
+
+
+
                         //opinions
                         opinionCounters.add(0);
                         rateCounters.add(0);
                         searchRecyclerAdapter.notifyDataSetChanged();
 
-                        final int docNum = s1.size() - 1;
-                        reviews.whereEqualTo("doctor_id", doctorRef)
-                                .get()
+                        appointments.whereEqualTo("doctor_id", doctorRef)
+                                .whereEqualTo("rated", true).get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                         int count = 0;
                                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                             count++;
-                                            System.out.println(docNum + count);
+                                            System.out.println(docNum);
                                             System.out.println(documentSnapshot.getId() + "->" +documentSnapshot.getData());
-                                        }
-                                        count = queryDocumentSnapshots.size();
-                                        System.out.println(docNum +"=>"+ count);
+                                            DocumentReference appointmentRef = documentSnapshot.getReference();
+                                            reviews.whereEqualTo("appointment_id", appointmentRef).get()
+                                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                            for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                                                if(documentSnapshot.get("accepted").equals(true)){
+                                                                    System.out.println(documentSnapshot.get("review"));
 
+                                                                }
+                                                            }
+
+                                                        }
+                                                    });
+
+                                        }
                                         opinionCounters.set(docNum, count);
                                         rateCounters.set(docNum, count);
                                         searchRecyclerAdapter.notifyDataSetChanged();
                                     }
                                 });
+
+
+
+                        /*
+                        reviews.whereEqualTo("doctor_id", doctorRef)
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    int count = 0;
+                                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                        count++;
+                                        System.out.println(docNum + count);
+                                        System.out.println(documentSnapshot.getId() + "->" +documentSnapshot.getData());
+                                    }
+                                    count = queryDocumentSnapshots.size();
+                                    System.out.println(docNum +"=>"+ count);
+
+                                    opinionCounters.set(docNum, count);
+                                    rateCounters.set(docNum, count);
+                                    searchRecyclerAdapter.notifyDataSetChanged();
+                                }
+                            });*/
 
 
                         //check if isFav
@@ -308,30 +391,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                 });
 
 
-                        docHasSpec
-                                .whereEqualTo("doctor_id",doctorRef)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                                DocumentReference docSpecs = documentSnapshot
-                                                                            .getDocumentReference("specialization_id");
-                                                docSpecs.get()
-                                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                        String docSpec= documentSnapshot.getString("specialization_name");
-                                                        //System.out.println(docSpec);
 
-                                                    }
-                                                });
-
-                                            }
-                                        }
-                                    }
-                                });
 
 
                     }

@@ -97,37 +97,16 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 DocumentReference docSpecs = documentSnapshot
                                         .getDocumentReference("specialization_id");
-                                docSpecs.get()
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            String docSpec= documentSnapshot.getString("specialization_name");
 
-                                            docHasSpecs.put(docId, docSpec);
-                                            String currentSpec = "";
-
-                                            //currentSpec = holder.myTextView2.getText().toString();
-                                           // holder.myTextView2.setText(docSpec);
-                                            /*if(currentSpec.equals("")){
-                                                holder.myTextView2.setText(docSpec);
-
-                                            }
-                                            else {
-                                                holder.myTextView2.setText(currentSpec +", "+ docSpec);
-
-                                            }*/
-
-                                            }
-                                        });
                                 }
                             }
-                            //System.out.println(docId + docHasSpecs.get(docId));
                             }
                         });
             }
         });
 
         holder.myTextView1.setText(docNames.get(position));
+        holder.myTextView2.setText(data2.get(position));
         holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
         holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
