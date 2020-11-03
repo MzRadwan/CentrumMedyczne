@@ -103,6 +103,7 @@ public class DoctorActivity extends AppCompatActivity {
     }
 
     private void setData(){
+        isUserLogged();
         title.setText(""+name);
         description.setText(""+data2);
         mDocInfo.setText(""+info);
@@ -111,9 +112,30 @@ public class DoctorActivity extends AppCompatActivity {
         mainImageView.setImageResource(myImage);
           mDocCM.setText(""+docCM);
         mDocCity.setText(""+docCity);
-        updateFavHeart();
+
         displayOpinionsAndRates();
 
+    }
+
+    private void isUserLogged(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        ImageView mAccountImage = findViewById(R.id.accountImageDocA);
+        ImageView mSearchImage = findViewById(R.id.searchIconDocA);
+        Button mLogin = findViewById(R.id.loginButtonDocA);
+
+        if(user == null){
+            mHeartFull.setVisibility(View.GONE);
+            mHeartBorder.setVisibility(View.GONE);
+            mAccountImage.setVisibility(View.GONE);
+            mLogin.setVisibility(View.VISIBLE);
+            mSearchImage.setVisibility(View.GONE);
+        }
+        else {
+            updateFavHeart();
+            mAccountImage.setVisibility(View.VISIBLE);
+            mLogin.setVisibility(View.GONE);
+            mSearchImage.setVisibility(View.VISIBLE);
+        }
     }
 
     private void displayOpinionsAndRates(){

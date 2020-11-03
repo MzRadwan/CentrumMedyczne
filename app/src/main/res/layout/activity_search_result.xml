@@ -51,14 +51,16 @@
         <Button
             android:id="@+id/loginButtonSearch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="40sp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/white_button"
             android:fontFamily="@font/verdana"
             android:onClick="onClickLogin"
             android:text="@string/login_text"
             android:textColor="@color/navy"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

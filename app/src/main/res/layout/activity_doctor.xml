@@ -25,7 +25,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wyniki wyszukiwania"
+            android:text="@string/search_results"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:layout_marginTop="20dp"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <ImageView
-            android:id="@+id/searchIconDocActivity"
+            android:id="@+id/searchIconDocA"
             android:layout_width="45dp"
             android:layout_height="42dp"
             android:layout_marginTop="14dp"
@@ -46,7 +46,7 @@
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
-            android:id="@+id/accountImageSearchDocActivity"
+            android:id="@+id/accountImageDocA"
             android:layout_width="70dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -59,16 +59,18 @@
             app:srcCompat="@drawable/ic_account_box_white" />
 
         <Button
-            android:id="@+id/loginButtonSearchRes"
+            android:id="@+id/loginButtonDocA"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="40sp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/white_button"
             android:fontFamily="@font/verdana"
             android:text="@string/login_text"
             android:textColor="@color/navy"
             android:visibility="invisible"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

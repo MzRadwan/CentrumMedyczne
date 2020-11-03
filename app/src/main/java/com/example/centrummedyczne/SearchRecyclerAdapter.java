@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -116,6 +118,12 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         if(docCities.size() == docNames.size())
             holder.mDocCity.setText(docCities.get(position));
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            holder.mFullHeart.setVisibility(View.GONE);
+            holder.mHeartBorder.setVisibility(View.GONE);
+        }
+
         if (favourites.size() == docNames.size()){
             if(favourites.get(position) )
                 holder.mFullHeart.setVisibility(View.VISIBLE);
@@ -159,7 +167,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         TextView myTextView1, myTextView2, mDocPrice, mDocCM,
                 mDocCity;
         RatingBar mDocRate;
-        ImageView myImage, mFullHeart;
+        ImageView myImage, mFullHeart, mHeartBorder;
 
         ConstraintLayout searchLayout;
 
@@ -175,6 +183,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             mDocCM = itemView.findViewById(R.id.searchDocCM);
             mDocCity = itemView.findViewById(R.id.searchDocCityAddress);
             mFullHeart = itemView.findViewById(R.id.favImgFullSearch);
+            mHeartBorder = itemView.findViewById(R.id.favImgBorderSearch);
 
             searchLayout = itemView.findViewById(R.id.searchLayout);
         }

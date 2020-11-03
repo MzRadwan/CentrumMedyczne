@@ -161,8 +161,10 @@ public class SearchResultActivity extends AppCompatActivity {
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 Address address = documentSnapshot.toObject(Address.class);
                                 String city = address.getCity();
-                                cities.add(city);
-                                citiesAdapter.notifyDataSetChanged();
+                                if(!cities.contains(city)){
+                                    cities.add(city);
+                                    citiesAdapter.notifyDataSetChanged();
+                                }
                             }
                         });
 
@@ -337,37 +339,45 @@ public class SearchResultActivity extends AppCompatActivity {
 
                         //check if isFav
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String userId = user.getUid();
+                        if(user == null){
+                            favourites.add(false);
+                            searchRecyclerAdapter.notifyDataSetChanged();
+                        }
 
-                        patients.document(userId).get()
-                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                DocumentReference userRef = documentSnapshot.getReference();
-                                favouriteCol.whereEqualTo("patient_id", userRef)
-                                    .get()
-                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        boolean isFav = false;
-                                        for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
-                                            if (documentSnapshot1.getDocumentReference("doctor_id").equals(doctorRef)){
-                                                isFav = true;
+                        else {
+                            String userId = user.getUid();
+
+                            patients.document(userId).get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    DocumentReference userRef = documentSnapshot.getReference();
+                                    favouriteCol.whereEqualTo("patient_id", userRef)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            boolean isFav = false;
+                                            for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                                                if (documentSnapshot1.getDocumentReference("doctor_id").equals(doctorRef)){
+                                                    isFav = true;
+                                                }
                                             }
-                                        }
-                                        favourites.add(isFav);
-                                        searchRecyclerAdapter.notifyDataSetChanged();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
+                                            favourites.add(isFav);
+                                            searchRecyclerAdapter.notifyDataSetChanged();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
                                             favourites.add(false);
                                             searchRecyclerAdapter.notifyDataSetChanged();
                                         }
+                                                });
+                                    }
                                 });
-                                }
-                            });
+                        }
+
 
                         //clinics data
 
