@@ -1,177 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fair"
+    android:orientation="vertical"
+
     tools:context=".RateVisitActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_header_gradient" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="48dp"
-        android:text="Ocena wizyty"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/searchIcon"
-        android:layout_width="53dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="90dp"
-        android:contentDescription="wyszukiwanie"
-        android:onClick="onClickSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_search_white_box" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_header_gradient" />
 
-    <ImageView
-        android:id="@+id/accountImage"
-        android:layout_width="69dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="profil pacjenta"
-        android:onClick="onClickAccount"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/ic_account_box_white" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="48dp"
+            android:text="Ocena wizyty"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="607dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="53dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="90dp"
+            android:contentDescription="wyszukiwanie"
+            android:onClick="onClickSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_search_white_box" />
+
+        <ImageView
+            android:id="@+id/accountImage"
+            android:layout_width="69dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="profil pacjenta"
+            android:onClick="onClickAccount"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:srcCompat="@drawable/ic_account_box_white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="dr Jan Kowalski, dermatolog"
-            android:textColor="@color/navy"
-            android:fontFamily="@font/verdana"
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
+            android:fontFamily="@font/verdana"
+            android:text="dr Jan Kowalski, dermatolog"
             android:textAlignment="center"
-            android:textSize="22sp"
-            />
+            android:textColor="@color/navy"
+            android:textSize="22sp" />
+
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="10sp"
-            android:textSize="20sp"
             android:fontFamily="@font/verdana"
-            android:text="@string/rate_doc" />
+            android:text="@string/rate_doc"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <RatingBar
             android:id="@+id/docRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:isIndicator="false"
             android:numStars="5"
             android:rating="5"
             android:stepSize="1"
-            android:isIndicator="false"
-            android:theme="@style/RatingBar"
-            android:layout_marginBottom="10sp"/>
+            android:theme="@style/RatingBar" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_marginBottom="5sp"
             android:fontFamily="@font/verdana"
-            android:textSize="20sp"
             android:text="@string/add_opinion"
-            android:layout_marginBottom="10sp"/>
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/opinionEditText"
             android:layout_width="match_parent"
             android:layout_height="141dp"
+            android:layout_marginStart="15sp"
+            android:layout_marginEnd="15sp"
             android:layout_marginBottom="10sp"
+            android:background="@drawable/white_background"
             android:ems="10"
-            android:gravity="start|top"
             android:fontFamily="@font/verdana"
-            android:background="@drawable/white_button"
-            android:padding="10dp"
-            android:layout_marginStart="10sp"
-            android:layout_marginEnd="10sp"
+            android:gravity="start|top"
             android:hint="Twoja opinia..."
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="10dp" />
 
         <Switch
             android:id="@+id/anonSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/anonimowa"
-            android:fontFamily="@font/verdana"
             android:layout_marginTop="10dp"
-            android:textColor="@color/navy"
-            android:theme="@style/Switch"
-            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
             android:checked="true"
-            android:layout_marginBottom="20dp"/>
+            android:fontFamily="@font/verdana"
+            android:text="@string/anonimowa"
+            android:layout_gravity="center"
+            android:textColor="@color/navy"
+            android:textSize="20sp"
+            android:theme="@style/Switch" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <Button
+        android:id="@+id/publishButton"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
 
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/verdana"
-                android:textAllCaps="false"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:textColor="@color/navy"
-                android:textSize="20sp"
-                android:background="@drawable/lagoon_button"
-                android:text="@string/cancel" />
+        android:background="@drawable/lagoon_button"
+        android:fontFamily="@font/verdana"
+        android:onClick="onClickPublishReview"
+        android:text="@string/publish"
+        android:textAllCaps="false"
+        android:textColor="@color/navy"
+        android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/publishButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAllCaps="false"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:textColor="@color/navy"
-                android:fontFamily="@font/verdana"
-                android:textSize="20sp"
-                android:onClick="onClickPublishReview"
-                android:background="@drawable/lagoon_button"
-                android:text="@string/publish" />
-        </LinearLayout>
+    <Button
+        android:id="@+id/addOpinionLater"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sky_button"
+        android:fontFamily="@font/verdana"
+        android:text="@string/remind_me_later"
+        android:textAllCaps="false"
+        android:textColor="@color/navy"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sky_button"
+        android:fontFamily="@font/verdana"
+        android:text="@string/no_opinion"
+        android:textAllCaps="false"
+        android:textColor="@color/navy"
+        android:textSize="20sp" />
 
 
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

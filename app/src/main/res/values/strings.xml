@@ -101,6 +101,8 @@
     <string name="opinions_t">Opinie: </string>
     <string name="no_rates">Ten lekarz nie ma jeszcze wystawionych ocen</string>
     <string name="no_opinions">Ten lekarz nie ma jeszcze opinii</string>
+    <string name="remind_me_later">Przypomnij później</string>
+    <string name="no_opinion">Nie wystawiaj opinii</string>
 
 
     <string-array name="sort_options">
