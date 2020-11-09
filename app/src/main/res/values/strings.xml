@@ -113,6 +113,10 @@
     <string name="example_spec">Dermatolog</string>
     <string name="example_cm">Centrum Medyczne nr 11</string>
     <string name="example_address">Kraków, Długa 12</string>
+    <string name="profil_pacjenta">profil pacjenta</string>
+    <string name="more_docs">Więcej lekarzy</string>
+    <string name="faviconfull">favIconFull</string>
+    <string name="doc_profile">Profil lekarza</string>
 
 
     <string-array name="sort_options">

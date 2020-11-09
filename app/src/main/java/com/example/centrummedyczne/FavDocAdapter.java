@@ -42,7 +42,7 @@ public class FavDocAdapter extends RecyclerView.Adapter<FavDocAdapter.MyViewHold
         holder.favLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, FavDocDetailsActivity.class);
+                Intent intent = new Intent(context, DoctorActivity.class);
                 intent.putExtra("data1", data1[position]);
                 intent.putExtra("data2", data2[position]);
                 intent.putExtra("images", images[position]);
