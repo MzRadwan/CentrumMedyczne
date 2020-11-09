@@ -38,11 +38,11 @@ public class FavDocsActivity extends AppCompatActivity {
     private List<Integer> images, opinionCounters, rateCounters;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference specializations = db.collection("specialization");
+//    private final CollectionReference specializations = db.collection("specialization");
     private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
-    private final CollectionReference doctors = db.collection("doctor");
-    private final CollectionReference clinics = db.collection("clinic");
-    private final CollectionReference address = db.collection("address");
+   // private final CollectionReference doctors = db.collection("doctor");
+    //private final CollectionReference clinics = db.collection("clinic");
+   // private final CollectionReference address = db.collection("address");
     private final CollectionReference appointments = db.collection("appointment");
     private final CollectionReference favouriteCol = db.collection("favourite");
     private final CollectionReference patients = db.collection("patient");
@@ -281,12 +281,13 @@ public class FavDocsActivity extends AppCompatActivity {
                 });
     }
 
-    public void onClickAccount(View view){
+
+    public void onClickAccountFav(View view){
         Intent intent = new Intent(view.getContext(),PatientAccountActivity.class);
         startActivity(intent);
     }
 
-    public void onClickSearch(View view){
+    public void onClickSearchFav(View view){
         Intent intent = new Intent(view.getContext(),StartActivity.class);
         startActivity(intent);
     }

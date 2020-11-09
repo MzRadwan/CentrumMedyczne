@@ -87,8 +87,7 @@
     <string name="incorrect_email">Wpisano niepoprawny adres email</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</string>
     <string name="patient_account">profil pacjenta</string>
-    <string name="search_icon">wyszukiwanie</string>
-    <string name="back_to_results">Powrót do wyników wyszukiwania</string>
+    <string name="back_to_results">Powrót do listy lekarzy</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
@@ -118,6 +117,15 @@
     <string name="faviconfull">favIconFull</string>
     <string name="doc_profile">Profil lekarza</string>
     <string name="no_fav_docs">Brak ulubionych lekarzy</string>
+    <string name="search_icon">wyszukiwanie</string>
+    <string name="header_gradient">header_gradient</string>
+    <string name="back_to_fav_docs">Powrót do ulubionych</string>
+    <string name="enter_doc_name">Podaj imię i nazwisko lekarza</string>
+    <string name="med_trade_name">Nazwa leku</string>
+    <string name="example_med_name">Adatox</string>
+    <string name="example_active_substance">Doksazosyna 5mg</string>
+    <string name="example_drug_form">tabletki</string>
+    <string name="no_my_meds">Brak wypisanych leków</string>
 
 
     <string-array name="sort_options">
