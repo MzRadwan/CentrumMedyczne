@@ -70,10 +70,24 @@
             android:paddingEnd="10dp"
             android:orientation="vertical" >
 
+            <TextView
+                android:id="@+id/noDocsFound"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:background="@drawable/white_button"
+                android:gravity="center"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/blue"
+                android:layout_height="wrap_content"
+                android:text="@string/no_fav_docs" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/favDocRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingTop="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>

@@ -51,7 +51,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private final CollectionReference reviews = db.collection("review");
 
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     private List<String> s1, s2, docNames, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
@@ -316,28 +316,6 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
 
-                        /*
-                        reviews.whereEqualTo("doctor_id", doctorRef)
-                            .get()
-                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    int count = 0;
-                                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                        count++;
-                                        System.out.println(docNum + count);
-                                        System.out.println(documentSnapshot.getId() + "->" +documentSnapshot.getData());
-                                    }
-                                    count = queryDocumentSnapshots.size();
-                                    System.out.println(docNum +"=>"+ count);
-
-                                    opinionCounters.set(docNum, count);
-                                    rateCounters.set(docNum, count);
-                                    searchRecyclerAdapter.notifyDataSetChanged();
-                                }
-                            });*/
-
-
                         //check if isFav
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if(user == null){
@@ -383,18 +361,18 @@ public class SearchResultActivity extends AppCompatActivity {
 
                         //DocumentReference docClinicRef = foundDoctor.getClinic_id();
                         DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
-                        System.out.println("Clinic_ref" );
-                        System.out.println(foundDoctor.getClinic_id().toString());
-                        System.out.println(documentSnapshot.getDocumentReference("clinic_id").toString());
+                        //System.out.println("Clinic_ref" );
+                        //System.out.println(foundDoctor.getClinic_id().toString());
+                        //System.out.println(documentSnapshot.getDocumentReference("clinic_id").toString());
                         docClinicRef.get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                System.out.println("Clinic_data" );
-                                System.out.println(documentSnapshot.getId() +
-                                 " => " + documentSnapshot.getData());
+                                //System.out.println("Clinic_data" );
+                               // System.out.println(documentSnapshot.getId() +
+                                 //" => " + documentSnapshot.getData());
                                 docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
-                                System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
+                                //System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
                                 searchRecyclerAdapter.notifyDataSetChanged();
 
                                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
@@ -403,7 +381,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                 Address address = documentSnapshot.toObject(Address.class);
-                                                System.out.println(address.getCity() + address.getStreet() + address.getBuilding_number() + address.getApartment());
+                                                //System.out.println(address.getCity() + address.getStreet() + address.getBuilding_number() + address.getApartment());
                                                 String cmAddress = "";
                                                 cmAddress += address.getCity() + ", "
                                                         + address.getStreet() + " " + address.getBuilding_number();
@@ -417,11 +395,6 @@ public class SearchResultActivity extends AppCompatActivity {
                                         });
                                 }
                             });
-
-
-
-
-
                     }
                 });
     }

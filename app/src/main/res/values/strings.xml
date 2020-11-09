@@ -117,6 +117,7 @@
     <string name="more_docs">Więcej lekarzy</string>
     <string name="faviconfull">favIconFull</string>
     <string name="doc_profile">Profil lekarza</string>
+    <string name="no_fav_docs">Brak ulubionych lekarzy</string>
 
 
     <string-array name="sort_options">
