@@ -105,6 +105,14 @@
     <string name="no_opinion">Nie wystawiaj opinii</string>
     <string name="search_results">Wyniki wyszukiwania</string>
     <string name="issued_by">Wystawił:</string>
+    <string name="rate_now">Oceń teraz</string>
+    <string name="patients_note">Zalecenie lekarza:</string>
+    <string name="your_review">Twoja opinia:</string>
+    <string name="your_rating">Twoja ocena:</string>
+    <string name="example_doc_name">dr Janusz Kowalski</string>
+    <string name="example_spec">Dermatolog</string>
+    <string name="example_cm">Centrum Medyczne nr 11</string>
+    <string name="example_address">Kraków, Długa 12</string>
 
 
     <string-array name="sort_options">

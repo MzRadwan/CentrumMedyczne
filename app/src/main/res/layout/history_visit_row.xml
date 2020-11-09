@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,15 +13,17 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="10dp"
+            >
 
             <ImageView
-                android:id="@+id/favProfileImg"
+                android:id="@+id/docImgHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/profile_pic"
@@ -35,32 +35,135 @@
                 app:srcCompat="@drawable/ic_profile_blue" />
 
             <TextView
-                android:id="@+id/favDocSpec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
-                android:text="Dermatolog"
-                android:textColor="@color/navy"
-                android:textSize="16sp"
- />
-
-            <TextView
-                android:id="@+id/favDocCM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
-                android:text="Centrum Medyczne\nKraków, ul. Długa 12a"
-                android:textColor="@color/navy" />
-
-            <TextView
-                android:id="@+id/favDocName"
+                android:id="@+id/docNameHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdana_bold"
-                android:text="dr Janusz Kowalski"
+                android:text="@string/example_doc_name"
                 android:textColor="@color/navy"
                 android:textSize="18sp"
- />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/docSpecHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/verdana"
+                android:text="@string/example_spec"
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/docNameHistory" />
+
+            <TextView
+                android:id="@+id/docCMHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/verdana"
+                android:text="@string/example_cm"
+                android:textColor="@color/navy"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/docSpecHistory" />
+
+            <TextView
+                android:id="@+id/cmAddressHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_address"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/docCMHistory" />
+
+            <TextView
+                android:id="@+id/patientsNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/patients_note"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cmAddressHistory" />
+
+            <TextView
+                android:id="@+id/noteHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lorem_ipsum"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patientsNote" />
+
+            <TextView
+                android:id="@+id/yourRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/your_rating"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noteHistory" />
+
+            <RatingBar
+                android:id="@+id/ratingBarHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="0"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:stepSize="0.1"
+                android:theme="@style/RatingBar"
+                android:transformPivotX="15dp"
+                android:transformPivotY="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yourRating" />
+
+            <TextView
+                android:id="@+id/yourReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="@string/your_review"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yourRating" />
+
+            <TextView
+                android:id="@+id/opinionTextHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lorem_ipsum"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yourReview" />
+
+            <Button
+                android:id="@+id/rateVisitNowHistory"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:text="@string/rate_now"
+                android:background="@drawable/lagoon_button"
+                android:layout_margin="30dp"
+                android:textAllCaps="false"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/opinionTextHistory" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
