@@ -1,11 +1,9 @@
 package com.example.centrummedyczne;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +37,7 @@ public class MyMedsAdapter extends RecyclerView.Adapter<MyMedsAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
+        //holder.myMedLayout.setBackgroundResource(R.drawable.lagoon_button);
         holder.mMedName.setText(medNames.get(position));
         holder.mMedDetails.setText(medDetails.get(position));
         holder.mMedForms.setText(medForms.get(position));
