@@ -126,6 +126,10 @@
     <string name="example_active_substance">Doksazosyna 5mg</string>
     <string name="example_drug_form">tabletki</string>
     <string name="no_my_meds">Brak wypisanych leków</string>
+    <string name="no_history">Brak histori wizyt</string>
+    <string name="newest_history">Od najnowszych</string>
+    <string name="oldest_history">Od najstarszych</string>
+    <string name="example_date">23.09.2020</string>
 
 
     <string-array name="sort_options">
