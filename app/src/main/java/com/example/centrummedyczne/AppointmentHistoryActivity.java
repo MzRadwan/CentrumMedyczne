@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,12 +36,10 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     private List<Integer> docImages;
     private HistoryAdapter historyAdapter;
 
-    private RecyclerView historyRecycler;
-
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference reviewCol = db.collection("review");
-    private CollectionReference appoinmentCol = db.collection("appointment");
-    private CollectionReference patientCol = db.collection("patient");
+    private final CollectionReference reviewCol = db.collection("review");
+    private final CollectionReference appoinmentCol = db.collection("appointment");
+    private final CollectionReference patientCol = db.collection("patient");
     private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
 
 
@@ -56,7 +55,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     }
 
     private void createHistoryRecycler(){
-        historyRecycler = findViewById(R.id.historyRecycler);
+        RecyclerView historyRecycler = findViewById(R.id.historyRecycler);
 
         docNames = new ArrayList<>();
         docSpecs = new ArrayList<>();
@@ -90,9 +89,9 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                    appointmentDates.add(documentSnapshot.getDate("appointment_start").toString());
                                     Date date = documentSnapshot.getDate("appointment_start");
-                                    System.out.println("DDAAYYY"+/*+date.getDate()+"."+date.getMonth()+1+"."+*/date.getYear());
+                                    System.out.println("DDAAYYY"+FormatData.reformatDate(date));
+                                    appointmentDates.add(FormatData.reformatDate(date));
                                     historyAdapter.notifyDataSetChanged();
                                     DocumentReference visitRef = documentSnapshot.getReference();
 
@@ -106,7 +105,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
 
                                     else {
                                         rates.add((float) -1);
-                                        opinions.add("Nie wystawiono jeszcze opnii");
+                                        opinions.add("Nie wystawiono opinii");
 
                                     }
 
@@ -158,6 +157,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                         Review review = documentSnapshot.toObject(Review.class);
                         rates.set(visitNum, review.getRate());
+                        System.out.println("RATE" + review.getRate());
                         opinions.set(visitNum, review.getReview());
                         historyAdapter.notifyDataSetChanged();
                     }
@@ -216,8 +216,8 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                                     }
                                     if(allSpecs.length() > 30){
                                         for (int i = allSpecs.length(); i > 5; i--){
-                                            if(allSpecs.substring(i-1, i).equals(",")){
-                                                allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
+                                            if(allSpecs.startsWith(",", i-1)){
+                                                allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1);
                                             }
                                         }
                                     }
@@ -257,5 +257,15 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                     });
                 }
             });
+    }
+
+    public void onClickAccountIconHistory(View view){
+        Intent intent = new Intent(view.getContext(), PatientAccountActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickSearchIconHistory(View view){
+        Intent intent = new Intent(view.getContext(), StartActivity.class);
+        startActivity(intent);
     }
 }

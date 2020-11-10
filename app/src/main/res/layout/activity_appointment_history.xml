@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_header_gradient"
+            app:srcCompat="@drawable/ic_header_thin"
             android:contentDescription="@string/header_gradient" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/verdana"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:text="@string/historia_wizyt"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -40,8 +40,9 @@
             android:layout_width="69dp"
             android:layout_height="56dp"
             android:contentDescription="@string/profil_pacjenta"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
+            android:onClick="onClickAccountIconHistory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_account_box_white" />
@@ -51,7 +52,8 @@
             android:layout_width="53dp"
             android:layout_height="45dp"
             android:contentDescription="@string/search_icon"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClickSearchIconHistory"
             app:layout_constraintEnd_toStartOf="@+id/accountImageHistory"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_search_white_box" />

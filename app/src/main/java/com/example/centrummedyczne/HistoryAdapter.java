@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -57,9 +58,35 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             holder.mDocSpec.setText(docSpecs.get(position));
         if (docImages.size() == docNames.size())
             holder.mProfileImg.setImageResource(docImages.get(position));
+        if (patientNotes.size() == docNames.size())
+            holder.mPatientNote.setText(patientNotes.get(position));
         holder.mDocCm.setText(docCms.get(position));
         holder.mCMAddress.setText(docAddresses.get(position));
 
+        if (opinions.size() == docNames.size()){
+            if(opinions.get(position).equals("Nie wystawiono opinii")) {
+                holder.mOpinion.setText("Nie wystawiono opinii");
+                holder.mAddReview.setVisibility(View.VISIBLE);
+            }
+            else if(!opinions.get(position).equals(" ")){
+                holder.mOpinion.setText(opinions.get(position));
+                holder.mAddReview.setVisibility(View.GONE);
+            }
+        }
+
+        System.out.println("His Rate:" + rates.get(position));
+        if (rates.size() == docNames.size()){
+            if(rates.get(position) == -1
+                    ) {
+                holder.mRateHeader.setText("Nie wystawiono oceny");
+                holder.mRate.setVisibility(View.INVISIBLE);
+                holder.mAddReview.setVisibility(View.VISIBLE);
+            }
+            else {
+                holder.mRate.setRating(rates.get(position));
+                holder.mAddReview.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -70,10 +97,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView mDocName, mDocSpec, mDocCm, mVisitDate,
-                mCMAddress, mPatientNote, mOpinion;
+                mCMAddress, mPatientNote, mOpinion, mRateHeader;
         ConstraintLayout historyLayout;
         ImageView mProfileImg;
         RatingBar mRate;
+        Button mAddReview;
 
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
@@ -84,9 +112,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             mVisitDate = itemView.findViewById(R.id.visitDateHistory);
             mCMAddress = itemView.findViewById(R.id.cmAddressHistory);
             mProfileImg = itemView.findViewById(R.id.docImgHistory);
-            mPatientNote = itemView.findViewById(R.id.patientsNote);
-            mOpinion = itemView.findViewById(R.id.yourReview);
+            mPatientNote = itemView.findViewById(R.id.noteHistory);
+            mOpinion = itemView.findViewById(R.id.opinionTextHistory);
+            mRateHeader = itemView.findViewById(R.id.yourRating);
             mRate = itemView.findViewById(R.id.ratingBarHistory);
+
+            mAddReview = itemView.findViewById(R.id.rateVisitNowHistory);
 
             historyLayout = itemView.findViewById(R.id.historyLayout);
         }
