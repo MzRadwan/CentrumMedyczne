@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/fair"
     android:orientation="vertical"
-
     tools:context=".RateVisitActivity">
 
 
@@ -16,166 +15,188 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_header_gradient" />
+            app:srcCompat="@drawable/ic_header_thin"
+            android:contentDescription="@string/header_gradient" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="48dp"
-            android:text="Ocena wizyty"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/rate_visit"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="53dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="90dp"
-            android:contentDescription="wyszukiwanie"
-            android:onClick="onClickSearch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search_white_box" />
-
-        <ImageView
             android:id="@+id/accountImage"
             android:layout_width="69dp"
             android:layout_height="56dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="profil pacjenta"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/profil_pacjenta"
             android:onClick="onClickAccount"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_account_box_white" />
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="53dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:contentDescription="@string/search_icon"
+            android:onClick="onClickSearch"
+            app:layout_constraintEnd_toStartOf="@+id/accountImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_search_white_box" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="10sp"
-            android:fontFamily="@font/verdana"
-            android:text="dr Jan Kowalski, dermatolog"
-            android:textAlignment="center"
-            android:textColor="@color/navy"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/verdana"
-            android:text="@string/rate_doc"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <RatingBar
-            android:id="@+id/docRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:rating="5"
-            android:stepSize="1"
-            android:theme="@style/RatingBar" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/verdana"
-            android:text="@string/add_opinion"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/opinionEditText"
-            android:layout_width="match_parent"
-            android:layout_height="141dp"
-            android:layout_marginStart="15sp"
-            android:layout_marginEnd="15sp"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/white_background"
-            android:ems="10"
-            android:fontFamily="@font/verdana"
-            android:gravity="start|top"
-            android:hint="Twoja opinia..."
-            android:inputType="textMultiLine"
-            android:padding="10dp" />
-
-        <Switch
-            android:id="@+id/anonSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:checked="true"
-            android:fontFamily="@font/verdana"
-            android:text="@string/anonimowa"
-            android:layout_gravity="center"
-            android:textColor="@color/navy"
-            android:textSize="20sp"
-            android:theme="@style/Switch" />
-
-    <Button
-        android:id="@+id/publishButton"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="match_parent">
 
-        android:background="@drawable/lagoon_button"
-        android:fontFamily="@font/verdana"
-        android:onClick="onClickPublishReview"
-        android:text="@string/publish"
-        android:textAllCaps="false"
-        android:textColor="@color/navy"
-        android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/addOpinionLater"
-        android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/sky_button"
-        android:fontFamily="@font/verdana"
-        android:text="@string/remind_me_later"
-        android:textAllCaps="false"
-        android:textColor="@color/navy"
-        android:textSize="20sp" />
+            <TextView
+                android:id="@+id/docNameRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:fontFamily="@font/verdanab"
+                android:text="@string/example_doc_name"
+                android:textAlignment="center"
+                android:textColor="@color/navy"
+                android:textSize="22sp" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="match_parent"
-        android:layout_height="40sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/sky_button"
-        android:fontFamily="@font/verdana"
-        android:text="@string/no_opinion"
-        android:textAllCaps="false"
-        android:textColor="@color/navy"
-        android:textSize="20sp" />
+            <TextView
+                android:id="@+id/docSpecRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                android:text="@string/example_spec" />
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/verdana"
+                android:text="@string/rate_doc"
+                android:textColor="@color/navy"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
+            <RatingBar
+                android:id="@+id/docRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:text="@string/add_opinion"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/opinionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="141dp"
+                android:layout_marginStart="15sp"
+                android:layout_marginEnd="15sp"
+                android:layout_marginBottom="10sp"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/verdana"
+                android:gravity="start|top"
+                android:hint="@string/your_opinion"
+                android:inputType="textMultiLine"
+                android:textColorHint="@color/sky"
+                android:textColor="@color/navy"
+                android:padding="10dp" />
+
+            <Switch
+                android:id="@+id/anonSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:checked="true"
+                android:fontFamily="@font/verdana"
+                android:text="@string/anonimowa"
+                android:layout_gravity="center"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                android:theme="@style/Switch"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <Button
+                android:id="@+id/publishButton"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/lagoon_button"
+                android:fontFamily="@font/verdana"
+                android:onClick="onClickPublishReview"
+                android:text="@string/publish"
+                android:textAllCaps="false"
+                android:textColor="@color/navy"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/addOpinionLater"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/sky_button"
+                android:fontFamily="@font/verdana"
+                android:text="@string/remind_me_later"
+                android:textAllCaps="false"
+                android:textColor="@color/navy"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/sky_button"
+                android:fontFamily="@font/verdana"
+                android:text="@string/no_opinion"
+                android:textAllCaps="false"
+                android:textColor="@color/navy"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

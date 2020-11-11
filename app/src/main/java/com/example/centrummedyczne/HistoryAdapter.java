@@ -84,7 +84,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             if(rates.get(position) == -1
                     ) {
                 holder.mRateHeader.setText("Nie wystawiono oceny");
-                holder.mRate.setVisibility(View.INVISIBLE);
+                holder.mRate.setVisibility(View.GONE);
                 holder.mAddReview.setVisibility(View.VISIBLE);
             }
             else {
