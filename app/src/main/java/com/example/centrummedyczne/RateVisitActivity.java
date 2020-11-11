@@ -27,15 +27,19 @@ public class RateVisitActivity extends AppCompatActivity {
 
     RatingBar  mDocRateBar;
     private float rate;
+    private String docName, docSpec, visitId;
 
     private  FirebaseFirestore db = FirebaseFirestore.getInstance();
     private  CollectionReference reviewCol = db.collection("review");
     private CollectionReference patient = db.collection("patient");
+    private CollectionReference appointmentCol = db.collection("appointment");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_visit);
+
+        getIntentData();
 
         mDocRateBar = (RatingBar) findViewById(R.id.docRatingBar);
         mDocRateBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -45,6 +49,13 @@ public class RateVisitActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void getIntentData(){
+        docName = getIntent().getStringExtra("docName");
+        docSpec = getIntent().getStringExtra("docSpec");
+        visitId = getIntent().getStringExtra("appointment_id");
 
     }
 
@@ -61,7 +72,6 @@ public class RateVisitActivity extends AppCompatActivity {
                     Map<String, Object> review = new HashMap<>();
                     review.put("accepted", false);
                     review.put("appointment_id", null);
-                    //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     review.put("patient_id", userRef);
                     review.put("rate",getRate());
                     TextView mReview = findViewById(R.id.opinionEditText);

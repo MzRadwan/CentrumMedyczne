@@ -1,6 +1,7 @@
 package com.example.centrummedyczne;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder>{
@@ -21,13 +24,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             docCms, docAddresses, patientNotes, opinions;
     private List<Float> rates;
     private List<Integer> docImages;
+    private List<String> visitRefs;
 
     Context context;
 
     public HistoryAdapter(Context ct, List<String> docNames,List<String> docSpecs,
                           List<String> appointmentDates, List<String> docCms,
                           List<String> docAddresses, List<String> patientNotes,
-                          List<String> opinions, List<Float> rates, List<Integer> docImages){
+                          List<String> opinions, List<Float> rates,
+                          List<Integer> docImages, List<String> visitRefs){
         context = ct;
         this.docNames = docNames;
         this.docSpecs = docSpecs;
@@ -38,7 +43,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         this.opinions = opinions;
         this.rates = rates;
         this.docImages = docImages;
-
+        this.visitRefs = visitRefs;
     }
 
     @NonNull
@@ -87,6 +92,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                 holder.mAddReview.setVisibility(View.GONE);
             }
         }
+
+        holder.mAddReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RateVisitActivity.class);
+                intent.putExtra("appointment_id", visitRefs.get(position));
+                intent.putExtra("docName", docNames.get(position));
+                intent.putExtra("docSpec", docSpecs.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

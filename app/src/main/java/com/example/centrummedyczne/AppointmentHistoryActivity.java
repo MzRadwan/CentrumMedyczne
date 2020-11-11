@@ -34,6 +34,8 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
             docCms, docAddresses, patientNotes, opinions;
     private List<Float> rates;
     private List<Integer> docImages;
+    private List<String> visitRefs;
+
     private HistoryAdapter historyAdapter;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -66,9 +68,10 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         opinions = new ArrayList<>();
         rates = new ArrayList<>();
         docImages = new ArrayList<>();
+        visitRefs = new ArrayList<>();
 
         historyAdapter = new HistoryAdapter(this, docNames, docSpecs, appointmentDates,
-                docCms,docAddresses,patientNotes, opinions, rates, docImages);
+                docCms,docAddresses,patientNotes, opinions, rates, docImages, visitRefs);
         historyRecycler.setAdapter(historyAdapter);
         historyRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -92,9 +95,9 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                                     Date date = documentSnapshot.getDate("appointment_start");
                                     System.out.println("DDAAYYY"+FormatData.reformatDate(date));
                                     appointmentDates.add(FormatData.reformatDate(date));
-                                    historyAdapter.notifyDataSetChanged();
                                     DocumentReference visitRef = documentSnapshot.getReference();
-
+                                    visitRefs.add(documentSnapshot.getId());
+                                    historyAdapter.notifyDataSetChanged();
                                     int visitNum = appointmentDates.size() - 1;
 
                                     if(documentSnapshot.getBoolean("rated")) {
