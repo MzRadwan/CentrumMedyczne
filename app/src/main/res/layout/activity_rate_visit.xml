@@ -180,6 +180,7 @@
                 android:fontFamily="@font/verdana"
                 android:text="@string/remind_me_later"
                 android:textAllCaps="false"
+                android:onClick="onClickAddLater"
                 android:textColor="@color/navy"
                 android:textSize="20sp" />
 
@@ -194,6 +195,7 @@
                 android:fontFamily="@font/verdana"
                 android:text="@string/no_opinion"
                 android:textAllCaps="false"
+                android:visibility="gone"
                 android:textColor="@color/navy"
                 android:textSize="20sp" />
 

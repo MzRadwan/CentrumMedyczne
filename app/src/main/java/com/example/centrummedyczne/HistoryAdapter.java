@@ -18,6 +18,9 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
+import static com.example.centrummedyczne.R.*;
+import static com.example.centrummedyczne.R.color.*;
+
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder>{
 
     private List<String> docNames, docSpecs, appointmentDates,
@@ -50,7 +53,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view  = inflater.inflate(R.layout.history_visit_row, parent, false);
+        View view  = inflater.inflate(layout.history_visit_row, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -70,12 +73,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         if (opinions.size() == docNames.size()){
             if(opinions.get(position).equals("Nie wystawiono opinii")) {
-                holder.mOpinion.setText("Nie wystawiono opinii");
+                holder.mOpinion.setVisibility(View.GONE);
+                holder.mOpinionHeader.setText("Nie wystawiono opinii");
                 holder.mAddReview.setVisibility(View.VISIBLE);
             }
             else if(!opinions.get(position).equals(" ")){
                 holder.mOpinion.setText(opinions.get(position));
                 holder.mAddReview.setVisibility(View.GONE);
+                holder.mOpinion.setVisibility(View.VISIBLE);
+
             }
         }
 
@@ -88,6 +94,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                 holder.mAddReview.setVisibility(View.VISIBLE);
             }
             else {
+                holder.mRate.setVisibility(View.VISIBLE);
                 holder.mRate.setRating(rates.get(position));
                 holder.mAddReview.setVisibility(View.GONE);
             }
@@ -113,7 +120,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView mDocName, mDocSpec, mDocCm, mVisitDate,
-                mCMAddress, mPatientNote, mOpinion, mRateHeader;
+                mCMAddress, mPatientNote, mOpinion, mRateHeader, mOpinionHeader;
         ConstraintLayout historyLayout;
         ImageView mProfileImg;
         RatingBar mRate;
@@ -122,20 +129,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mDocName = itemView.findViewById(R.id.docNameHistory);
-            mDocSpec = itemView.findViewById(R.id.docSpecHistory);
-            mDocCm = itemView.findViewById(R.id.docCMHistory);
-            mVisitDate = itemView.findViewById(R.id.visitDateHistory);
-            mCMAddress = itemView.findViewById(R.id.cmAddressHistory);
-            mProfileImg = itemView.findViewById(R.id.docImgHistory);
-            mPatientNote = itemView.findViewById(R.id.noteHistory);
-            mOpinion = itemView.findViewById(R.id.opinionTextHistory);
-            mRateHeader = itemView.findViewById(R.id.yourRating);
-            mRate = itemView.findViewById(R.id.ratingBarHistory);
+            mDocName = itemView.findViewById(id.docNameHistory);
+            mDocSpec = itemView.findViewById(id.docSpecHistory);
+            mDocCm = itemView.findViewById(id.docCMHistory);
+            mVisitDate = itemView.findViewById(id.visitDateHistory);
+            mCMAddress = itemView.findViewById(id.cmAddressHistory);
+            mProfileImg = itemView.findViewById(id.docImgHistory);
+            mPatientNote = itemView.findViewById(id.noteHistory);
+            mOpinion = itemView.findViewById(id.opinionTextHistory);
+            mRateHeader = itemView.findViewById(id.yourRating);
+            mOpinionHeader = itemView.findViewById(id.yourReview);
+            mRate = itemView.findViewById(id.ratingBarHistory);
 
-            mAddReview = itemView.findViewById(R.id.rateVisitNowHistory);
+            mAddReview = itemView.findViewById(id.rateVisitNowHistory);
 
-            historyLayout = itemView.findViewById(R.id.historyLayout);
+            historyLayout = itemView.findViewById(id.historyLayout);
         }
     }
 

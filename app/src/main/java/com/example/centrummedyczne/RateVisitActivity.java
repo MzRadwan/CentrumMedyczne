@@ -145,4 +145,10 @@ public class RateVisitActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(),StartActivity.class);
         startActivity(intent);
     }
+
+    public void onClickAddLater(View view){
+        Intent intent = new Intent(RateVisitActivity.this,
+                AppointmentHistoryActivity.class);
+        startActivity(intent);
+    }
 }
