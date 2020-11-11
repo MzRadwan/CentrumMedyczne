@@ -31,7 +31,7 @@
                 android:fontFamily="@font/verdanab"
                 android:textSize="20sp"
                 android:textColor="@color/navy"
-                android:text="Data wystawienia: 23.08.2020" />
+                android:text="@string/example_issue_date" />
 
             <TextView
                 android:id="@+id/expireDatePrescRow"
@@ -41,7 +41,7 @@
                 android:fontFamily="@font/verdana"
                 android:textSize="16sp"
                 android:textColor="@color/navy"
-                android:text="Ważna do: 23.09.2020" />
+                android:text="@string/example_expire_after" />
 
             <TextView
                 android:id="@+id/medsNamePrescRow"
@@ -50,6 +50,7 @@
                 android:fontFamily="@font/verdanab"
                 android:textSize="20sp"
                 android:textColor="@color/navy"
+                android:visibility="gone"
                 android:text="Adatox" />
 
             <TextView
@@ -65,7 +66,6 @@
                 android:id="@+id/issued_by"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:fontFamily="@font/verdana"
                 android:textSize="16sp"
                 android:textColor="@color/navy"
@@ -78,7 +78,7 @@
                 android:fontFamily="@font/verdanab"
                 android:textSize="20sp"
                 android:textColor="@color/navy"
-                android:text="dr Jan Kowalski" />
+                android:text="@string/example_doc_name" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

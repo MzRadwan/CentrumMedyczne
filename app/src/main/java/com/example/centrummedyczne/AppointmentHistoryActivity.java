@@ -93,7 +93,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                     Date date = documentSnapshot.getDate("appointment_start");
-                                    System.out.println("DDAAYYY"+FormatData.reformatDate(date));
+                                   // System.out.println("DDAAYYY"+FormatData.reformatDate(date));
                                     appointmentDates.add(FormatData.reformatDate(date));
                                     DocumentReference visitRef = documentSnapshot.getReference();
                                     visitRefs.add(documentSnapshot.getId());

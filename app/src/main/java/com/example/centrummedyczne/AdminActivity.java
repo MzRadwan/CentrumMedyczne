@@ -18,30 +18,37 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.internal.$Gson$Preconditions;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference clinics = db.collection("clinic");
-    private CollectionReference addressCol = db.collection("address");
-    private CollectionReference drugs = db.collection("drug");
-    private CollectionReference appointments = db.collection("appointment");
-    private CollectionReference docHasSpec = db.collection("doctor_has_specialization");
-    private CollectionReference healthcardCol = db.collection("healthcard");
-    private CollectionReference favouriteCol = db.collection("favourite");
-    private CollectionReference reviewCol = db.collection("review");
-    private CollectionReference doctorCol = db.collection("doctor");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference clinics = db.collection("clinic");
+    private final CollectionReference addressCol = db.collection("address");
+    private final CollectionReference drugs = db.collection("drug");
+    private final CollectionReference appointments = db.collection("appointment");
+    private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
+    private final CollectionReference healthcardCol = db.collection("healthcard");
+    private final CollectionReference favouriteCol = db.collection("favourite");
+    private final CollectionReference prescriptionCol = db.collection("prescription");
+    private final CollectionReference prescHasDrug = db.collection("prescription_has_drug");
+    private final CollectionReference reviewCol = db.collection("review");
+    private final CollectionReference doctorCol = db.collection("doctor");
+    private final CollectionReference patientCol = db.collection("patient");
 
 
     @Override
@@ -61,6 +68,47 @@ public class AdminActivity extends AppCompatActivity {
                     public void onSuccess(byte[] bytes) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         mTestPhoto.setImageBitmap(bitmap);
+                    }
+                });
+    }
+
+    public void onClickAddPrescription(View view){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        patientCol.document(user.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        final DocumentReference userRef = documentSnapshot.getReference();
+                        Map<String, Object> presc = new HashMap<>();
+                        presc.put("issue_date", FieldValue.serverTimestamp());
+                        presc.put("expire_after", FieldValue.serverTimestamp());
+                        presc.put("patient_id", userRef);
+                        presc.put("doctor_id", null);
+                        prescriptionCol.add(presc)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    DocumentReference prescRef = documentReference;
+                                    Map<String, Object> phd = new HashMap<>();
+                                    phd.put("drug_id", null);
+                                    phd.put("prescription_id", prescRef);
+                                    prescHasDrug.add(phd).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+
+                                        }
+                                    });
+                                    prescHasDrug.add(phd).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+
+                                        }
+                                    });
+
+                                }
+                            });
                     }
                 });
     }

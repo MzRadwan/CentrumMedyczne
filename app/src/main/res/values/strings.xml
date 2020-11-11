@@ -38,7 +38,7 @@
     <string name="historia_wizyt">Historia wizyt</string>
     <string name="moje_leki">Moje leki</string>
     <string name="wyloguj_si">Wyloguj się</string>
-    <string name="recepty">Recepty</string>
+    <string name="recepty">Moje recepty</string>
     <string name="header">header</string>
     <string name="nie_pami_tasz_has_a">Nie pamiętasz hasła?</string>
     <string name="reset_insr">Wpisz swój adres e-mail. Następnie postępuj zgodnie z instrukcją przysłaną na podany adres.</string>
@@ -133,6 +133,10 @@
     <string name="rate_visit">Ocena wizyty</string>
     <string name="your_opinion">Twoja opinia...</string>
     <string name="opinion_added">Dodano opinię</string>
+    <string name="example_issue_date">Data wystawienia: 23.08.2020</string>
+    <string name="example_expire_after">Ważna do: 23.09.2020</string>
+    <string name="example_datetime">23.11.2020 godz. 9:00</string>
+    <string name="are_you_sure_text">Czy na pewno chcesz zrezygnować?</string>
 
 
     <string-array name="sort_options">

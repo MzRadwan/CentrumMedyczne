@@ -37,7 +37,6 @@ public class MyMedsAdapter extends RecyclerView.Adapter<MyMedsAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        //holder.myMedLayout.setBackgroundResource(R.drawable.lagoon_button);
         holder.mMedName.setText(medNames.get(position));
         holder.mMedDetails.setText(medDetails.get(position));
         holder.mMedForms.setText(medForms.get(position));
