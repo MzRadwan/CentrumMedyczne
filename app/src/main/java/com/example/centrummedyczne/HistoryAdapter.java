@@ -25,9 +25,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     private List<String> docNames, docSpecs, appointmentDates,
             docCms, docAddresses, patientNotes, opinions;
-    private List<Float> rates;
-    private List<Integer> docImages;
-    private List<String> visitRefs;
+    private final List<Float> rates;
+    private final List<Integer> docImages;
+    private final List<String> visitRefs;
 
     Context context;
 
