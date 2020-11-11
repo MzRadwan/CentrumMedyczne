@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentReference;
+
 
 import java.util.List;
 
 import static com.example.centrummedyczne.R.*;
-import static com.example.centrummedyczne.R.color.*;
+
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder>{
 
