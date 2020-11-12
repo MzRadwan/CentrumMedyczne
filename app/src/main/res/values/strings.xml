@@ -137,6 +137,8 @@
     <string name="example_expire_after">Ważna do: 23.09.2020</string>
     <string name="example_datetime">23.11.2020 godz. 9:00</string>
     <string name="are_you_sure_text">Czy na pewno chcesz zrezygnować?</string>
+    <string name="go_to_messages">Wyślij wiadomość</string>
+    <string name="your_message">Twoja wiadomość...</string>
 
 
     <string-array name="sort_options">

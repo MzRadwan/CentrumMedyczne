@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -41,7 +40,7 @@ public class PatientAccountActivity extends AppCompatActivity {
     }
 
     public void onClickAskDoctor(View view){
-        Intent intent = new Intent(view.getContext(), DoctorsChat.class); //TO DO
+        Intent intent = new Intent(view.getContext(), DoctorsChatActivity.class); //TO DO
         startActivity(intent);
     }
 

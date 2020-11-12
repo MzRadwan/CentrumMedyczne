@@ -38,38 +38,26 @@ public class FavDocsActivity extends AppCompatActivity {
     private List<Integer> images, opinionCounters, rateCounters;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-//    private final CollectionReference specializations = db.collection("specialization");
     private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
-   // private final CollectionReference doctors = db.collection("doctor");
-    //private final CollectionReference clinics = db.collection("clinic");
-   // private final CollectionReference address = db.collection("address");
+
     private final CollectionReference appointments = db.collection("appointment");
     private final CollectionReference favouriteCol = db.collection("favourite");
     private final CollectionReference patients = db.collection("patient");
     private final CollectionReference reviews = db.collection("review");
 
-   /* String s1[], s2[];
-    int images[] = {R.drawable.ic_profile_blue,R.drawable.ic_profile_blue,
-            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_lagoon,
-            R.drawable.ic_profile_blue, R.drawable.ic_profile_lagoon,
-            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_blue,
-            R.drawable.ic_profile_blue, R.drawable.ic_profile_blue};*/
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav_docs);
 
+        createFavoriteRecycler();
 
+        findFavDocs();
 
+    }
 
+    private void createFavoriteRecycler(){
         mFavDocRecycler = (RecyclerView) findViewById(R.id.favDocRecycler);
-
-        /*s1 = getResources().getStringArray(R.array.doctors);
-        s2 = getResources().getStringArray(R.array.description);
-
-        FavDocAdapter favDocAdapter = new FavDocAdapter(this, s1, s2, images);
-        mFavDocRecycler.setAdapter(favDocAdapter);
-        mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));*/
 
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
@@ -90,9 +78,6 @@ public class FavDocsActivity extends AppCompatActivity {
                 docCities, favourites, opinionCounters, rateCounters, docReviews);
         mFavDocRecycler.setAdapter(searchRecyclerAdapter);
         mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));
-
-        findFavDocs();
-
     }
 
     private void findFavDocs(){

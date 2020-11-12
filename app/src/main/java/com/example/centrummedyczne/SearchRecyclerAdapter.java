@@ -36,15 +36,13 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     List<Integer> images, rateCounters, opinionCounters;
     List<Float> docRates, docPrices;
     List<Boolean> favourites;
-    Map<String, String> docHasSpecs;
+
     Context context;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    //private final CollectionReference specializations = db.collection("specialization");
     private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
     private final CollectionReference doctors = db.collection("doctor");
-   // private final CollectionReference clinics = db.collection("clinic");
-    // final CollectionReference address = db.collection("address");
+
 
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<Integer> img, List<Float> docRates, List<Float> docPrices,
@@ -128,11 +126,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 holder.mFullHeart.setVisibility(View.VISIBLE);
         }
 
-        if (rateCounters.get(position) == 0) { // no ratings
+       /* if (rateCounters.get(position) == 0) { // no ratings
 
         }
 
-
+*/
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

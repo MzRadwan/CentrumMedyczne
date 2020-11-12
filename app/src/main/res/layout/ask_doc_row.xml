@@ -29,10 +29,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:contentDescription="@string/profile_pic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile_blue"
-                android:contentDescription="@string/profile_pic" />
+                app:srcCompat="@drawable/ic_profile_blue" />
 
             <TextView
                 android:id="@+id/askDocName"
@@ -52,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
                 android:fontFamily="@font/verdana"
                 android:text="@string/example_spec"
                 android:textColor="@color/navy"
@@ -64,8 +63,8 @@
                 android:id="@+id/askDocCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
                 android:layout_marginStart="10dp"
+                android:fontFamily="@font/verdana"
                 android:text="@string/example_cm"
                 android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/askProfileImg"
@@ -77,10 +76,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/verdana"
+                android:text="@string/example_address"
                 android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/askProfileImg"
-                app:layout_constraintTop_toBottomOf="@+id/askDocCM"
-                android:text="@string/example_address" />
+                app:layout_constraintTop_toBottomOf="@+id/askDocCM" />
+
+            <Button
+                android:id="@+id/goToDocMessages"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:layout_marginStart="50sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginEnd="50sp"
+                android:background="@drawable/lagoon_button"
+                android:fontFamily="@font/verdana"
+                android:text="@string/go_to_messages"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/askDocCityAddress" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

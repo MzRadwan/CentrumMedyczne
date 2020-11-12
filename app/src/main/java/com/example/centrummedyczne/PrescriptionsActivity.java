@@ -28,8 +28,6 @@ public class PrescriptionsActivity extends AppCompatActivity {
     private final CollectionReference patientCol = db.collection("patient");
     private final CollectionReference prescCol = db.collection("prescription");
     private final CollectionReference prescHasDrug = db.collection("prescription_has_drug");
-//    private final CollectionReference drugCol = db.collection("drug");
-
 
     private List<String> issueDates, expireDates, docNames, prescDrugs;
     private PrescriptionsAdapter prescriptionsAdapter;

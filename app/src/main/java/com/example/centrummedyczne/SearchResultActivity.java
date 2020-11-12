@@ -59,12 +59,6 @@ public class SearchResultActivity extends AppCompatActivity {
     private SearchRecyclerAdapter searchRecyclerAdapter;
     private List<Integer> images, opinionCounters, rateCounters;
 
-    /*,
-            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_lagoon,
-            R.drawable.ic_profile_blue, R.drawable.ic_profile_lagoon,
-            R.drawable.ic_profile_lagoon, R.drawable.ic_profile_blue,
-            R.drawable.ic_profile_blue, R.drawable.ic_profile_blue};*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +199,6 @@ public class SearchResultActivity extends AppCompatActivity {
                         docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
                                 + foundDoctor.getLast_name());
-                        //s2.add(chosenSpec);
                         images.add(R.drawable.ic_profile_lagoon);
                         docRates.add(foundDoctor.getAverage_rate());
                         docPrices.add(foundDoctor.getAppointment_price());
@@ -213,8 +206,6 @@ public class SearchResultActivity extends AppCompatActivity {
                         searchRecyclerAdapter.notifyDataSetChanged();
 
                         final int docNum = s1.size() - 1;
-
-
                         //specs
 
                         s2.add("");
@@ -361,18 +352,13 @@ public class SearchResultActivity extends AppCompatActivity {
 
                         //DocumentReference docClinicRef = foundDoctor.getClinic_id();
                         DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
-                        //System.out.println("Clinic_ref" );
-                        //System.out.println(foundDoctor.getClinic_id().toString());
-                        //System.out.println(documentSnapshot.getDocumentReference("clinic_id").toString());
                         docClinicRef.get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                //System.out.println("Clinic_data" );
-                               // System.out.println(documentSnapshot.getId() +
-                                 //" => " + documentSnapshot.getData());
+
                                 docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
-                                //System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
+
                                 searchRecyclerAdapter.notifyDataSetChanged();
 
                                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");

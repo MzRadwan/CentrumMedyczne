@@ -30,9 +30,9 @@ import java.util.Map;
 
 public class EditPatientActivity extends AppCompatActivity {
 
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference patientCol = db.collection("patient");
+    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference patientCol = db.collection("patient");
 
     private EditText mPhoneEdit, mStreetEdit, mBuildingEdit, mApartmentEdit, mCityEdit, mPostalCode;
 
@@ -232,29 +232,29 @@ public class EditPatientActivity extends AppCompatActivity {
     private void setHints(){
         String userId = user.getUid();
         patientCol.document(userId).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Patient patient = documentSnapshot.toObject(Patient.class);
-                        //assert patient != null;
-                        mPhoneEdit.setHint(patient.getMobile());
-                        final DocumentReference addressId = patient.getAddress_id();
-                        addressId.get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        Address address = documentSnapshot.toObject(Address.class);
-                                        assert address != null;
-                                        mCityEdit.setHint(address.getCity());
-                                        mApartmentEdit.setHint(address.getApartment());
-                                        mBuildingEdit.setHint(address.getBuilding_number());
-                                        mStreetEdit.setHint(address.getStreet());
-                                        mPostalCode.setHint(address.getPostal_code());
-                                    }
-                                });
-
-                    }
-                });
-
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Patient patient = documentSnapshot.toObject(Patient.class);
+                TextView mPatient = findViewById(R.id.loggedPatientName);
+                mPatient.setText("Witaj " + patient.getFirst_name() + " " + patient.getLast_name());
+                //assert patient != null;
+                mPhoneEdit.setHint(patient.getMobile());
+                final DocumentReference addressId = patient.getAddress_id();
+                addressId.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Address address = documentSnapshot.toObject(Address.class);
+                        assert address != null;
+                        mCityEdit.setHint(address.getCity());
+                        mApartmentEdit.setHint(address.getApartment());
+                        mBuildingEdit.setHint(address.getBuilding_number());
+                        mStreetEdit.setHint(address.getStreet());
+                        mPostalCode.setHint(address.getPostal_code());
+                        }
+                    });
+                }
+            });
     }
 }

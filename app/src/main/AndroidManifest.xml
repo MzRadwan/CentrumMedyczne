@@ -9,11 +9,12 @@
         android:roundIcon="@drawable/r_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MoreDocSActivity"></activity>
+        <activity android:name=".DoctorMessageActivity"></activity>
+        <activity android:name=".MoreDocSActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ResetPassword" />
         <activity android:name=".PlannedVisitsActivity" />
-        <activity android:name=".DoctorsChat" />
+        <activity android:name=".DoctorsChatActivity" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

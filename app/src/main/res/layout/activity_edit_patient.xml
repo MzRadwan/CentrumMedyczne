@@ -73,6 +73,18 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/loggedPatientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/verdana"
+                android:textColor="@color/navy"
+                android:textSize="22sp"
+                android:padding="10sp"
+                android:textAlignment="center"
+                android:layout_marginBottom="0sp"
+                />
+
+            <TextView
                 android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
