@@ -74,7 +74,8 @@ public class DoctorsChatActivity extends AppCompatActivity {
     }
 
     private void getAppointments(DocumentReference userRef){
-        appointmentCol.whereEqualTo("patient_id", userRef).get()
+        appointmentCol.whereEqualTo("patient_id", userRef)
+                .whereEqualTo("completed", true).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

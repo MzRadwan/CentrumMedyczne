@@ -31,4 +31,10 @@ public class FormatData {
 
         return correctDate;
     }
+
+    public static String reformatTime(Date date){
+        String startTime = date.toString();
+        String correctTime = "";
+        return correctTime;
+    }
 }
