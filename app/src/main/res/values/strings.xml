@@ -139,6 +139,9 @@
     <string name="are_you_sure_text">Czy na pewno chcesz zrezygnować?</string>
     <string name="go_to_messages">Wyślij wiadomość</string>
     <string name="your_message">Twoja wiadomość...</string>
+    <string name="book_appointment">Umów wizytę</string>
+    <string name="show_more">Wyświetl więcej</string>
+    <string name="back_to_doc_profile">Powrót do profilu lekarza</string>
 
 
     <string-array name="sort_options">

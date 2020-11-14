@@ -349,32 +349,25 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
                         //clinics data
-
-                        //DocumentReference docClinicRef = foundDoctor.getClinic_id();
                         DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
                         docClinicRef.get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-
                                 docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
-
                                 searchRecyclerAdapter.notifyDataSetChanged();
-
                                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
                                 clinicAddress.get()
                                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                             @Override
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                 Address address = documentSnapshot.toObject(Address.class);
-                                                //System.out.println(address.getCity() + address.getStreet() + address.getBuilding_number() + address.getApartment());
                                                 String cmAddress = "";
                                                 cmAddress += address.getCity() + ", "
                                                         + address.getStreet() + " " + address.getBuilding_number();
                                                 //if (!address.getApartment()!=null){
                                                   //  cmAddress += "/" + address.getApartment();
                                                 //}
-
                                                 docCities.add(cmAddress);
                                                 searchRecyclerAdapter.notifyDataSetChanged();
                                             }

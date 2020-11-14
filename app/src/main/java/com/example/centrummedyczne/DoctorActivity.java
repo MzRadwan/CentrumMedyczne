@@ -39,7 +39,6 @@ public class DoctorActivity extends AppCompatActivity {
 
     private Button mMoreOpinions;
 
-
     private String data1, data2, name, info, docCM, docCity, docReview;
     private boolean isFav;
     private float rate, price;
@@ -110,8 +109,8 @@ public class DoctorActivity extends AppCompatActivity {
 
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
         mainImageView.setImageResource(myImage);
-          mDocCM.setText(""+docCM);
-        mDocCity.setText(""+docCity);
+          mDocCM.setText(docCM);
+        mDocCity.setText(docCity);
 
         displayOpinionsAndRates();
 
@@ -253,6 +252,18 @@ public class DoctorActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void onClickBookAppointment(View view){
+        Intent intent = new Intent(DoctorActivity.this, BookAppointmentActivity.class);
+        intent.putExtra("docId", data1);
+        intent.putExtra("docName", name);
+        intent.putExtra("docSpec", data2);
+        intent.putExtra("docCM", docCM);
+        intent.putExtra("docCity", docCity);
+        intent.putExtra("price", price);
+        intent.putExtra("docImg", myImage);
+        startActivity(intent);
     }
 
     public void onClickSearchDocActivity(View view){
