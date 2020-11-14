@@ -1,6 +1,7 @@
 package com.example.centrummedyczne;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,23 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapter.MyViewHolder>{
 
     private List<String> appointmentDates, docNames, docSpecs, docCMs, docCMCities, visitRefs;
     private List<Integer> docImgs;
     Context context;
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference appointmentCol = db.collection("appointment");
 
     public PlannedVisitAdapter(Context ct, List<String> appointmentDates, List<String> docNames, List<String> docSpecs,
                                List<String> docCMs, List<String> docCMCities, List<String> visitRefs, List<Integer> docImgs){
@@ -59,7 +70,7 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
                 holder.mCancelConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Rezygnacja z wizyty", Toast.LENGTH_SHORT).show();
+                        cancelAppointment(visitRefs.get(position));
                     }
                 });
                 holder.mDoNotCancel.setVisibility(View.VISIBLE);
@@ -76,6 +87,23 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
         });
 
 
+
+    }
+
+    private void cancelAppointment(String visitId){
+        Map<String, Object> visit = new HashMap<>();
+        visit.put("booked", false);
+        visit.put("patient_id", null);
+        visit.put("notification_sent", false);
+        appointmentCol.document(visitId).update(visit)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Wizyta odwołana", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, PlannedVisitsActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
