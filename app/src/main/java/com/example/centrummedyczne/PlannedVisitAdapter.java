@@ -44,9 +44,7 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-        System.out.println(appointmentDates.get(position));
-        if (appointmentDates.size() == visitRefs.size())
-            holder.mDateTime.setText(appointmentDates.get(position));
+        holder.mDateTime.setText(appointmentDates.get(position));
         holder.mDocName.setText(docNames.get(position));
         holder.mDocSpec.setText(docSpecs.get(position));
         holder.mDocCM.setText(docCMs.get(position));
@@ -97,7 +95,7 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
 
             mDocName = itemView.findViewById(R.id.plannedDocName);
             mDocSpec = itemView.findViewById(R.id.plannedDocSpec);
-            mDateTime = itemView.findViewById(R.id.visitDateHistory);
+            mDateTime = itemView.findViewById(R.id.plannedVisitDatetime);
             mDocCM = itemView.findViewById(R.id.plannedDocCM);
             mDocCity = itemView.findViewById(R.id.plannedDocCityAddress);
             mDocImg = itemView.findViewById(R.id.plannedProfileImg);

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PlannedVisitsActivity extends AppCompatActivity {
@@ -85,10 +86,13 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                         visitRefs.add(documentSnapshot.getId());
-                        appointmentDates.add(String.valueOf(documentSnapshot.getDate("appointment_start")));
+                        //appointmentDates.add(String.valueOf(documentSnapshot.getDate("appointment_start")));
                        System.out.println("DATE"+String.valueOf(documentSnapshot.getDate("appointment_start")));
-                        System.out.println(appointmentDates.get(appointmentDates.size()-1));
-                       docNames.add("");
+
+                        Date date = documentSnapshot.getDate("appointment_start");
+                        appointmentDates.add(FormatData.reformatDateTime(date));
+                        System.out.println();
+                        docNames.add("");
                         docSpecs.add("");
                         docCMs.add("");
                         docCMCities.add("");

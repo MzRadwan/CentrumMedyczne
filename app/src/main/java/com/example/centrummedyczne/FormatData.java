@@ -34,7 +34,11 @@ public class FormatData {
 
     public static String reformatTime(Date date){
         String startTime = date.toString();
-        String correctTime = "";
+        String correctTime = startTime.substring(11,16);
         return correctTime;
+    }
+
+    public static String reformatDateTime(Date date){
+        return reformatDate(date) + " " +reformatTime(date);
     }
 }
