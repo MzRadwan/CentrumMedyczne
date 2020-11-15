@@ -142,6 +142,7 @@
     <string name="book_appointment">Umów wizytę</string>
     <string name="show_more">Wyświetl więcej</string>
     <string name="back_to_doc_profile">Powrót do profilu lekarza</string>
+    <string name="avaliable_appointment_dates">Dostępne terminy:</string>
 
 
     <string-array name="sort_options">

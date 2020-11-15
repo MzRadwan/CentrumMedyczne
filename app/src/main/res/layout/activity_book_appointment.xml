@@ -189,6 +189,19 @@
                 android:orientation="vertical">
 
 
+                <TextView
+                    android:id="@+id/avaliableTextBooking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/navy"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
+                    android:text="@string/avaliable_appointment_dates" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/avaliableRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
 
@@ -199,6 +212,7 @@
                 android:padding="10dp"
                 android:background="@drawable/white_background"
                 android:orientation="vertical">
+
                 <Button
                     android:id="@+id/bookVisitBooking"
                     android:layout_width="match_parent"

@@ -39,6 +39,6 @@ public class FormatData {
     }
 
     public static String reformatDateTime(Date date){
-        return reformatDate(date) + " " +reformatTime(date);
+        return reformatDate(date) + " godz. " +reformatTime(date);
     }
 }

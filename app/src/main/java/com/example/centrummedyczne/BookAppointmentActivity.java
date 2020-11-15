@@ -2,6 +2,8 @@ package com.example.centrummedyczne;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -17,11 +19,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BookAppointmentActivity extends AppCompatActivity {
 
     private String docName, docSpec, docCM, docCity, docId;
     private int docImg;
     private float docPrice;
+
+    private List<String> visitDates;
+    private List<DocumentReference> visitRefs;
+    private AvaliableAdapter avaliableAdapter;
 
     private TextView mDocName, mDocSpec, mDocCM, mDocCity, mDocPrice;
     private ImageView mDocImage;
@@ -44,7 +53,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
         getData();
         setData();
+        createRecycler();
         getAppointments();
+    }
+
+    private void createRecycler(){
+        RecyclerView avaliableRecycler = findViewById(R.id.avaliableRecycler);
+        visitDates = new ArrayList<>();
+        visitRefs = new ArrayList<>();
+        avaliableAdapter = new AvaliableAdapter(this, visitDates, visitRefs);
+        avaliableRecycler.setAdapter(avaliableAdapter);
+        avaliableRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void getAppointments(){
@@ -61,9 +80,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                    Toast.makeText(BookAppointmentActivity.this,  documentSnapshot.getId(), Toast.LENGTH_SHORT).show();
-                                    System.out.println(documentSnapshot.getId());
-                                    System.out.println(documentSnapshot.getData());
+                                   // Toast.makeText(BookAppointmentActivity.this,  documentSnapshot.getId(), Toast.LENGTH_SHORT).show();
+                                  //  System.out.println(documentSnapshot.getId());
+                                    //System.out.println(documentSnapshot.getData());
+                                    visitRefs.add(documentSnapshot.getReference());
+                                    visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
+                                    avaliableAdapter.notifyDataSetChanged();
                                 }
                             }
                         })
