@@ -96,7 +96,7 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                         docSpecs.add("");
                         docCMs.add("");
                         docCMCities.add("");
-                        docImgs.add(0);
+                        docImgs.add(R.drawable.ic_profile_lagoon);
                         plannedVisitAdapter.notifyDataSetChanged();
                         int visitNum = visitRefs.size() - 1;
                         getDocData(documentSnapshot.getDocumentReference("doctor_id"),visitNum);
@@ -115,7 +115,7 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                 docNames.set(visitNum,doc.getDegree() + " "
                         + doc.getFirst_name() + " "
                         + doc.getLast_name());
-                docImgs.add(R.drawable.ic_profile_lagoon);
+
                 plannedVisitAdapter.notifyDataSetChanged();
 
                 getDocsSpec(docRef,visitNum);

@@ -82,9 +82,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                   // Toast.makeText(BookAppointmentActivity.this,  documentSnapshot.getId(), Toast.LENGTH_SHORT).show();
-                                  //  System.out.println(documentSnapshot.getId());
-                                    //System.out.println(documentSnapshot.getData());
+
                                     visitRefs.add(documentSnapshot.getId());
                                     visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
                                     avaliableAdapter.notifyDataSetChanged();
@@ -132,4 +130,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
         mDocPrice.setText(String.format("%.2f", docPrice) + " PLN");
         mDocImage.setImageResource(docImg);
     }
+
+
+/*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //visitRefs.clear();
+        //visitDates.clear();
+        //avaliableAdapter.notifyDataSetChanged();
+        //getAppointments();
+        createRecycler();
+        getAppointments();
+    }*/
 }
