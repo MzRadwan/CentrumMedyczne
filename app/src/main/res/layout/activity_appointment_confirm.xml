@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/fair"
     android:orientation="vertical"
-    tools:context=".BookAppointmentActivity">
+    tools:context=".AppointmentConfirmActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <ImageView
-            android:id="@+id/searchIconDocA"
+            android:id="@+id/searchIconConfirm"
             android:layout_width="45dp"
             android:layout_height="42dp"
             android:layout_marginTop="14dp"
@@ -45,7 +45,7 @@
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
-            android:id="@+id/accountImageDocA"
+            android:id="@+id/accountImageConfirm"
             android:layout_width="70dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -56,21 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:srcCompat="@drawable/ic_account_box_white" />
 
-        <Button
-            android:id="@+id/loginButtonDocA"
-            android:layout_width="wrap_content"
-            android:layout_height="40sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/white_button"
-            android:fontFamily="@font/verdana"
-            android:text="@string/login_text"
-            android:textAllCaps="false"
-            android:textColor="@color/navy"
-            android:textSize="18sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
@@ -89,11 +75,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/white_background"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:visibility="gone">
 
 
                 <ImageView
-                    android:id="@+id/docImgBooking"
+                    android:id="@+id/docImgConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -104,7 +91,7 @@
                     app:srcCompat="@drawable/ic_profile_blue" />
 
                 <TextView
-                    android:id="@+id/docNameBooking"
+                    android:id="@+id/docNameConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -113,11 +100,11 @@
                     android:text="@string/example_doc_name"
                     android:textColor="@color/navy"
                     android:textSize="17sp"
-                    app:layout_constraintStart_toEndOf="@+id/docImgBooking"
+                    app:layout_constraintStart_toEndOf="@+id/docImgConfirm"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/docSpecBooking"
+                    android:id="@+id/docSpecConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -126,11 +113,11 @@
                     android:text="@string/example_spec"
                     android:textColor="@color/navy"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toEndOf="@+id/docImgBooking"
-                    app:layout_constraintTop_toBottomOf="@+id/docNameBooking" />
+                    app:layout_constraintStart_toEndOf="@+id/docImgConfirm"
+                    app:layout_constraintTop_toBottomOf="@+id/docNameConfirm" />
 
                 <TextView
-                    android:id="@+id/docCMBooking"
+                    android:id="@+id/docCMConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -138,11 +125,11 @@
                     android:text="@string/example_cm"
                     android:textColor="@color/navy"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toEndOf="@+id/docImgBooking"
-                    app:layout_constraintTop_toBottomOf="@+id/docSpecBooking" />
+                    app:layout_constraintStart_toEndOf="@+id/docImgConfirm"
+                    app:layout_constraintTop_toBottomOf="@+id/docSpecConfirm" />
 
                 <TextView
-                    android:id="@+id/docCMAddressBooking"
+                    android:id="@+id/docCMAddressConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -150,8 +137,8 @@
                     android:text="@string/example_address"
                     android:textColor="@color/navy"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toEndOf="@+id/docImgBooking"
-                    app:layout_constraintTop_toBottomOf="@+id/docCMBooking" />
+                    app:layout_constraintStart_toEndOf="@+id/docImgConfirm"
+                    app:layout_constraintTop_toBottomOf="@+id/docCMConfirm" />
 
                 <TextView
                     android:id="@+id/textView50"
@@ -162,11 +149,11 @@
                     android:text="@string/doc_price"
                     android:textColor="@color/navy"
                     android:textSize="15sp"
-                    app:layout_constraintStart_toEndOf="@+id/docImgBooking"
-                    app:layout_constraintTop_toBottomOf="@+id/docCMAddressBooking" />
+                    app:layout_constraintStart_toEndOf="@+id/docImgConfirm"
+                    app:layout_constraintTop_toBottomOf="@+id/docCMAddressConfirm" />
 
                 <TextView
-                    android:id="@+id/docPriceBooking"
+                    android:id="@+id/docPriceConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -175,13 +162,13 @@
                     android:textColor="@color/navy"
                     android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@+id/textView50"
-                    app:layout_constraintTop_toBottomOf="@+id/docCMAddressBooking" />
+                    app:layout_constraintTop_toBottomOf="@+id/docCMAddressConfirm" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <LinearLayout
-                android:id="@+id/visitLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -189,57 +176,80 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-
                 <TextView
-                    android:id="@+id/avaliableTextBooking"
+                    android:id="@+id/avaliableTextConfirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
-                    android:text="@string/avaliable_appointment_dates"
+                    android:text="Czy chcesz umówić wizytę?"
+                    android:textAlignment="center"
                     android:textColor="@color/navy"
                     android:textSize="18sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/avaliableRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/white_background"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:visibility="gone">
-
                 <Button
-                    android:id="@+id/bookVisitBooking"
+                    android:id="@+id/avaliableAppointmentConfirm"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="40sp"
+
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/lagoon_button"
+                    android:clickable="false"
                     android:fontFamily="@font/verdana"
-                    android:text="@string/book_appointment"
+                    android:text="@string/example_datetime"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/stopBookingConfirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/blue_button"
+                        android:fontFamily="@font/verdana"
+                        android:text="Anuluj"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/confirmBookingConfirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/blue_button"
+                        android:fontFamily="@font/verdana"
+                        android:onClick="onClickConfirmVisit"
+                        android:text="Potwierdź"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/backToDocActivity"
+                android:id="@+id/backToAvaliableVisits"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_margin="20dp"
                 android:background="@drawable/sky_button"
                 android:fontFamily="@font/verdana"
-                android:text="@string/back_to_doc_profile"
+                android:text="Powrót do listy terminów"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

@@ -1,6 +1,7 @@
 package com.example.centrummedyczne;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,11 @@ import java.util.List;
 public class AvaliableAdapter extends RecyclerView.Adapter<AvaliableAdapter.MyViewHolder>{
 
     private List<String> visitDates;
-    private List<DocumentReference> visitRefs;
+    private List<String> visitRefs;
 
     Context context;
 
-    public AvaliableAdapter(Context ct, List<String> visitDates, List<DocumentReference> visitRefs){
+    public AvaliableAdapter(Context ct, List<String> visitDates, List<String> visitRefs){
         context = ct;
         this.visitDates = visitDates;
         this.visitRefs = visitRefs;
@@ -44,8 +45,12 @@ public class AvaliableAdapter extends RecyclerView.Adapter<AvaliableAdapter.MyVi
         holder.mVisitDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.mVisitDate.setBackgroundResource(R.drawable.sky_button);
-                holder.mBookingButton.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, AppointmentConfirmActivity.class);
+                intent.putExtra("visitId", visitRefs.get(position));
+                intent.putExtra("visitDate", visitDates.get(position));
+                context.startActivity(intent);
+                //holder.mVisitDate.setBackgroundResource(R.drawable.sky_button);
+               // holder.mBookingButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -65,7 +70,7 @@ public class AvaliableAdapter extends RecyclerView.Adapter<AvaliableAdapter.MyVi
             super(itemView);
 
             mVisitDate = itemView.findViewById(R.id.avaliableAppointmentButton);
-            mBookingButton = itemView.findViewById(R.id.bookVisitBooking);
+           // mBookingButton = itemView.findViewById(R.id.bookVisitBooking);
 
             avaliableLayout = itemView.findViewById(R.id.avaliableAppointmentLayout);
         }

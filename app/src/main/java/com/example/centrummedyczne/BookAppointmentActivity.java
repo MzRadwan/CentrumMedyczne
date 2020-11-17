@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
     private float docPrice;
 
     private List<String> visitDates;
-    private List<DocumentReference> visitRefs;
+    private List<String> visitRefs;
     private AvaliableAdapter avaliableAdapter;
 
     private TextView mDocName, mDocSpec, mDocCM, mDocCity, mDocPrice;
@@ -83,9 +85,21 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                    // Toast.makeText(BookAppointmentActivity.this,  documentSnapshot.getId(), Toast.LENGTH_SHORT).show();
                                   //  System.out.println(documentSnapshot.getId());
                                     //System.out.println(documentSnapshot.getData());
-                                    visitRefs.add(documentSnapshot.getReference());
+                                    visitRefs.add(documentSnapshot.getId());
                                     visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
                                     avaliableAdapter.notifyDataSetChanged();
+                                   /* final TextView textView = new TextView(BookAppointmentActivity.this);
+                                    textView.setText(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
+                                    LinearLayout visitLayout = findViewById(R.id.visitLayout);
+                                    visitLayout.addView(textView);
+                                    textView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            textView.setTextColor(getResources().getColor(R.color.navy));
+                                        }
+                                    });*/
+
                                 }
                             }
                         })
