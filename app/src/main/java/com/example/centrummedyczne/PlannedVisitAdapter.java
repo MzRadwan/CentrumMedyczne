@@ -32,8 +32,9 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference appointmentCol = db.collection("appointment");
 
-    public PlannedVisitAdapter(Context ct, List<String> appointmentDates, List<String> docNames, List<String> docSpecs,
-                               List<String> docCMs, List<String> docCMCities, List<String> visitRefs, List<Integer> docImgs){
+    public PlannedVisitAdapter(Context ct, List<String> appointmentDates, List<String> docNames,
+                               List<String> docSpecs, List<String> docCMs, List<String> docCMCities,
+                               List<String> visitRefs, List<Integer> docImgs){
         context = ct;
         this.appointmentDates = appointmentDates;
         this.docNames = docNames;
@@ -85,8 +86,6 @@ public class PlannedVisitAdapter extends RecyclerView.Adapter<PlannedVisitAdapte
                 });
             }
         });
-
-
 
     }
 

@@ -67,6 +67,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <TextView
+                android:id="@+id/noPlanneVisits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/white_background"
+                android:fontFamily="@font/verdana"
+                android:padding="20dp"
+                android:textAlignment="center"
+                android:text="Brak zaplanowanych wizyt"
+                android:textColor="@color/navy"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/plannedRecycler"
                 android:layout_width="match_parent"

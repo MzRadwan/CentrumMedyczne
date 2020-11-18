@@ -143,6 +143,7 @@
     <string name="show_more">Wyświetl więcej</string>
     <string name="back_to_doc_profile">Powrót do profilu lekarza</string>
     <string name="avaliable_appointment_dates">Dostępne terminy:</string>
+    <string name="no_prescriptions">Brak recept do wyświetlenia</string>
 
 
     <string-array name="sort_options">

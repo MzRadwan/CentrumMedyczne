@@ -50,8 +50,6 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_history);
 
-
-        createHistoryRecycler();
         getHistory();
 
     }
@@ -88,12 +86,21 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                     DocumentReference userRef = documentSnapshot.getReference();
                     appoinmentCol.whereEqualTo("patient_id", userRef)
                             .whereEqualTo("completed", true).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.getResult().isEmpty()){
+                                    TextView mNoHistory = findViewById(R.id.noHistory);
+                                    mNoHistory.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        })
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                createHistoryRecycler();
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                     Date date = documentSnapshot.getDate("appointment_start");
-                                   // System.out.println("DDAAYYY"+FormatData.reformatDate(date));
                                     appointmentDates.add(FormatData.reformatDate(date));
                                     DocumentReference visitRef = documentSnapshot.getReference();
                                     visitRefs.add(documentSnapshot.getId());

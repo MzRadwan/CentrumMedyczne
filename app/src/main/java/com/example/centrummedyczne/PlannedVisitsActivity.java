@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,8 +42,6 @@ public class PlannedVisitsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planned_visits);
-
-        createPlannedRecycler();
 
         getPlannedVisits();
     }
@@ -80,18 +80,25 @@ public class PlannedVisitsActivity extends AppCompatActivity {
     private void getAppointments(DocumentReference userRef){
         appointmentCol.whereEqualTo("patient_id", userRef)
             .whereEqualTo("booked", true)
-            .whereEqualTo("completed", false).get()
-            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+            .whereEqualTo("completed", false)
+            .whereEqualTo("patient_absent", false).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult().isEmpty()){
+                            TextView mNoPlanned = findViewById(R.id.noPlanneVisits);
+                            mNoPlanned.setVisibility(View.VISIBLE);
+                        }
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    createPlannedRecycler();
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                         visitRefs.add(documentSnapshot.getId());
-                        //appointmentDates.add(String.valueOf(documentSnapshot.getDate("appointment_start")));
-                       System.out.println("DATE"+String.valueOf(documentSnapshot.getDate("appointment_start")));
-
                         Date date = documentSnapshot.getDate("appointment_start");
                         appointmentDates.add(FormatData.reformatDateTime(date));
-                        System.out.println();
                         docNames.add("");
                         docSpecs.add("");
                         docCMs.add("");
@@ -100,10 +107,9 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                         plannedVisitAdapter.notifyDataSetChanged();
                         int visitNum = visitRefs.size() - 1;
                         getDocData(documentSnapshot.getDocumentReference("doctor_id"),visitNum);
-
                     }
-                }
-            });
+                    }
+                });
     }
 
     private void getDocData(final DocumentReference docRef, final int visitNum){
@@ -115,9 +121,7 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                 docNames.set(visitNum,doc.getDegree() + " "
                         + doc.getFirst_name() + " "
                         + doc.getLast_name());
-
                 plannedVisitAdapter.notifyDataSetChanged();
-
                 getDocsSpec(docRef,visitNum);
                 getDocsClinics(doc.getClinic_id(), visitNum);
                 }
@@ -169,23 +173,24 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                 docCMs.set(visitNum, documentSnapshot.getString("clinic_name"));
-                    plannedVisitAdapter.notifyDataSetChanged();                DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
-                clinicAddress.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Address address = documentSnapshot.toObject(Address.class);
-                        String cmAddress = "";
-                        cmAddress += address.getCity() + ", "
-                                + address.getStreet() + " " + address.getBuilding_number();
-                        //if (address.getApartment()!=null){
-                        //  cmAddress += "/" + address.getApartment();
-                        //}
+                    plannedVisitAdapter.notifyDataSetChanged();               
+                    DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
+                    clinicAddress.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Address address = documentSnapshot.toObject(Address.class);
+                            String cmAddress = "";
+                            cmAddress += address.getCity() + ", "
+                                    + address.getStreet() + " " + address.getBuilding_number();
+                           if (address.getApartment()!=null){
+                              cmAddress += "/" + address.getApartment();
+                            }
 
-                        docCMCities.set(visitNum,cmAddress);
-                            plannedVisitAdapter.notifyDataSetChanged();
-                        }
-                            });
+                            docCMCities.set(visitNum,cmAddress);
+                                plannedVisitAdapter.notifyDataSetChanged();
+                            }
+                        });
                 }
             });
     }

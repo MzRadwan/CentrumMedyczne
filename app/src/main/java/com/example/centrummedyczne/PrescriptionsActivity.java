@@ -1,13 +1,20 @@
 package com.example.centrummedyczne;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,8 +43,6 @@ public class PrescriptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescriptions);
-
-        createPrescriptionsRecycler();
 
         getPrescriptions();
     }
@@ -72,9 +77,19 @@ public class PrescriptionsActivity extends AppCompatActivity {
 
     private void getUsersPresc(DocumentReference userRef){
         prescCol.whereEqualTo("patient_id",userRef).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.getResult().isEmpty()){
+                            TextView mNoPrescriptions = findViewById(R.id.noPrescriptionsText);
+                            mNoPrescriptions.setVisibility(View.VISIBLE);
+                        }
+                    }
+                })
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    createPrescriptionsRecycler();
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     Date issueDate = documentSnapshot.getDate("issue_date");
                     Date expireDate = documentSnapshot.getDate("expire_after");
@@ -86,12 +101,22 @@ public class PrescriptionsActivity extends AppCompatActivity {
                     DocumentReference docRef = documentSnapshot.getDocumentReference("doctor_id");
                     int prescNum = issueDates.size() - 1;
                     getDocName(docRef, prescNum);
-
                     DocumentReference prescRef = documentSnapshot.getReference();
                     getPrescDrugs(prescRef, prescNum);
                 }
                 }
             });
+            /*
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    TextView mNoPrescriptions = findViewById(R.id.noPrescriptionsText);
+                    mNoPrescriptions.setVisibility(View.VISIBLE);
+                    Toast.makeText(PrescriptionsActivity.this, "brak", Toast.LENGTH_SHORT).show();
+
+                }
+            });*/
+
     }
 
     private void getDocName(DocumentReference docRef, final int prescNum){
@@ -134,5 +159,15 @@ public class PrescriptionsActivity extends AppCompatActivity {
                 prescriptionsAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void onClickSearchPrescriptions(View view){
+        Intent intent = new Intent(PrescriptionsActivity.this, StartActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickAccountPrescriptions(View view){
+        Intent intent = new Intent(PrescriptionsActivity.this, PatientAccountActivity.class);
+        startActivity(intent);
     }
 }
