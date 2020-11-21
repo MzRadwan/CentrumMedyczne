@@ -53,11 +53,11 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
-    private List<String> s1, s2, docNames, docInfos, docCMs, docCities, docReviews;
+    private List<String> s1, s2, docNames, images, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
-    private List<Integer> images, opinionCounters, rateCounters;
+    private List<Integer>  opinionCounters, rateCounters;
 
 
     @Override
@@ -199,7 +199,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
                                 + foundDoctor.getLast_name());
-                        images.add(R.drawable.ic_profile_lagoon);
+                        images.add(foundDoctor.getPhoto_url());
                         docRates.add(foundDoctor.getAverage_rate());
                         docPrices.add(foundDoctor.getAppointment_price());
                         docInfos.add(foundDoctor.getPersonal_info());

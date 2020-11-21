@@ -4,13 +4,14 @@ import com.google.firebase.firestore.DocumentReference;
 
 public class Doctor {
 
-    private String PESEL, degree, first_name, last_name, mobile, personal_info;
+    private String PESEL, photo_url, degree, first_name, last_name, mobile, personal_info;
     private DocumentReference address_id, clinic_id;
     private float average_rate, appointment_price;
 
     public Doctor(){}
 
-    public Doctor(DocumentReference address_id, DocumentReference clinic_id, String PESEL,
+    public Doctor(DocumentReference address_id, DocumentReference clinic_id,
+                  String PESEL, String photo_url,
                   String degree, String first_name, String last_name, String mobile, String personal_info , float average_rate, float appointment_price) {
         this.address_id = address_id;
         this.appointment_price = appointment_price;
@@ -22,7 +23,16 @@ public class Doctor {
         this.mobile = mobile;
         this.personal_info = personal_info;
         this.PESEL = PESEL;
+        this.photo_url = photo_url;
 
+    }
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 
     public float getAppointment_price() {

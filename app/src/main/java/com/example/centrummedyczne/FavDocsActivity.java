@@ -32,11 +32,11 @@ public class FavDocsActivity extends AppCompatActivity {
 
     private RecyclerView mFavDocRecycler;
 
-    private List<String> s1, s2, docNames, docInfos, docCMs, docCities, docReviews;
+    private List<String> s1, s2, docNames, images, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
-    private List<Integer> images, opinionCounters, rateCounters;
+    private List<Integer>  opinionCounters, rateCounters;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
@@ -74,11 +74,11 @@ public class FavDocsActivity extends AppCompatActivity {
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
 
-        searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
+        /*searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
                 docCities, favourites, opinionCounters, rateCounters, docReviews);
         mFavDocRecycler.setAdapter(searchRecyclerAdapter);
-        mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));*/
     }
 
     private void findFavDocs(){
@@ -132,7 +132,8 @@ public class FavDocsActivity extends AppCompatActivity {
                     docNames.add(doc.getDegree() + " "
                             + doc.getFirst_name() + " "
                             + doc.getLast_name());
-                    images.add(R.drawable.ic_profile_lagoon);
+                    images.add(doc.getPhoto_url());
+                    //images.add(R.drawable.ic_profile_lagoon);
                     docRates.add(doc.getAverage_rate());
                     docPrices.add(doc.getAppointment_price());
                     docInfos.add(doc.getPersonal_info());
