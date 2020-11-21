@@ -347,7 +347,6 @@ public class SearchResultActivity extends AppCompatActivity {
                                 });
                         }
 
-
                         //clinics data
                         DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
                         docClinicRef.get()
@@ -358,20 +357,14 @@ public class SearchResultActivity extends AppCompatActivity {
                                 searchRecyclerAdapter.notifyDataSetChanged();
                                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
                                 clinicAddress.get()
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                Address address = documentSnapshot.toObject(Address.class);
-                                                String cmAddress = "";
-                                                cmAddress += address.getCity() + ", "
-                                                        + address.getStreet() + " " + address.getBuilding_number();
-                                                //if (!address.getApartment()!=null){
-                                                  //  cmAddress += "/" + address.getApartment();
-                                                //}
-                                                docCities.add(cmAddress);
-                                                searchRecyclerAdapter.notifyDataSetChanged();
-                                            }
-                                        });
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        Address address = documentSnapshot.toObject(Address.class);
+                                        docCities.add(address.getFullAddress());
+                                        searchRecyclerAdapter.notifyDataSetChanged();
+                                        }
+                                    });
                                 }
                             });
                     }

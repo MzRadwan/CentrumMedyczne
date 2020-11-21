@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/prescriptionLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@drawable/white_button"
-    android:id="@+id/prescriptionLayout">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -20,18 +19,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
+            android:orientation="vertical"
 
-            android:orientation="vertical">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/issueDatePrescRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdanab"
-                android:textSize="20sp"
+                android:text="@string/example_issue_date"
                 android:textColor="@color/navy"
-                android:text="@string/example_issue_date" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/expireDatePrescRow"
@@ -39,46 +38,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/verdana"
-                android:textSize="16sp"
+                android:text="@string/example_expire_after"
                 android:textColor="@color/navy"
-                android:text="@string/example_expire_after" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/medsNamePrescRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdanab"
-                android:textSize="20sp"
+                android:text="Adatox"
                 android:textColor="@color/navy"
-                android:visibility="gone"
-                android:text="Adatox" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/medsDetailsPrescRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdana"
-                android:textSize="18sp"
+                android:text="Doksazosyna 5mg\ntabletki"
                 android:textColor="@color/navy"
-                android:text="Doksazosyna 5mg\ntabletki" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/issued_by"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdana"
-                android:textSize="16sp"
+                android:text="@string/issued_by"
                 android:textColor="@color/navy"
-                android:text="@string/issued_by" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/docNamePrescRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/verdanab"
-                android:textSize="20sp"
+                android:text="@string/example_doc_name"
                 android:textColor="@color/navy"
-                android:text="@string/example_doc_name" />
+                android:textSize="20sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

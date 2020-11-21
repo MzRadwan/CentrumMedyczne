@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/fair"
+    android:orientation="vertical"
     tools:context=".AppointmentHistoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,19 +16,19 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/header_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_header_thin"
-            android:contentDescription="@string/header_gradient" />
+            app:srcCompat="@drawable/ic_header_thin" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/verdana"
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
+            android:fontFamily="@font/verdana"
             android:text="@string/historia_wizyt"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -39,9 +39,9 @@
             android:id="@+id/accountImageHistory"
             android:layout_width="69dp"
             android:layout_height="56dp"
-            android:contentDescription="@string/profil_pacjenta"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
+            android:contentDescription="@string/profil_pacjenta"
             android:onClick="onClickAccountIconHistory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,8 +51,8 @@
             android:id="@+id/searchIconHistory"
             android:layout_width="53dp"
             android:layout_height="45dp"
-            android:contentDescription="@string/search_icon"
             android:layout_marginTop="15dp"
+            android:contentDescription="@string/search_icon"
             android:onClick="onClickSearchIconHistory"
             app:layout_constraintEnd_toStartOf="@+id/accountImageHistory"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,29 +79,29 @@
                     android:id="@+id/newestHistry"
                     android:layout_width="match_parent"
                     android:layout_height="40sp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/lagoon_button"
                     android:fontFamily="@font/verdana"
+                    android:text="@string/newest_history"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:layout_margin="5dp"
-                    android:visibility="gone"
                     android:textSize="16sp"
-                    android:text="@string/newest_history"/>
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/oldestHistory"
                     android:layout_width="match_parent"
                     android:layout_height="40sp"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/lagoon_button"
                     android:fontFamily="@font/verdana"
+                    android:text="@string/oldest_history"
                     android:textAllCaps="false"
-                    android:layout_margin="5dp"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:visibility="gone"
-                    android:text="@string/oldest_history"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView
@@ -112,8 +112,8 @@
                 android:background="@drawable/white_background"
                 android:fontFamily="@font/verdana"
                 android:padding="20dp"
-                android:textAlignment="center"
                 android:text="@string/no_history"
+                android:textAlignment="center"
                 android:textColor="@color/navy"
                 android:textSize="18sp"
                 android:visibility="gone" />

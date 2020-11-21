@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -91,6 +92,15 @@ public class FavDocsActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         DocumentReference userRef = documentSnapshot.getReference();
                         favouriteCol.whereEqualTo("patient_id", userRef).get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {//user has no fav docs
+                                    if (task.getResult().isEmpty()){
+                                        TextView mNoFavDocs = findViewById(R.id.noFavDocsFound);
+                                        mNoFavDocs.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            })
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -100,7 +110,7 @@ public class FavDocsActivity extends AppCompatActivity {
                                     }
                                 }
                             })
-                            .addOnFailureListener(new OnFailureListener() {//user has no fav docs
+                            .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
 
@@ -118,7 +128,7 @@ public class FavDocsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     s1.add(docRef.getId());
-                    Doctor doc = documentSnapshot.toObject(Doctor.class);
+                     final Doctor doc = documentSnapshot.toObject(Doctor.class);
                     docNames.add(doc.getDegree() + " "
                             + doc.getFirst_name() + " "
                             + doc.getLast_name());
@@ -194,15 +204,7 @@ public class FavDocsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Address address = documentSnapshot.toObject(Address.class);
-                      //  System.out.println(address.getCity() + address.getStreet() + address.getBuilding_number() + address.getApartment());
-                        String cmAddress = "";
-                        cmAddress += address.getCity() + ", "
-                                + address.getStreet() + " " + address.getBuilding_number();
-                        //if (address.getApartment()!=null){
-                        //  cmAddress += "/" + address.getApartment();
-                        //}
-
-                        docCities.add(cmAddress);
+                        docCities.add(address.getFullAddress());
                         searchRecyclerAdapter.notifyDataSetChanged();
                         }
                     });

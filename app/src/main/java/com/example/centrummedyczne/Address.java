@@ -14,6 +14,16 @@ public class Address {
         this.street = street;
     }
 
+    public String getFullAddress(){
+        String cmAddress = "";
+        cmAddress += city + ", "
+                + street + " " + building_number;
+        if (apartment != null){
+            cmAddress += "/" + apartment;
+        }
+        return cmAddress;
+    }
+
     public String getCity() {
         return city;
     }
