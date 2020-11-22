@@ -25,18 +25,63 @@ public class SortFilterActivity extends AppCompatActivity {
             averageMax, waitTimeMax, opinionsMax,
             ratesMax, priceMax, distanceMax;
 
+    private int priceMinRange, priceMaxRange;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort_filter);
 
-        mAverageBar = findViewById(R.id.averageBar);
-        mWaitTimeBar = findViewById(R.id.waitTimeBar);
-        mOpinionsNumberBar = findViewById(R.id.opinionsBar);
-        mRatesNumberBar = findViewById(R.id.ratesBar);
-        mPriceBar = findViewById(R.id.priceBar);
-        mDistanceBar = findViewById(R.id.distanceBar);
+        getData();
 
+       // mWaitTimeBar = findViewById(R.id.waitTimeBar);
+       //mOpinionsNumberBar = findViewById(R.id.opinionsBar);
+       // mDistanceBar = findViewById(R.id.distanceBar);
+
+        setAverageFilters();
+        setRateFilters();
+        setPriceFilters();
+
+       /* mDistanceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+            @Override
+            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                setDistanceMin(i);
+                setDistanceMax(i1);
+            }
+        });
+*/
+
+
+       /* mOpinionsNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+            @Override
+            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                setOpinionsMin(i);
+                setOpinionsMax(i1);
+            }
+        });
+*/
+
+/*
+        mWaitTimeBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+            @Override
+            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                setWaitTimeMin(i);
+                setWaitTimeMax(i1);
+            }
+        });
+
+*/
+        mApply = (Button) findViewById(R.id.applyButton);
+        mApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickApply();
+            }
+        });
+    }
+
+    private void setAverageFilters(){
+        mAverageBar = findViewById(R.id.averageBar);
         mAverageBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
@@ -64,30 +109,10 @@ public class SortFilterActivity extends AppCompatActivity {
                 return String.valueOf(i);
             }
         });
+    }
 
-        mDistanceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setDistanceMin(i);
-                setDistanceMax(i1);
-            }
-        });
-
-        mPriceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setPriceMin(i);
-                setPriceMax(i1);
-            }
-        });
-
-        mOpinionsNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setOpinionsMin(i);
-                setOpinionsMax(i1);
-            }
-        });
+    private void setRateFilters(){
+        mRatesNumberBar = findViewById(R.id.ratesBar);
 
         mRatesNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
@@ -97,22 +122,65 @@ public class SortFilterActivity extends AppCompatActivity {
             }
         });
 
-        mWaitTimeBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+        mRatesNumberBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
+            @Override
+            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+
+            }
+
+            @Override
+            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+
+            }
+        });
+
+        mRatesNumberBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
+            @Nullable
+            @Override
+            public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
+                return String.valueOf(i);
+            }
+        });
+    }
+
+    private void setPriceFilters(){
+        mPriceBar = findViewById(R.id.priceBar);
+
+        mPriceBar.setCount(priceMaxRange+1);
+        mPriceBar.setEnd(priceMaxRange+1);
+
+        mPriceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setWaitTimeMin(i);
-                setWaitTimeMax(i1);
+                setPriceMin(i);
+                setPriceMax(i1);
             }
         });
 
-
-        mApply = (Button) findViewById(R.id.applyButton);
-        mApply.setOnClickListener(new View.OnClickListener() {
+        mPriceBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
-            public void onClick(View v) {
-                onClickApply();
+            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+
+            }
+
+            @Override
+            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+
             }
         });
+
+        mPriceBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
+            @Nullable
+            @Override
+            public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
+                return String.valueOf(i);
+            }
+        });
+    }
+
+    private void getData(){
+       // priceMinRange = getIntent().getIntExtra("minPrice", 0);
+        priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 100);
     }
 
     private void onClickApply(){
@@ -123,18 +191,20 @@ public class SortFilterActivity extends AppCompatActivity {
         applyIntent.putExtra("sortOption", option);
         String direction = mSortDirection.getSelectedItem().toString();
         applyIntent.putExtra("sortDirection", direction);
-        applyIntent.putExtra("averageMin", averageMin);
-        applyIntent.putExtra("averageMax", averageMax);
-        applyIntent.putExtra("distanceMin", distanceMin);
-        applyIntent.putExtra("distanceMax", distanceMax);
-        applyIntent.putExtra("priceMin", priceMin);
-        applyIntent.putExtra("priceMax", priceMax);
-        applyIntent.putExtra("opinionsMin", opinionsMin);
-        applyIntent.putExtra("opinionsMax", opinionsMax);
-        applyIntent.putExtra("ratesMin", ratesMin);
-        applyIntent.putExtra("ratesMax", ratesMax);
-        applyIntent.putExtra("waitTimeMin", waitTimeMin);
-        applyIntent.putExtra("waitTimeMax", waitTimeMax);
+        //applyIntent.putExtra("averageMin", averageMin);
+       // applyIntent.putExtra("averageMax", averageMax);
+        //applyIntent.putExtra("distanceMin", distanceMin);
+       // applyIntent.putExtra("distanceMax", distanceMax);
+        if(priceMin != 0)
+            applyIntent.putExtra("priceMin", priceMin);
+        if (priceMax != priceMaxRange)
+            applyIntent.putExtra("priceMax", priceMax);
+       // applyIntent.putExtra("opinionsMin", opinionsMin);
+       // applyIntent.putExtra("opinionsMax", opinionsMax);
+        //applyIntent.putExtra("ratesMin", ratesMin);
+       // applyIntent.putExtra("ratesMax", ratesMax);
+       // applyIntent.putExtra("waitTimeMin", waitTimeMin);
+       // applyIntent.putExtra("waitTimeMax", waitTimeMax);
         setResult(RESULT_OK, applyIntent);
         finish();
     }

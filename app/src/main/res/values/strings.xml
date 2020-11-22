@@ -6,8 +6,7 @@
 
     <string name="preLoginDefault">Aby uzyskać dostęp do wszystkich funkcji zaloguj się za pomoca danych uzyskanych na wizycie</string>
     <string name="preLoginFindMore">Aby uzyskać pełny dostęp do systemu zarejestruj się w jednej z placówek lub pod nr telefonu 123456789 </string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
     <string name="sortuj">Sortuj</string>
     <string name="filtruj">Filtruj</string>
     <string name="rednia_ocena">Średnia ocena</string>
@@ -144,15 +143,14 @@
     <string name="back_to_doc_profile">Powrót do profilu lekarza</string>
     <string name="avaliable_appointment_dates">Dostępne terminy:</string>
     <string name="no_prescriptions">Brak recept do wyświetlenia</string>
+    <string name="liczba_recenzji">Liczba recenzji</string>
 
 
     <string-array name="sort_options">
         <item>Średnia ocena</item>
         <item>Czas oczekiwania na wizytę</item>
-        <item>Liczba ocen</item>
-        <item>Liczba opinii</item>
+        <item>Liczba recenzji</item>
         <item>Cena za wizytę</item>
-        <item>Odległość</item>
         <item>Nazwisko lekarza</item>
     </string-array>
 

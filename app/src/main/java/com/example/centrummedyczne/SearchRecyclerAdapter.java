@@ -27,22 +27,17 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
     List<String> data1, data2, images, docNames, docInfos, docCMs, docCities, docReviews;
-    List<Integer>  rateCounters, opinionCounters;
+    List<Integer>  rateCounters;
     List<Float> docRates, docPrices;
     List<Boolean> favourites;
 
     Context context;
 
-    //private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    //private final CollectionReference docHasSpec = db.collection("doctor_has_specialization");
-    //private final CollectionReference doctors = db.collection("doctor");
-
-
     public SearchRecyclerAdapter(Context ct, List<String> s1, List<String> s2,
                                  List<String> img, List<Float> docRates, List<Float> docPrices,
                                  List<String> docNames, List<String> docInfos, List<String> docCMs,
                                  List<String> docCities, List<Boolean> favourites,
-                                 List<Integer> opinionCounters, List<Integer> rateCounters, List<String> docReviews){
+                                 List<Integer> rateCounters, List<String> docReviews){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -55,7 +50,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.favourites = favourites;
         this.docCities = docCities;
         this.rateCounters = rateCounters;
-        this.opinionCounters = opinionCounters;
+        //this.opinionCounters = opinionCounters;
         this.docReviews = docReviews;
 
     }
@@ -74,10 +69,11 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
         holder.myTextView1.setText(docNames.get(position));
         holder.myTextView2.setText(data2.get(position));
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+
         //StorageReference s = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1604259130016.jpeg?alt=media&token=1a33c800-72cf-4288-b687-6e99496d4e3f");
 
        // StorageReference s = storage.getReferenceFromUrl("gs://centrum-medyczne-8367d.appspot.com/doctors/1604259130016.jpeg");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
 
         if(!images.get(position).equals(noImage)) {
@@ -111,11 +107,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 holder.mFullHeart.setVisibility(View.VISIBLE);
         }
 
-       /* if (rateCounters.get(position) == 0) { // no ratings
 
-        }
-
-*/
         holder.searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +123,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("city", docCities.get(position));
                 intent.putExtra("isFav", favourites.get(position));
                 intent.putExtra("rateCounter", rateCounters.get(position));
-                intent.putExtra("opinionCounter", opinionCounters.get(position));
+               // intent.putExtra("opinionCounter", opinionCounters.get(position));
                 intent.putExtra("docReviews", docReviews.get(position));
                 context.startActivity(intent);
             }

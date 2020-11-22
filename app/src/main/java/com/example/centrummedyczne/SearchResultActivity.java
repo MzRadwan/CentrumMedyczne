@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
@@ -107,13 +108,13 @@ public class SearchResultActivity extends AppCompatActivity {
         docCMs = new ArrayList<>();
         docCities  = new ArrayList<>();
         favourites = new ArrayList<>();
-        opinionCounters = new ArrayList<>();
+        //opinionCounters = new ArrayList<>();
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
 
         searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
-                docCities, favourites, opinionCounters, rateCounters, docReviews);
+                docCities, favourites, rateCounters, docReviews);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -168,10 +169,7 @@ public class SearchResultActivity extends AppCompatActivity {
             });
     }
 
-    public void onClickSortFilter(View v){
-        Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
-        startActivityForResult(intent1, 1);
-    }
+
 
     private void isUserLogged(){
         Button mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
@@ -256,7 +254,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
                         //opinions
-                        opinionCounters.add(0);
+//                        opinionCounters.add(0);
                         rateCounters.add(0);
                         docReviews.add("");
                         searchRecyclerAdapter.notifyDataSetChanged();
@@ -303,7 +301,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                                     });
 
                                         }
-                                        opinionCounters.set(docNum, count);
+                                     //   opinionCounters.set(docNum, count);
                                         rateCounters.set(docNum, count);
                                         searchRecyclerAdapter.notifyDataSetChanged();
                                     }
@@ -463,6 +461,13 @@ public class SearchResultActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickSortFilter(View v){
+        Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
+        Float maxPrice = Collections.max(docPrices);
+        intent1.putExtra("maxPrice",maxPrice);
+        startActivityForResult(intent1, 1);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -471,10 +476,113 @@ public class SearchResultActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 String sortOption = data.getStringExtra("sortOption");
                 String sortDirection = data.getStringExtra("sortDirection");
-                int filter = data.getIntExtra("waitTimeMax",1);
-                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase()+Integer.toString(filter), Toast.LENGTH_LONG).show();
+                //int filter = data.getIntExtra("waitTimeMax",1);
+                if (data.hasExtra("priceMin")) {
+                    float priceMin = (float) data.getIntExtra("priceMin", 0);
+
+                    System.out.println("MIN_PRICE" + priceMin);
+
+                    filterByMinPrice(priceMin);
+
+                }
+                if (data.hasExtra("priceMax")) {
+                    int priceMax = data.getIntExtra("priceMax", 0);
+                }
+
+                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void filterByMinPrice(Float minPrice){
+        List<String> docIdsF, docNamesF, docSpecsF, docImgsF, docInfosF,
+                docReviewsF, docCMsF, docCitiesF;
+        List<Float> docPricesF, docRatesF;
+        List<Integer> rateCountersF;
+        List<Boolean> favF;
+
+        docPricesF = new ArrayList<>();
+        docNamesF = new ArrayList<>();
+        docIdsF = new ArrayList<>();
+        docSpecsF = new ArrayList<>();
+        docImgsF = new ArrayList<>();
+        docInfosF = new ArrayList<>();
+        docReviewsF = new ArrayList<>();
+        docCMsF = new ArrayList<>();
+        docCitiesF = new ArrayList<>();
+        docRatesF = new ArrayList<>();
+        rateCountersF = new ArrayList<>();
+        favF = new ArrayList<>();
+
+
+        List<Integer> ind = new ArrayList<>();
+        for (int i = 0; i < docPrices.size(); i++){
+            if (docPrices.get(i) > minPrice){
+                System.out.println("YES");
+
+                docIdsF.add(s1.get(i));
+                docNamesF.add(docNames.get(i));
+                docPricesF.add(docPrices.get(i));
+                docSpecsF.add(s2.get(i));
+                docImgsF.add(images.get(i));
+                docInfosF.add(docInfos.get(i));
+                docReviewsF.add(docReviews.get(i));
+                docCMsF.add(docCMs.get(i));
+                docCitiesF.add(images.get(i));
+                docRatesF.add(docRates.get(i));
+                rateCountersF.add(rateCounters.get(i));
+                favF.add(favourites.get(i));
+            }
+            else
+                System.out.println("NO");
+                ind.add(i);
+        }
+
+        for (String id:
+             docIdsF) {
+            System.out.println(id);
+        }
+
+       /* int items = s1.size();
+        s1.clear();
+        s2.clear();
+        docNames.clear();
+        docPrices.clear();
+        images.clear();
+        docInfos.clear();
+        docReviews.clear();
+        docCMs.clear();
+        docCities.clear();
+        docRates.clear();
+        rateCounters.clear();
+        favourites.clear();
+*/
+       // searchRecyclerAdapter.notifyItemRangeRemoved(0,items);
+
+
+        s1 = docIdsF;
+        s2 = docSpecsF;
+        docNames = docNamesF;
+        docPrices = docPricesF;
+        images = docImgsF;
+        docInfos = docInfosF;
+        docReviews = docReviewsF;
+        docCMs = docCMsF;
+        docCities = docCitiesF;
+        docRates = docRatesF;
+        rateCounters = rateCountersF;
+        favourites = favF;
+
+        for (String id:
+                s1) {
+            System.out.println(id);
+        }
+
+        for (int i= ind.size() -1 ; i>= 0; i--) {
+        searchRecyclerAdapter.notifyItemRemoved(i);
+        }
+
+        searchRecyclerAdapter.notifyDataSetChanged();
     }
 
     public void onClickSearckAgain(View view){

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +43,10 @@ public class DoctorActivity extends AppCompatActivity {
 
     private Button mMoreOpinions;
 
-    private String data1, data2, name, info, docCM, docCity, docReview;
+    private String data1, data2, name, info, docCM, docCity, docReview, myImage;
     private boolean isFav;
     private float rate, price;
-    private int myImage, rateCount, opinionCount;
+    private int  rateCount, opinionCount;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference favourites = db.collection("favourite");
@@ -83,7 +87,7 @@ public class DoctorActivity extends AppCompatActivity {
             data1 = getIntent().getStringExtra("data1");
             data2 = getIntent().getStringExtra("data2");
             name = getIntent().getStringExtra("name");
-            myImage = getIntent().getIntExtra("images", 1);
+            myImage = getIntent().getStringExtra("images");
             rate = getIntent().getFloatExtra("rate", 0);
             price = getIntent().getFloatExtra("price", 0);
             info = getIntent().getStringExtra("info");
@@ -91,7 +95,7 @@ public class DoctorActivity extends AppCompatActivity {
             docCity = getIntent().getStringExtra("city");
             isFav = getIntent().getBooleanExtra("isFav", false);
             rateCount = getIntent().getIntExtra("rateCounter", 0);
-            opinionCount = getIntent().getIntExtra("opinionCounter", 0);
+            //opinionCount = getIntent().getIntExtra("opinionCounter", 0);
             docReview = getIntent().getStringExtra("docReviews");
 
         }
@@ -108,7 +112,22 @@ public class DoctorActivity extends AppCompatActivity {
         mDocInfo.setText(""+info);
 
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
-        mainImageView.setImageResource(myImage);
+       // mainImageView.setImageResource(myImage);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+
+        if(!myImage.equals(noImage)) {
+            StorageReference s = storage.getReferenceFromUrl(myImage);
+            s.getBytes(1024 * 1024)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            mainImageView.setImageBitmap(bitmap);
+                        }
+                    });
+        }
           mDocCM.setText(docCM);
         mDocCity.setText(docCity);
 
@@ -145,12 +164,12 @@ public class DoctorActivity extends AppCompatActivity {
 
         }
         else {
-            mRateCount.setText(""+opinionCount+" ocen");
+            mRateCount.setText(""+rateCount+" ocen");
             mDocRate.setText(" "+Float.toString(rate));
         }
 
 
-        if (opinionCount == 0){
+        if (rateCount == 0){
             mOpinionsDisplay.setVisibility(View.GONE);
             mMoreOpinions.setVisibility(View.GONE);
             mOpinionCount.setVisibility(View.GONE);
@@ -158,7 +177,7 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         else {
-            mOpinionCount.setText(""+opinionCount+" opinii");
+            mOpinionCount.setText(""+rateCount+" opinii");
             mOpinionsDisplay.setText(""+docReview);
         }
     }
