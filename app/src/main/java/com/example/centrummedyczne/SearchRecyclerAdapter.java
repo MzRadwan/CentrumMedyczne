@@ -77,15 +77,20 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         FirebaseStorage storage = FirebaseStorage.getInstance();
         //StorageReference s = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1604259130016.jpeg?alt=media&token=1a33c800-72cf-4288-b687-6e99496d4e3f");
 
-        StorageReference s = storage.getReferenceFromUrl("gs://centrum-medyczne-8367d.appspot.com/doctors/1604259130016.jpeg");
-        s.getBytes(1024 * 1024)
-                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        holder.myImage.setImageBitmap(bitmap);
-                    }
-                });
+       // StorageReference s = storage.getReferenceFromUrl("gs://centrum-medyczne-8367d.appspot.com/doctors/1604259130016.jpeg");
+        String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+
+        if(!images.get(position).equals(noImage)) {
+            StorageReference s = storage.getReferenceFromUrl(images.get(position));
+            s.getBytes(1024 * 1024)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            holder.myImage.setImageBitmap(bitmap);
+                        }
+                    });
+        }
         // holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
         holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");

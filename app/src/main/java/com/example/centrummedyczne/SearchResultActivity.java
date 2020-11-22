@@ -199,7 +199,11 @@ public class SearchResultActivity extends AppCompatActivity {
                         docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
                                 + foundDoctor.getLast_name());
-                        images.add(foundDoctor.getPhoto_url());
+                        //String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                        //if(!foundDoctor.getPhoto_url().equals(noImage))
+                            images.add(foundDoctor.getPhoto_url());
+                       // else
+                         //   images.add("noImg");
                         docRates.add(foundDoctor.getAverage_rate());
                         docPrices.add(foundDoctor.getAppointment_price());
                         docInfos.add(foundDoctor.getPersonal_info());
