@@ -270,8 +270,6 @@ public class SearchResultActivity extends AppCompatActivity {
                                         int count = 0;
                                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                                             count++;
-                                            System.out.println(docNum);
-                                            System.out.println(documentSnapshot.getId() + "->" +documentSnapshot.getData());
                                             DocumentReference appointmentRef = documentSnapshot.getReference();
                                             reviews.whereEqualTo("appointment_id", appointmentRef).get()
                                                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -306,6 +304,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                         }
                                      //   opinionCounters.set(docNum, count);
                                         rateCounters.set(docNum, count);
+                                        System.out.println(rateCounters.get(docNum));
                                         searchRecyclerAdapter.notifyDataSetChanged();
                                     }
                                 });
@@ -465,7 +464,9 @@ public class SearchResultActivity extends AppCompatActivity {
     public void onClickSortFilter(View v){
         Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
         Float maxPrice = Collections.max(docPrices);
+        int maxRatesNumber = Collections.max(rateCounters);
         intent1.putExtra("maxPrice",maxPrice);
+        intent1.putExtra("maxRatesNumber",maxRatesNumber);
         startActivityForResult(intent1, 1);
     }
 

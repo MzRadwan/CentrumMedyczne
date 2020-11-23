@@ -16,16 +16,14 @@ import me.bendik.simplerangeview.SimpleRangeView;
 
 public class SortFilterActivity extends AppCompatActivity {
 
-    Button mApply;
-    Spinner mSortOption, mSortDirection;
-    SimpleRangeView mAverageBar, mRatesNumberBar, mPriceBar;
+   // Button mApply;
+    private Spinner mSortOption, mSortDirection;
+    private SimpleRangeView mAverageBar, mRatesNumberBar, mPriceBar;
 
-    private int averageMin, waitTimeMin, opinionsMin,
-            ratesMin, priceMin, distanceMin,
-            averageMax, waitTimeMax, opinionsMax,
-            ratesMax, priceMax, distanceMax;
+    private int averageMin, ratesMin, priceMin,
+            averageMax, ratesMax, priceMax;
 
-    private int priceMinRange, priceMaxRange;
+    private int priceMinRange, priceMaxRange, ratesMaxRange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +70,8 @@ public class SortFilterActivity extends AppCompatActivity {
 
     private void setRateFilters(){
         mRatesNumberBar = findViewById(R.id.ratesBar);
+        mRatesNumberBar.setCount(ratesMaxRange+1);
+        mRatesNumberBar.setEnd(ratesMaxRange + 1);
 
         mRatesNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
@@ -140,6 +140,7 @@ public class SortFilterActivity extends AppCompatActivity {
     private void getData(){
        // priceMinRange = getIntent().getIntExtra("minPrice", 0);
         priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
+        ratesMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
     }
 
     public void onClickApply(View view){
