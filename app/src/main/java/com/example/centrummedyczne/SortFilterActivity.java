@@ -18,7 +18,7 @@ public class SortFilterActivity extends AppCompatActivity {
 
     Button mApply;
     Spinner mSortOption, mSortDirection;
-    SimpleRangeView mAverageBar, mWaitTimeBar, mOpinionsNumberBar, mRatesNumberBar, mPriceBar, mDistanceBar;
+    SimpleRangeView mAverageBar, mRatesNumberBar, mPriceBar;
 
     private int averageMin, waitTimeMin, opinionsMin,
             ratesMin, priceMin, distanceMin,
@@ -33,51 +33,10 @@ public class SortFilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sort_filter);
 
         getData();
-
-       // mWaitTimeBar = findViewById(R.id.waitTimeBar);
-       //mOpinionsNumberBar = findViewById(R.id.opinionsBar);
-       // mDistanceBar = findViewById(R.id.distanceBar);
-
         setAverageFilters();
         setRateFilters();
         setPriceFilters();
 
-       /* mDistanceBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setDistanceMin(i);
-                setDistanceMax(i1);
-            }
-        });
-*/
-
-
-       /* mOpinionsNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setOpinionsMin(i);
-                setOpinionsMax(i1);
-            }
-        });
-*/
-
-/*
-        mWaitTimeBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setWaitTimeMin(i);
-                setWaitTimeMax(i1);
-            }
-        });
-
-*/
-        mApply = (Button) findViewById(R.id.applyButton);
-        mApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickApply();
-            }
-        });
     }
 
     private void setAverageFilters(){
@@ -180,31 +139,31 @@ public class SortFilterActivity extends AppCompatActivity {
 
     private void getData(){
        // priceMinRange = getIntent().getIntExtra("minPrice", 0);
-        priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 100);
+        priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
     }
 
-    private void onClickApply(){
+    public void onClickApply(View view){
         Intent applyIntent = new Intent();
-        mSortOption = (Spinner) findViewById(R.id.sortOptionSpinner);
-        mSortDirection =(Spinner) findViewById(R.id.sortDirectionSpinner);
+        mSortOption =  findViewById(R.id.sortOptionSpinner);
+        mSortDirection = findViewById(R.id.sortDirectionSpinner);
         String option = mSortOption.getSelectedItem().toString();
-        applyIntent.putExtra("sortOption", option);
         String direction = mSortDirection.getSelectedItem().toString();
-        applyIntent.putExtra("sortDirection", direction);
-        //applyIntent.putExtra("averageMin", averageMin);
-       // applyIntent.putExtra("averageMax", averageMax);
-        //applyIntent.putExtra("distanceMin", distanceMin);
-       // applyIntent.putExtra("distanceMax", distanceMax);
+        if(!option.equals("Sortuj według") && !direction.equals("Kolejność sortowania")){
+            applyIntent.putExtra("sortOption", option);
+            applyIntent.putExtra("sortDirection", direction);
+        }
+
+        if(averageMin > 0)
+            applyIntent.putExtra("averageMin", averageMin);
+        if(averageMax != 5 && averageMax!=0)
+            applyIntent.putExtra("averageMax", averageMax);
+
         if(priceMin != 0)
             applyIntent.putExtra("priceMin", priceMin);
-        if (priceMax != priceMaxRange)
+        if (priceMax != priceMaxRange && priceMax != 0)
             applyIntent.putExtra("priceMax", priceMax);
-       // applyIntent.putExtra("opinionsMin", opinionsMin);
-       // applyIntent.putExtra("opinionsMax", opinionsMax);
         //applyIntent.putExtra("ratesMin", ratesMin);
        // applyIntent.putExtra("ratesMax", ratesMax);
-       // applyIntent.putExtra("waitTimeMin", waitTimeMin);
-       // applyIntent.putExtra("waitTimeMax", waitTimeMax);
         setResult(RESULT_OK, applyIntent);
         finish();
     }
@@ -213,47 +172,25 @@ public class SortFilterActivity extends AppCompatActivity {
         this.averageMin = averageMin;
     }
 
-    public void setWaitTimeMin(int waitTimeMin) {
-        this.waitTimeMin = waitTimeMin;
-    }
-
-    public void setOpinionsMin(int opinionsMin) {
-        this.opinionsMin = opinionsMin;
+    public void setAverageMax(int averageMax) {
+        this.averageMax = averageMax;
     }
 
     public void setRatesMin(int ratesMin) {
         this.ratesMin = ratesMin;
     }
 
-    public void setPriceMin(int priceMin) {
-        this.priceMin = priceMin;
-    }
-
-    public void setDistanceMin(int distanceMin) {
-        this.distanceMin = distanceMin;
-    }
-
-    public void setAverageMax(int averageMax) {
-        this.averageMax = averageMax;
-    }
-
-    public void setWaitTimeMax(int waitTimeMax) {
-        this.waitTimeMax = waitTimeMax;
-    }
-
-    public void setOpinionsMax(int opinionsMax) {
-        this.opinionsMax = opinionsMax;
-    }
-
     public void setRatesMax(int ratesMax) {
         this.ratesMax = ratesMax;
+    }
+
+    public void setPriceMin(int priceMin) {
+        this.priceMin = priceMin;
     }
 
     public void setPriceMax(int priceMax) {
         this.priceMax = priceMax;
     }
 
-    public void setDistanceMax(int distanceMax) {
-        this.distanceMax = distanceMax;
-    }
+
 }

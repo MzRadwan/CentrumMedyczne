@@ -118,6 +118,10 @@ public class SearchResultActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        searchForDoctors();
+    }
+
+    private void searchForDoctors(){
         //search results
         if(!chosenSpec.equals("Dowolna"))
             docSearch();
@@ -200,8 +204,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         //String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
                         //if(!foundDoctor.getPhoto_url().equals(noImage))
                             images.add(foundDoctor.getPhoto_url());
-                       // else
-                         //   images.add("noImg");
+
                         docRates.add(foundDoctor.getAverage_rate());
                         docPrices.add(foundDoctor.getAppointment_price());
                         docInfos.add(foundDoctor.getPersonal_info());
@@ -452,8 +455,6 @@ public class SearchResultActivity extends AppCompatActivity {
                     });
                 }
             });
-
-
     }
 
     public void onClickLogin(View view){
@@ -474,115 +475,292 @@ public class SearchResultActivity extends AppCompatActivity {
 
         if(requestCode == 1){//defines parent activity
             if(resultCode == RESULT_OK){
-                String sortOption = data.getStringExtra("sortOption");
-                String sortDirection = data.getStringExtra("sortDirection");
-                //int filter = data.getIntExtra("waitTimeMax",1);
-                if (data.hasExtra("priceMin")) {
-                    float priceMin = (float) data.getIntExtra("priceMin", 0);
-
-                    System.out.println("MIN_PRICE" + priceMin);
-
-                    filterByMinPrice(priceMin);
-
-                }
-                if (data.hasExtra("priceMax")) {
-                    int priceMax = data.getIntExtra("priceMax", 0);
-                }
-
-                Toast.makeText(this, "Sortowanie " + sortDirection.toLowerCase() + " wg " + sortOption.toLowerCase(), Toast.LENGTH_LONG).show();
+                if(data.hasExtra("priceMin") || data.hasExtra("priceMax"))
+                    filterByPrice(data);
+                if(data.hasExtra("averageMin") || data.hasExtra("averageMax"))
+                    filterByAverage(data);
+                if(data.hasExtra("sortOption") && data.hasExtra("sortDirection"))
+                    sortDoctors(data);
             }
         }
     }
 
-    private void filterByMinPrice(Float minPrice){
-        List<String> docIdsF, docNamesF, docSpecsF, docImgsF, docInfosF,
-                docReviewsF, docCMsF, docCitiesF;
-        List<Float> docPricesF, docRatesF;
-        List<Integer> rateCountersF;
-        List<Boolean> favF;
+    private void sortDoctors(Intent data){
+        String sortSettings = data.getStringExtra("sortOption")
+                +data.getStringExtra("sortDirection");
+       // System.out.println("sortsettings"+ sortSettings);
+        switch (sortSettings){
+            case "Cena za wizytęRosnąco":
+               // System.out.println("sortbypriceup");
+                sortByPriceUp();
+                break;
+            case "Cena za wizytęMalejąco":
+                //System.out.println("sortbypricedown");
+                sortByPriceDown();
+                break;
+            case "Średnia ocenaRosnąco":
+                sortByRateUp();
+                break;
+            case "Średnia ocenaMalejąco":
+                sortByRateDown();
+                break;
+            case "Liczba recenzjiRosnąco":
+                sortByRateNumberUp();
+                break;
+            case "Liczba recenzjiMalejąco":
+                sortByRateNumberDown();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + sortSettings);
+        }
+    }
 
-        docPricesF = new ArrayList<>();
-        docNamesF = new ArrayList<>();
-        docIdsF = new ArrayList<>();
-        docSpecsF = new ArrayList<>();
-        docImgsF = new ArrayList<>();
-        docInfosF = new ArrayList<>();
-        docReviewsF = new ArrayList<>();
-        docCMsF = new ArrayList<>();
-        docCitiesF = new ArrayList<>();
-        docRatesF = new ArrayList<>();
-        rateCountersF = new ArrayList<>();
-        favF = new ArrayList<>();
-
-
-        List<Integer> ind = new ArrayList<>();
-        for (int i = 0; i < docPrices.size(); i++){
-            if (docPrices.get(i) > minPrice){
-                System.out.println("YES");
-
-                docIdsF.add(s1.get(i));
-                docNamesF.add(docNames.get(i));
-                docPricesF.add(docPrices.get(i));
-                docSpecsF.add(s2.get(i));
-                docImgsF.add(images.get(i));
-                docInfosF.add(docInfos.get(i));
-                docReviewsF.add(docReviews.get(i));
-                docCMsF.add(docCMs.get(i));
-                docCitiesF.add(images.get(i));
-                docRatesF.add(docRates.get(i));
-                rateCountersF.add(rateCounters.get(i));
-                favF.add(favourites.get(i));
+    private void sortByPriceUp(){
+        //System.out.println("sortbypriceupup");
+        //System.out.println(docPrices.size());
+        for (int i = 0; i < docPrices.size(); i++) {
+          //  System.out.println("doc pricei"+ docPrices.get(i));
+            boolean swap = false;
+            for (int j = 0; j < docPrices.size() - i -1; j++) {
+            //    System.out.println("doc pricej"+ docPrices.get(j));
+                if (docPrices.get(j) > docPrices.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                    //System.out.println("Swaping doctor");
+                }
             }
-            else
-                System.out.println("NO");
-                ind.add(i);
+            if (!swap){
+                break;
+            }
         }
+    }
 
-        for (String id:
-             docIdsF) {
-            System.out.println(id);
-        }
+    private void swapDoctor(int j, int next){
 
-       /* int items = s1.size();
-        s1.clear();
-        s2.clear();
-        docNames.clear();
-        docPrices.clear();
-        images.clear();
-        docInfos.clear();
-        docReviews.clear();
-        docCMs.clear();
-        docCities.clear();
-        docRates.clear();
-        rateCounters.clear();
-        favourites.clear();
-*/
-       // searchRecyclerAdapter.notifyItemRangeRemoved(0,items);
+        String tempS = s1.get(j);
+        s1.set(j, s1.get(next));
+        s1.set(next, tempS);
 
+        tempS = s2.get(j);
+        s2.set(j, s2.get(next));
+        s2.set(next, tempS);
 
-        s1 = docIdsF;
-        s2 = docSpecsF;
-        docNames = docNamesF;
-        docPrices = docPricesF;
-        images = docImgsF;
-        docInfos = docInfosF;
-        docReviews = docReviewsF;
-        docCMs = docCMsF;
-        docCities = docCitiesF;
-        docRates = docRatesF;
-        rateCounters = rateCountersF;
-        favourites = favF;
+        tempS = docNames.get(j);
+        docNames.set(j, docNames.get(next));
+        docNames.set(next, tempS);
 
-        for (String id:
-                s1) {
-            System.out.println(id);
-        }
+        float temp = docPrices.get(j);
+        docPrices.set(j, docPrices.get(next));
+        docPrices.set(next, temp);
 
-        for (int i= ind.size() -1 ; i>= 0; i--) {
-        searchRecyclerAdapter.notifyItemRemoved(i);
-        }
+        tempS = images.get(j);
+        images.set(j, images.get(next));
+        images.set(next, tempS);
+
+        tempS = docInfos.get(j);
+        docInfos.set(j, docInfos.get(next));
+        docInfos.set(next, tempS);
+
+        tempS = docReviews.get(j);
+        docReviews.set(j, docReviews.get(next));
+        docReviews.set(next, tempS);
+
+        tempS = docCMs.get(j);
+        docCMs.set(j, docCMs.get(next));
+        docCMs.set(next, tempS);
+
+        tempS = docCities.get(j);
+        docCities.set(j, docCities.get(next));
+        docCities.set(next, tempS);
+
+        temp = docRates.get(j);
+        docRates.set(j, docRates.get(next));
+        docRates.set(next, temp);
+
+        Boolean tempB = favourites.get(j);
+        favourites.set(j, favourites.get(next));
+        favourites.set(next, tempB);
+
+        int tempI = rateCounters.get(j);
+        rateCounters.set(j, rateCounters.get(next));
+        rateCounters.set(next, tempI);
 
         searchRecyclerAdapter.notifyDataSetChanged();
+
+    }
+
+    private void sortByPriceDown(){
+        for (int i = 0; i < docPrices.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < docPrices.size() - i -1; j++) {
+                if (docPrices.get(j) < docPrices.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void sortByRateNumberUp(){
+        for (int i = 0; i < rateCounters.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < rateCounters.size() - i -1; j++) {
+                if (rateCounters.get(j) > rateCounters.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void sortByRateNumberDown(){
+        for (int i = 0; i < rateCounters.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < rateCounters.size() - i -1; j++) {
+                if (rateCounters.get(j) < rateCounters.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void sortByRateUp(){
+        for (int i = 0; i < docRates.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < docRates.size() - i -1; j++) {
+                if (docRates.get(j) > docRates.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void sortByRateDown(){
+        for (int i = 0; i < docRates.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < docRates.size() - i -1; j++) {
+                if (docRates.get(j) < docRates.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void filterByPrice(Intent data){
+        //System.out.println("filter_by_price");
+        if(data.hasExtra("priceMin") && data.hasExtra("priceMax")){
+            float priceMin = (float) data.getIntExtra("priceMin", 0);
+            float priceMax = (float) data.getIntExtra("priceMax", 0);
+            filterByMinAndMaxPrice(priceMin, priceMax);
+
+        }
+        else if (data.hasExtra("priceMin")) {
+            float priceMin = (float) data.getIntExtra("priceMin", 0);
+            System.out.println("MIN_PRICE" + priceMin);
+            filterByMinPrice(priceMin);
+        }
+        else if (data.hasExtra("priceMax")) {
+            float priceMax = (float) data.getIntExtra("priceMax", 0);
+            filterByMaxPrice(priceMax);
+        }
+    }
+
+    private void filterByAverage(Intent data){
+        if(data.hasExtra("averageMin") && data.hasExtra("averageMax")){
+            float averageMin = (float) data.getIntExtra("averageMin", 0);
+            float averageMax = (float) data.getIntExtra("averageMax", 5);
+            filterByMinAndMaxAverage(averageMin, averageMax);
+
+        }
+        else if (data.hasExtra("averageMin")) {
+            float averageMin = (float) data.getIntExtra("averageMin", 0);
+            filterByMinAverage(averageMin);
+        }
+        else if (data.hasExtra("averageMax")) {
+            float averageMax = (float) data.getIntExtra("averageMax", 5);
+            filterByMaxAverage(averageMax);
+        }
+    }
+
+    private void filterByMinAverage(Float minAverage){
+        for(int i = docRates.size() - 1; i >= 0; i--){
+            if (docRates.get(i) < minAverage){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMaxAverage(Float maxAverage){
+        for(int i = docRates.size() - 1; i >= 0; i--){
+            if (docRates.get(i) > maxAverage){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMinAndMaxAverage(Float minAverage, Float maxAverage){
+        for(int i = docRates.size() - 1; i >= 0; i--){
+            if ((docRates.get(i) > minAverage) && (docRates.get(i) < maxAverage)){
+                removeDoc(i);
+            }
+        }
+    }
+    private void filterByMinPrice(Float minPrice){
+        for(int i = docPrices.size() - 1; i >= 0; i--){
+            if (docPrices.get(i) < minPrice){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMaxPrice(Float maxPrice){
+        for(int i = docPrices.size() - 1; i >= 0; i--){
+            if (docPrices.get(i) > maxPrice){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMinAndMaxPrice(Float minPrice, Float maxPrice){
+        for(int i = docPrices.size() - 1; i >= 0; i--){
+            if ((docPrices.get(i) > maxPrice) && (docPrices.get(i) < minPrice)){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void removeDoc(int i){
+        s1.remove(i);
+        s2.remove(i);
+        docNames.remove(i);
+        docPrices.remove(i);
+        images.remove(i);
+        docInfos.remove(i);
+        docReviews.remove(i);
+        docCMs.remove(i);
+        docCities.remove(i);
+        docRates.remove(i);
+        favourites.remove(i);
+        rateCounters.remove(i);
+        searchRecyclerAdapter.notifyItemRemoved(i);
     }
 
     public void onClickSearckAgain(View view){
