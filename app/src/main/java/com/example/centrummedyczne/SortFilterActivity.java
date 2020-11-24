@@ -17,7 +17,7 @@ import me.bendik.simplerangeview.SimpleRangeView;
 
 public class SortFilterActivity extends AppCompatActivity {
 
-   // Button mApply;
+
     private Spinner mSortOption, mSortDirection;
     private SimpleRangeView mAverageBar, mRatesNumberBar, mPriceBar;
 
@@ -25,7 +25,8 @@ public class SortFilterActivity extends AppCompatActivity {
             averageMax, ratesMax, priceMax;
 
     private int priceMinRange, priceMaxRange, ratesMaxRange;
-    private TextView mMaxPriceText, mMinPriceText, mMinAvgText, mMaxAvgText, mMinRatesText, mMaxRatesText;
+    private TextView mMaxPriceText, mMinPriceText, mMinAvgText,
+            mMaxAvgText, mMinRatesText, mMaxRatesText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,35 +77,42 @@ public class SortFilterActivity extends AppCompatActivity {
 
     private void setRateFilters(){
         mRatesNumberBar = findViewById(R.id.ratesBar);
+        TextView mRatesText = findViewById(R.id.rateNumHeaderText);
 
         mMinRatesText = findViewById(R.id.ratesMinRangeText);
         mMaxRatesText = findViewById(R.id.ratesMaxRangeText);
 
-        mMaxRatesText.setText(String.valueOf(ratesMaxRange));
+        if(ratesMaxRange == 0){
+            mRatesText.setVisibility(View.GONE);
+            mRatesNumberBar.setVisibility(View.GONE);
+            mMinRatesText.setVisibility(View.GONE);
+            mMaxRatesText.setVisibility(View.GONE);
+        }
+        else{
+            mMaxRatesText.setText(String.valueOf(ratesMaxRange));
 
-        mRatesNumberBar.setCount(ratesMaxRange+1);
-        mRatesNumberBar.setEnd(ratesMaxRange + 1);
+            mRatesNumberBar.setCount(ratesMaxRange+1);
+            mRatesNumberBar.setEnd(ratesMaxRange + 1);
 
-        mRatesNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
-            @Override
-            public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
-                setRatesMin(i);
-                setRatesMax(i1);
+            mRatesNumberBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+                @Override
+                public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                    setRatesMin(i);
+                    setRatesMax(i1);
+                }
+            });
+            mRatesNumberBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
+                @Override
+                public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                    mMinRatesText.setText(String.valueOf(i));
+                }
+                @Override
+                public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                    mMaxRatesText.setText(String.valueOf(i));
+                }
+            });
+        }
 
-            }
-        });
-
-        mRatesNumberBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
-            @Override
-            public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                mMinRatesText.setText(String.valueOf(i));
-            }
-
-            @Override
-            public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-                mMaxRatesText.setText(String.valueOf(i));
-            }
-        });
 /*
         mRatesNumberBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
             @Nullable
@@ -129,9 +137,7 @@ public class SortFilterActivity extends AppCompatActivity {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
                 setPriceMin(i);
-                //mMinPriceText.setText(String.valueOf(i));
                 setPriceMax(i1);
-                //mMaxPriceText.setText(String.valueOf(i1));
             }
         });
 
@@ -159,7 +165,7 @@ public class SortFilterActivity extends AppCompatActivity {
     private void getData(){
        // priceMinRange = getIntent().getIntExtra("minPrice", 0);
         priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
-        ratesMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
+        ratesMaxRange =  getIntent().getIntExtra("maxRatesNumber", 300);
     }
 
     public void onClickApply(View view){

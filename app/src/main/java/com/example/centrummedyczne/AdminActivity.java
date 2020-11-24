@@ -299,7 +299,7 @@ public class AdminActivity extends AppCompatActivity {
         appointment.put("completed", false);
         appointment.put("doctor_absent", false);
         appointment.put("patient_absent", false);
-        appointment.put("notification-sent", false);
+        appointment.put("notification_sent", false);
         appointment.put("appointment_start", null);
         appointment.put("appointment_stop", null);
         appointment.put("clinic_id", null);

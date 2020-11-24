@@ -146,6 +146,7 @@
     <string name="liczba_recenzji">Liczba recenzji</string>
 
 
+
     <string-array name="sort_options">
         <item>Sortuj według</item>
         <item>Średnia ocena</item>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ public class PlannedVisitsActivity extends AppCompatActivity {
         appointmentCol.whereEqualTo("patient_id", userRef)
             .whereEqualTo("booked", true)
             .whereEqualTo("completed", false)
+            .whereEqualTo("doctor_absent", false)
             .whereEqualTo("patient_absent", false).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -130,8 +132,7 @@ public class PlannedVisitsActivity extends AppCompatActivity {
 
     private void getDocsSpec(DocumentReference docRef, final int visitNum){
         docHasSpec
-            .whereEqualTo("doctor_id",docRef)
-            .get()
+            .whereEqualTo("doctor_id",docRef).get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -180,18 +181,30 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Address address = documentSnapshot.toObject(Address.class);
-                            String cmAddress = "";
+                            /*String cmAddress = "";
                             cmAddress += address.getCity() + ", "
                                     + address.getStreet() + " " + address.getBuilding_number();
                            if (address.getApartment()!=null){
                               cmAddress += "/" + address.getApartment();
                             }
-
-                            docCMCities.set(visitNum,cmAddress);
+*/
+                            docCMCities.set(visitNum,address.getFullAddress());
                                 plannedVisitAdapter.notifyDataSetChanged();
                             }
                         });
                 }
             });
     }
+    public void onClickAccountPlanned(View view){
+        Intent intent = new Intent(PlannedVisitsActivity.this,PatientAccountActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void onClickSearchPlanned(View view){
+        Intent intent = new Intent(PlannedVisitsActivity.this,StartActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
 }

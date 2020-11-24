@@ -64,18 +64,21 @@
         android:text="@string/rednia_ocena"
         android:textAlignment="center"
         android:textSize="16sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp">
 
         <TextView
             android:id="@+id/avgMinRangeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/verdana"
-
             android:layout_weight="1"
+
+            android:fontFamily="@font/verdana"
             android:text="0" />
 
         <TextView
@@ -83,8 +86,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
-            android:text="5" />
+            android:text="5"
+            android:textAlignment="textEnd" />
     </LinearLayout>
 
 
@@ -93,18 +96,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:activeLineColor="@color/lagoon"
-        app:fixedThumbColor="@color/lagoon"
         app:count="6"
         app:end="6"
-        app:showLabels="false"
-
-        app:showTicks="false"
-        app:showActiveTicks="false"
+        app:fixedThumbColor="@color/lagoon"
         app:lineColor="@color/sky"
+
+        app:showActiveTicks="false"
+        app:showLabels="false"
+        app:showTicks="false"
         app:start="0" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/rateNumHeaderText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -116,15 +119,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp">
 
         <TextView
             android:id="@+id/ratesMinRangeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/verdana"
-
             android:layout_weight="1"
+
+            android:fontFamily="@font/verdana"
             android:text="0" />
 
         <TextView
@@ -132,8 +137,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
-            android:text="10" />
+            android:text="10"
+            android:textAlignment="textEnd" />
     </LinearLayout>
 
     <me.bendik.simplerangeview.SimpleRangeView
@@ -143,11 +148,11 @@
         app:activeLineColor="@color/lagoon"
         app:count="100"
         app:end="100"
-        app:showLabels="false"
+        app:lineColor="@color/sky"
 
         app:showActiveTicks="false"
+        app:showLabels="false"
         app:showTicks="false"
-        app:lineColor="@color/sky"
         app:start="0" />
 
     <TextView
@@ -163,15 +168,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp">
 
         <TextView
             android:id="@+id/priceMinRangeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/verdana"
-
             android:layout_weight="1"
+
+            android:fontFamily="@font/verdana"
             android:text="0" />
 
         <TextView
@@ -179,8 +186,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="textEnd"
-            android:text="200" />
+            android:text="200"
+            android:textAlignment="textEnd" />
     </LinearLayout>
 
     <me.bendik.simplerangeview.SimpleRangeView
@@ -190,10 +197,10 @@
         app:activeLineColor="@color/lagoon"
         app:count="100"
         app:end="100"
-        app:showLabels="false"
-        app:showActiveTicks="false"
-        app:showTicks="false"
         app:lineColor="@color/sky"
+        app:showActiveTicks="false"
+        app:showLabels="false"
+        app:showTicks="false"
         app:start="0" />
 
     <Button
@@ -203,9 +210,9 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/lagoon_button"
         android:fontFamily="@font/verdana"
+        android:onClick="onClickApply"
         android:text="@string/zastosuj"
         android:textAllCaps="false"
-        android:onClick="onClickApply"
         android:textColor="@color/navy"
         android:textSize="18sp" />
 </LinearLayout>

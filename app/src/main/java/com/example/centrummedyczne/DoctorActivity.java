@@ -107,15 +107,14 @@ public class DoctorActivity extends AppCompatActivity {
 
     private void setData(){
         isUserLogged();
-        title.setText(""+name);
-        description.setText(""+data2);
-        mDocInfo.setText(""+info);
+        title.setText(name);
+        description.setText(data2);
+        mDocInfo.setText(info);
 
         mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
-       // mainImageView.setImageResource(myImage);
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
 
         if(!myImage.equals(noImage)) {
             StorageReference s = storage.getReferenceFromUrl(myImage);
@@ -128,7 +127,7 @@ public class DoctorActivity extends AppCompatActivity {
                         }
                     });
         }
-          mDocCM.setText(docCM);
+        mDocCM.setText(docCM);
         mDocCity.setText(docCity);
 
         displayOpinionsAndRates();
@@ -165,7 +164,7 @@ public class DoctorActivity extends AppCompatActivity {
         }
         else {
             mRateCount.setText(""+rateCount+" ocen");
-            mDocRate.setText(" "+Float.toString(rate));
+            mDocRate.setText(String.valueOf(rate));
         }
 
 
@@ -287,11 +286,13 @@ public class DoctorActivity extends AppCompatActivity {
 
     public void onClickSearchDocActivity(View view){
         Intent intent = new Intent(DoctorActivity.this, StartActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void onClickAccountDocActivity(View view){
         Intent intent = new Intent(DoctorActivity.this, PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 }

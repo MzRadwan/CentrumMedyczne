@@ -70,7 +70,7 @@ public class FavDocsActivity extends AppCompatActivity {
         docCMs = new ArrayList<>();
         docCities  = new ArrayList<>();
         favourites = new ArrayList<>();
-        opinionCounters = new ArrayList<>();
+       // opinionCounters = new ArrayList<>();
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
 
@@ -109,14 +109,7 @@ public class FavDocsActivity extends AppCompatActivity {
                                         getDocData(docRef);
                                     }
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-
-                                }
                             });
-
                     }
                 });
         }
@@ -133,13 +126,11 @@ public class FavDocsActivity extends AppCompatActivity {
                             + doc.getFirst_name() + " "
                             + doc.getLast_name());
                     images.add(doc.getPhoto_url());
-                    //images.add(R.drawable.ic_profile_lagoon);
                     docRates.add(doc.getAverage_rate());
                     docPrices.add(doc.getAppointment_price());
                     docInfos.add(doc.getPersonal_info());
                     favourites.add(true);
                     searchRecyclerAdapter.notifyDataSetChanged();
-
                     final int docNum = s1.size() - 1;
                     getDocsSpec(docRef,docNum);
                     getDocsClinics(doc.getClinic_id());
@@ -215,7 +206,7 @@ public class FavDocsActivity extends AppCompatActivity {
 
     private void getDocsReviews(DocumentReference docRef, final int docNum){
         //opinions
-        opinionCounters.add(0);
+        //opinionCounters.add(0);
         rateCounters.add(0);
         docReviews.add("");
         searchRecyclerAdapter.notifyDataSetChanged();
@@ -262,7 +253,7 @@ public class FavDocsActivity extends AppCompatActivity {
                                     });
 
                         }
-                        opinionCounters.set(docNum, count);
+                        //opinionCounters.set(docNum, count);
                         rateCounters.set(docNum, count);
                         searchRecyclerAdapter.notifyDataSetChanged();
                     }
@@ -272,11 +263,13 @@ public class FavDocsActivity extends AppCompatActivity {
 
     public void onClickAccountFav(View view){
         Intent intent = new Intent(view.getContext(),PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void onClickSearchFav(View view){
         Intent intent = new Intent(view.getContext(),StartActivity.class);
+        finish();
         startActivity(intent);
     }
 

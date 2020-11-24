@@ -37,6 +37,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private AutoCompleteTextView mSpecs, mCities;
     private String chosenCity, chosenSpec;
 
+    private boolean isListFiltered;
     private List<String> specs, cities;
     private ArrayAdapter <String> specsAdapter,citiesAdapter;
 
@@ -94,6 +95,12 @@ public class SearchResultActivity extends AppCompatActivity {
         setSpecHints();
         setCityHints();
 
+        createSearchDocRecycler();
+
+        searchForDoctors();
+    }
+
+    private void createSearchDocRecycler(){
         //search results display
 
         mRecyclerView = findViewById(R.id.docRecyler);
@@ -108,7 +115,6 @@ public class SearchResultActivity extends AppCompatActivity {
         docCMs = new ArrayList<>();
         docCities  = new ArrayList<>();
         favourites = new ArrayList<>();
-        //opinionCounters = new ArrayList<>();
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
 
@@ -117,8 +123,6 @@ public class SearchResultActivity extends AppCompatActivity {
                 docCities, favourites, rateCounters, docReviews);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        searchForDoctors();
     }
 
     private void searchForDoctors(){
@@ -151,223 +155,216 @@ public class SearchResultActivity extends AppCompatActivity {
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
-                    for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                        Clinic clinic = documentSnapshot.toObject(Clinic.class);
-                        DocumentReference addressRef = clinic.getAddress_id();
-                        String addressId = addressRef.getPath().substring(8);
-                        address.document(addressId);
-                        addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                Address address = documentSnapshot.toObject(Address.class);
-                                String city = address.getCity();
-                                if(!cities.contains(city)){
-                                    cities.add(city);
-                                    citiesAdapter.notifyDataSetChanged();
-                                }
+                for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    Clinic clinic = documentSnapshot.toObject(Clinic.class);
+                    DocumentReference addressRef = clinic.getAddress_id();
+                    String addressId = addressRef.getPath().substring(8);
+                    address.document(addressId);
+                    addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                           // Address address = documentSnapshot.toObject(Address.class);
+                            //String city = address.getCity();
+                            String city = documentSnapshot.getString("city");
+                            if(!cities.contains(city)){
+                                cities.add(city);
+                                citiesAdapter.notifyDataSetChanged();
                             }
-                        });
-
-                    }
+                        }
+                    });
+                }
                 }
             });
     }
 
-
-
     private void isUserLogged(){
         Button mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
-        ImageView mAccount = (ImageView) findViewById(R.id.accountImageSearch);
+        ImageView mAccount = (ImageView) findViewById(R.id.accountImageSearchResult);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
+        if (user != null) { // User is signed in
             mLoginButton.setVisibility(View.GONE);
-
-        } else {
-            // No user is signed in
+        } else {// No user is signed in
             mAccount.setVisibility(View.GONE);
         }
     }
 
     private void getDoctorsData(final DocumentReference doctorRef){
         doctorRef.get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                final Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
+                System.out.println(doctorRef.getId());
+                s1.add(doctorRef.getId());
+                docNames.add(foundDoctor.getDegree() + " "
+                        + foundDoctor.getFirst_name() + " "
+                        + foundDoctor.getLast_name());
+                    images.add(foundDoctor.getPhoto_url());
+                docRates.add(foundDoctor.getAverage_rate());
+                docPrices.add(foundDoctor.getAppointment_price());
+                docInfos.add(foundDoctor.getPersonal_info());
+                searchRecyclerAdapter.notifyDataSetChanged();
+                final int docNum = s1.size() - 1;
+                getDocSpec(doctorRef, docNum);
+                getDocReviews(doctorRef, docNum);
+                checkIfIsFav(doctorRef);
+                getDocClinic(documentSnapshot.getDocumentReference("clinic_id"));
+                }
+            });
+    }
+    private void checkIfIsFav(final DocumentReference doctorRef){
+        //check if isFav
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            favourites.add(false);
+            searchRecyclerAdapter.notifyDataSetChanged();
+        }
+
+        else {
+            String userId = user.getUid();
+            patients.document(userId).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        final Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
-                        System.out.println(doctorRef.getId());
-                        s1.add(doctorRef.getId());
-                        docNames.add(foundDoctor.getDegree() + " "
-                                + foundDoctor.getFirst_name() + " "
-                                + foundDoctor.getLast_name());
-                            images.add(foundDoctor.getPhoto_url());
-
-                        docRates.add(foundDoctor.getAverage_rate());
-                        docPrices.add(foundDoctor.getAppointment_price());
-                        docInfos.add(foundDoctor.getPersonal_info());
-                        searchRecyclerAdapter.notifyDataSetChanged();
-
-                        final int docNum = s1.size() - 1;
-                        //specs
-
-                        s2.add("");
-                        searchRecyclerAdapter.notifyDataSetChanged();
-
-                        docHasSpec
-                            .whereEqualTo("doctor_id",doctorRef)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                            DocumentReference docSpecs = documentSnapshot
-                                                    .getDocumentReference("specialization_id");
-                                            docSpecs.get()
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                        String docSpec= documentSnapshot.getString("specialization_name");
-                                                        String allSpecs = s2.get(docNum);
-                                                        if(allSpecs.equals("")){
-                                                            allSpecs += docSpec;
-                                                        }
-                                                        else {
-                                                            allSpecs += ", " + docSpec;
-                                                        }
-                                                        if(allSpecs.length() > 30){
-                                                            for (int i = allSpecs.length(); i > 5; i--){
-                                                                if(allSpecs.substring(i-1, i).equals(",")){
-                                                                    allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
-                                                                }
-                                                            }
-                                                        }
-                                                        s2.set(docNum, allSpecs);
-                                                        searchRecyclerAdapter.notifyDataSetChanged();
-                                                    }
-                                                });
-                                        }
-                                    }
-                                }
-                            });
-
-
-                        rateCounters.add(0);
-                        docReviews.add("");
-                        searchRecyclerAdapter.notifyDataSetChanged();
-
-                        appointments.whereEqualTo("doctor_id", doctorRef)
-                                .whereEqualTo("rated", true).get()
-                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                        int count = 0;
-                                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                            count++;
-                                            DocumentReference appointmentRef = documentSnapshot.getReference();
-                                            reviews.whereEqualTo("appointment_id", appointmentRef).get()
-                                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                                            for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                                                if(documentSnapshot.get("accepted").equals(true)){
-                                                                    System.out.println(documentSnapshot.get("review"));
-                                                                    String text = documentSnapshot.getString("review");
-                                                                    String author = "";
-                                                                    if(documentSnapshot.get("anonymous").equals(true)){
-                                                                        author = "Anonimowa";
-                                                                    }
-                                                                    else {
-                                                                        author = "Pacjent";
-                                                                    }
-                                                                    String review = docReviews.get(docNum);
-                                                                    if (review.equals("")){
-                                                                        review += author + "\n" + text;
-                                                                    }
-                                                                    else {
-                                                                        review += "\n" + "\n" + author + "\n" + text;
-                                                                    }
-                                                                    docReviews.set(docNum, review);
-                                                                    searchRecyclerAdapter.notifyDataSetChanged();
-                                                                }
-                                                            }
-
-                                                        }
-                                                    });
-
-                                        }
-
-                                        rateCounters.set(docNum, count);
-                                        System.out.println(rateCounters.get(docNum));
-                                        searchRecyclerAdapter.notifyDataSetChanged();
-                                    }
-                                });
-
-
-
-                        //check if isFav
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if(user == null){
+                    DocumentReference userRef = documentSnapshot.getReference();
+                    favouriteCol.whereEqualTo("patient_id", userRef).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            boolean isFav = false;
+                            for (QueryDocumentSnapshot documentSnapshot1:queryDocumentSnapshots){
+                                if (documentSnapshot1.getDocumentReference("doctor_id")
+                                        .equals(doctorRef))
+                                    isFav = true;
+                            }
+                            favourites.add(isFav);
+                            searchRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
                             favourites.add(false);
                             searchRecyclerAdapter.notifyDataSetChanged();
-                        }
+                            }
+                        });
+                    }
+                });
+        }
+    }
 
-                        else {
-                            String userId = user.getUid();
-                            patients.document(userId).get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    DocumentReference userRef = documentSnapshot.getReference();
-                                    favouriteCol.whereEqualTo("patient_id", userRef)
-                                        .get()
-                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            boolean isFav = false;
-                                            for (QueryDocumentSnapshot documentSnapshot1:queryDocumentSnapshots){
-                                                if (documentSnapshot1.getDocumentReference("doctor_id")
-                                                        .equals(doctorRef))
-                                                    isFav = true;
+    private void getDocClinic(DocumentReference docClinicRef){
+        docClinicRef.get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
+                searchRecyclerAdapter.notifyDataSetChanged();
+                DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
+                clinicAddress.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Address address = documentSnapshot.toObject(Address.class);
+                            docCities.add(address.getFullAddress());
+                            searchRecyclerAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+    }
+
+    private void getDocReviews(DocumentReference doctorRef, final int docNum){
+        rateCounters.add(0);
+        docReviews.add("");
+        searchRecyclerAdapter.notifyDataSetChanged();
+
+        appointments.whereEqualTo("doctor_id", doctorRef)
+                .whereEqualTo("rated", true).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        int count = 0;
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            count++;
+                            DocumentReference appointmentRef = documentSnapshot.getReference();
+                            reviews.whereEqualTo("appointment_id", appointmentRef).get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                                if(documentSnapshot.get("accepted").equals(true)){
+                                                    // System.out.println(documentSnapshot.get("review"));
+                                                    String text = documentSnapshot.getString("review");
+                                                    String author = "";
+                                                    if(documentSnapshot.get("anonymous").equals(true)){
+                                                        author = "Anonimowa";
+                                                    }
+                                                    else {
+                                                        author = "Pacjent";
+                                                    }
+                                                    String review = docReviews.get(docNum);
+                                                    if (review.equals("")){
+                                                        review += author + "\n" + text;
+                                                    }
+                                                    else {
+                                                        review += "\n" + "\n" + author + "\n" + text;
+                                                    }
+                                                    docReviews.set(docNum, review);
+                                                    searchRecyclerAdapter.notifyDataSetChanged();
+                                                }
                                             }
-                                            favourites.add(isFav);
-                                            searchRecyclerAdapter.notifyDataSetChanged();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                            favourites.add(false);
-                                            searchRecyclerAdapter.notifyDataSetChanged();
                                         }
                                     });
-                                    }
-                                });
                         }
+                        rateCounters.set(docNum, count);
+                        System.out.println(rateCounters.get(docNum));
+                        searchRecyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
 
-                        //clinics data
-                        DocumentReference docClinicRef = documentSnapshot.getDocumentReference("clinic_id");
-                        docClinicRef.get()
+    private void getDocSpec(DocumentReference doctorRef, final int docNum){
+        //specs
+        s2.add("");
+        searchRecyclerAdapter.notifyDataSetChanged();
+        docHasSpec
+            .whereEqualTo("doctor_id",doctorRef).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        DocumentReference docSpecs = documentSnapshot
+                                .getDocumentReference("specialization_id");
+                        docSpecs.get()
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
-                                searchRecyclerAdapter.notifyDataSetChanged();
-                                DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
-                                clinicAddress.get()
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        Address address = documentSnapshot.toObject(Address.class);
-                                        docCities.add(address.getFullAddress());
-                                        searchRecyclerAdapter.notifyDataSetChanged();
+                                String docSpec= documentSnapshot.getString("specialization_name");
+                                String allSpecs = s2.get(docNum);
+                                if(allSpecs.equals("")){
+                                    allSpecs += docSpec;
+                                }
+                                else {
+                                    allSpecs += ", " + docSpec;
+                                }
+                                if(allSpecs.length() > 30){
+                                    for (int i = allSpecs.length(); i > 5; i--){
+                                        if(allSpecs.substring(i-1, i).equals(",")){
+                                            allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
                                         }
-                                    });
+                                    }
+                                }
+                                s2.set(docNum, allSpecs);
+                                searchRecyclerAdapter.notifyDataSetChanged();
                                 }
                             });
                     }
-                });
+                }
+                }
+            });
     }
 
 
@@ -440,8 +437,9 @@ public class SearchResultActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                Address address = documentSnapshot.toObject(Address.class);
-                                if (chosenCity.equals(address.getCity()))
+                                //Address address = documentSnapshot.toObject(Address.class);
+                                //if (chosenCity.equals(address.getCity()))
+                                if (chosenCity.equals(documentSnapshot.getString("city")))
                                     getDoctorsData(doctorRef);
                                 }
                             });
@@ -475,6 +473,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     filterByPrice(data);
                 if(data.hasExtra("averageMin") || data.hasExtra("averageMax"))
                     filterByAverage(data);
+                if(data.hasExtra("ratesMin") || data.hasExtra("ratesMax"))
+                    filterByRateNum(data);
                 if(data.hasExtra("sortOption") && data.hasExtra("sortDirection"))
                     sortDoctors(data);
             }
@@ -673,6 +673,23 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
+    private void filterByRateNum(Intent data){
+        if(data.hasExtra("ratesMin") && data.hasExtra("ratesMax")){
+            int ratesMin = data.getIntExtra("ratesMin", 0);
+            int ratesMax = data.getIntExtra("ratesMax", 0);
+            filterByMinAndMaxRateNum(ratesMin, ratesMax);
+
+        }
+        else if (data.hasExtra("ratesMin")) {
+            int ratesMin = data.getIntExtra("ratesMin", 0);
+            filterByMinRateNum(ratesMin);
+        }
+        else if (data.hasExtra("ratesMax")) {
+            int ratesMax = data.getIntExtra("ratesMax", 0);
+            filterByMaxRateNum(ratesMax);
+        }
+    }
+
     private void filterByAverage(Intent data){
         if(data.hasExtra("averageMin") && data.hasExtra("averageMax")){
             float averageMin = (float) data.getIntExtra("averageMin", 0);
@@ -690,7 +707,31 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByMinAverage(Float minAverage){
+    private void filterByMinRateNum(int minRateNum){
+        for(int i = rateCounters.size() - 1; i >= 0; i--){
+            if (rateCounters.get(i) < minRateNum){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMaxRateNum(int maxRateNum){
+        for(int i = rateCounters.size() - 1; i >= 0; i--){
+            if (rateCounters.get(i) > maxRateNum){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMinAndMaxRateNum(int minRateNum, int maxRateNum){
+        for(int i = rateCounters.size() - 1; i >= 0; i--){
+            if ((rateCounters.get(i) > minRateNum) && (rateCounters.get(i) < maxRateNum)){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMinAverage(float minAverage){
         for(int i = docRates.size() - 1; i >= 0; i--){
             if (docRates.get(i) < minAverage){
                 removeDoc(i);
@@ -698,7 +739,7 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByMaxAverage(Float maxAverage){
+    private void filterByMaxAverage(float maxAverage){
         for(int i = docRates.size() - 1; i >= 0; i--){
             if (docRates.get(i) > maxAverage){
                 removeDoc(i);
@@ -706,14 +747,15 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByMinAndMaxAverage(Float minAverage, Float maxAverage){
+    private void filterByMinAndMaxAverage(float minAverage, float maxAverage){
         for(int i = docRates.size() - 1; i >= 0; i--){
             if ((docRates.get(i) > minAverage) && (docRates.get(i) < maxAverage)){
                 removeDoc(i);
             }
         }
     }
-    private void filterByMinPrice(Float minPrice){
+    private void filterByMinPrice(float minPrice){
+        System.out.println("min price:" + minPrice);
         for(int i = docPrices.size() - 1; i >= 0; i--){
             if (docPrices.get(i) < minPrice){
                 removeDoc(i);
@@ -721,7 +763,8 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByMaxPrice(Float maxPrice){
+    private void filterByMaxPrice(float maxPrice){
+        System.out.println("max price:" + maxPrice);
         for(int i = docPrices.size() - 1; i >= 0; i--){
             if (docPrices.get(i) > maxPrice){
                 removeDoc(i);
@@ -729,7 +772,7 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByMinAndMaxPrice(Float minPrice, Float maxPrice){
+    private void filterByMinAndMaxPrice(float minPrice, float maxPrice){
         for(int i = docPrices.size() - 1; i >= 0; i--){
             if ((docPrices.get(i) > maxPrice) && (docPrices.get(i) < minPrice)){
                 removeDoc(i);
@@ -770,8 +813,14 @@ public class SearchResultActivity extends AppCompatActivity {
                 intent.putExtra("city", "Dowolna");
             else
                 intent.putExtra("city", city);
-
+            finish();
             startActivity(intent);
         }
+    }
+
+    public void onClickAccountSearchResult(View view){
+        Intent intent = new Intent(SearchResultActivity.this, PatientAccountActivity.class);
+        finish();
+        startActivity(intent);
     }
 }

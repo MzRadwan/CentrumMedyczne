@@ -70,9 +70,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         holder.myTextView1.setText(docNames.get(position));
         holder.myTextView2.setText(data2.get(position));
 
-        //StorageReference s = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1604259130016.jpeg?alt=media&token=1a33c800-72cf-4288-b687-6e99496d4e3f");
-
-       // StorageReference s = storage.getReferenceFromUrl("gs://centrum-medyczne-8367d.appspot.com/doctors/1604259130016.jpeg");
         FirebaseStorage storage = FirebaseStorage.getInstance();
         String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
 
@@ -89,7 +86,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         }
         // holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
-        holder.mDocPrice.setText("Cena za wizytę: " + String.format("%.2f", docPrices.get(position)) + " PLN");
+        holder.mDocPrice.setText("" + String.format("Cena za wizytę: %.2f PLN", docPrices.get(position)) + "");
         if(docCMs.size() == docNames.size())
             holder.mDocCM.setText(docCMs.get(position));
 

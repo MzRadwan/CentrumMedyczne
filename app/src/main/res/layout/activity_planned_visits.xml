@@ -41,6 +41,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
+            android:onClick="onClickAccountPlanned"
             android:contentDescription="@string/profil_pacjenta"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +53,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="15dp"
             android:contentDescription="@string/search_icon"
+            android:onClick="onClickSearchPlanned"
             app:layout_constraintEnd_toStartOf="@+id/accountImagePlanned"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_search_white_box" />
