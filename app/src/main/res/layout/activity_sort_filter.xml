@@ -64,6 +64,28 @@
         android:text="@string/rednia_ocena"
         android:textAlignment="center"
         android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/avgMinRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/verdana"
+
+            android:layout_weight="1"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/avgMaxRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:text="5" />
+    </LinearLayout>
 
 
     <me.bendik.simplerangeview.SimpleRangeView
@@ -74,6 +96,8 @@
         app:fixedThumbColor="@color/lagoon"
         app:count="6"
         app:end="6"
+        app:showLabels="false"
+
         app:showTicks="false"
         app:showActiveTicks="false"
         app:lineColor="@color/sky"
@@ -89,6 +113,29 @@
         android:textAlignment="center"
         android:textSize="16sp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/ratesMinRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/verdana"
+
+            android:layout_weight="1"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/ratesMaxRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:text="10" />
+    </LinearLayout>
+
     <me.bendik.simplerangeview.SimpleRangeView
         android:id="@+id/ratesBar"
         android:layout_width="match_parent"
@@ -96,6 +143,8 @@
         app:activeLineColor="@color/lagoon"
         app:count="100"
         app:end="100"
+        app:showLabels="false"
+
         app:showActiveTicks="false"
         app:showTicks="false"
         app:lineColor="@color/sky"
@@ -111,6 +160,29 @@
         android:textAlignment="center"
         android:textSize="16sp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/priceMinRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/verdana"
+
+            android:layout_weight="1"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/priceMaxRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:text="200" />
+    </LinearLayout>
+
     <me.bendik.simplerangeview.SimpleRangeView
         android:id="@+id/priceBar"
         android:layout_width="match_parent"
@@ -118,8 +190,7 @@
         app:activeLineColor="@color/lagoon"
         app:count="100"
         app:end="100"
-        app:fixedLabelColor="@color/fair"
-        app:activeLabelColor="@color/blue"
+        app:showLabels="false"
         app:showActiveTicks="false"
         app:showTicks="false"
         app:lineColor="@color/sky"

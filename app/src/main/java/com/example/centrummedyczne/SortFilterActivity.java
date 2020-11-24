@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,7 @@ public class SortFilterActivity extends AppCompatActivity {
             averageMax, ratesMax, priceMax;
 
     private int priceMinRange, priceMaxRange, ratesMaxRange;
+    private TextView mMaxPriceText, mMinPriceText, mMinAvgText, mMaxAvgText, mMinRatesText, mMaxRatesText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,10 @@ public class SortFilterActivity extends AppCompatActivity {
 
     private void setAverageFilters(){
         mAverageBar = findViewById(R.id.averageBar);
+
+        mMinAvgText = findViewById(R.id.avgMinRangeText);
+        mMaxAvgText = findViewById(R.id.avgMaxRangeText);
+
         mAverageBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
@@ -50,26 +56,32 @@ public class SortFilterActivity extends AppCompatActivity {
         mAverageBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMinAvgText.setText(String.valueOf(i));
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMaxAvgText.setText(String.valueOf(i));
             }
         });
-
+/*
         mAverageBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
             @Nullable
             @Override
             public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
                 return String.valueOf(i);
             }
-        });
+        });*/
     }
 
     private void setRateFilters(){
         mRatesNumberBar = findViewById(R.id.ratesBar);
+
+        mMinRatesText = findViewById(R.id.ratesMinRangeText);
+        mMaxRatesText = findViewById(R.id.ratesMaxRangeText);
+
+        mMaxRatesText.setText(String.valueOf(ratesMaxRange));
+
         mRatesNumberBar.setCount(ratesMaxRange+1);
         mRatesNumberBar.setEnd(ratesMaxRange + 1);
 
@@ -78,32 +90,37 @@ public class SortFilterActivity extends AppCompatActivity {
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
                 setRatesMin(i);
                 setRatesMax(i1);
+
             }
         });
 
         mRatesNumberBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMinRatesText.setText(String.valueOf(i));
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMaxRatesText.setText(String.valueOf(i));
             }
         });
-
+/*
         mRatesNumberBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
             @Nullable
             @Override
             public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
                 return String.valueOf(i);
             }
-        });
+        });*/
     }
 
     private void setPriceFilters(){
         mPriceBar = findViewById(R.id.priceBar);
+        mMinPriceText = findViewById(R.id.priceMinRangeText);
+        mMaxPriceText = findViewById(R.id.priceMaxRangeText);
+
+        mMaxPriceText.setText(String.valueOf(priceMaxRange));
 
         mPriceBar.setCount(priceMaxRange+1);
         mPriceBar.setEnd(priceMaxRange+1);
@@ -112,29 +129,31 @@ public class SortFilterActivity extends AppCompatActivity {
             @Override
             public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
                 setPriceMin(i);
+                //mMinPriceText.setText(String.valueOf(i));
                 setPriceMax(i1);
+                //mMaxPriceText.setText(String.valueOf(i1));
             }
         });
 
         mPriceBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
             @Override
             public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMinPriceText.setText(String.valueOf(i));
             }
 
             @Override
             public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
-
+                mMaxPriceText.setText(String.valueOf(i));
             }
         });
 
-        mPriceBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
+      /*  mPriceBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
             @Nullable
             @Override
             public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
                 return String.valueOf(i);
             }
-        });
+        });*/
     }
 
     private void getData(){

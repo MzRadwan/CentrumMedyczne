@@ -74,7 +74,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
        // StorageReference s = storage.getReferenceFromUrl("gs://centrum-medyczne-8367d.appspot.com/doctors/1604259130016.jpeg");
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
 
         if(!images.get(position).equals(noImage)) {
             StorageReference s = storage.getReferenceFromUrl(images.get(position));

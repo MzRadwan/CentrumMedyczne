@@ -58,7 +58,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
-    private List<Integer>  opinionCounters, rateCounters;
+    private List<Integer>  rateCounters;
 
 
     @Override
@@ -201,8 +201,6 @@ public class SearchResultActivity extends AppCompatActivity {
                         docNames.add(foundDoctor.getDegree() + " "
                                 + foundDoctor.getFirst_name() + " "
                                 + foundDoctor.getLast_name());
-                        //String noImage = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
-                        //if(!foundDoctor.getPhoto_url().equals(noImage))
                             images.add(foundDoctor.getPhoto_url());
 
                         docRates.add(foundDoctor.getAverage_rate());
@@ -255,9 +253,6 @@ public class SearchResultActivity extends AppCompatActivity {
                             });
 
 
-
-                        //opinions
-//                        opinionCounters.add(0);
                         rateCounters.add(0);
                         docReviews.add("");
                         searchRecyclerAdapter.notifyDataSetChanged();
@@ -302,7 +297,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                                     });
 
                                         }
-                                     //   opinionCounters.set(docNum, count);
+
                                         rateCounters.set(docNum, count);
                                         System.out.println(rateCounters.get(docNum));
                                         searchRecyclerAdapter.notifyDataSetChanged();
@@ -489,14 +484,12 @@ public class SearchResultActivity extends AppCompatActivity {
     private void sortDoctors(Intent data){
         String sortSettings = data.getStringExtra("sortOption")
                 +data.getStringExtra("sortDirection");
-       // System.out.println("sortsettings"+ sortSettings);
+
         switch (sortSettings){
             case "Cena za wizytęRosnąco":
-               // System.out.println("sortbypriceup");
                 sortByPriceUp();
                 break;
             case "Cena za wizytęMalejąco":
-                //System.out.println("sortbypricedown");
                 sortByPriceDown();
                 break;
             case "Średnia ocenaRosnąco":
@@ -517,17 +510,13 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void sortByPriceUp(){
-        //System.out.println("sortbypriceupup");
-        //System.out.println(docPrices.size());
+
         for (int i = 0; i < docPrices.size(); i++) {
-          //  System.out.println("doc pricei"+ docPrices.get(i));
             boolean swap = false;
             for (int j = 0; j < docPrices.size() - i -1; j++) {
-            //    System.out.println("doc pricej"+ docPrices.get(j));
                 if (docPrices.get(j) > docPrices.get(j + 1)){
                     swap = true;
                     swapDoctor(j, j+1);
-                    //System.out.println("Swaping doctor");
                 }
             }
             if (!swap){
