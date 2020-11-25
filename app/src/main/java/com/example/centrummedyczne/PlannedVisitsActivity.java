@@ -181,13 +181,6 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Address address = documentSnapshot.toObject(Address.class);
-                            /*String cmAddress = "";
-                            cmAddress += address.getCity() + ", "
-                                    + address.getStreet() + " " + address.getBuilding_number();
-                           if (address.getApartment()!=null){
-                              cmAddress += "/" + address.getApartment();
-                            }
-*/
                             docCMCities.set(visitNum,address.getFullAddress());
                                 plannedVisitAdapter.notifyDataSetChanged();
                             }
