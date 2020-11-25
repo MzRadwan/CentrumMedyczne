@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,22 +14,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookAppointmentActivity extends AppCompatActivity {
 
-    private String docName, docSpec, docCM, docCity, docId;
-    private int docImg;
+    private String docName, docSpec, docCM, docCity, docId, docImg;
+
     private float docPrice;
 
     private List<String> visitDates;
@@ -74,40 +80,29 @@ public class BookAppointmentActivity extends AppCompatActivity {
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    DocumentReference doctorRef = documentSnapshot.getReference();
-                    System.out.println("docRef" + doctorRef);
-                    appointmentCol.whereEqualTo("doctor_id",doctorRef)
-                        .whereEqualTo("booked", false).get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                DocumentReference doctorRef = documentSnapshot.getReference();
+                //System.out.println("docRef" + doctorRef);
+                appointmentCol.whereEqualTo("doctor_id",doctorRef)
+                    .whereEqualTo("booked", false).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-
-                                    visitRefs.add(documentSnapshot.getId());
-                                    visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
-                                    avaliableAdapter.notifyDataSetChanged();
-                                   /* final TextView textView = new TextView(BookAppointmentActivity.this);
-                                    textView.setText(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
-                                    LinearLayout visitLayout = findViewById(R.id.visitLayout);
-                                    visitLayout.addView(textView);
-                                    textView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            textView.setTextColor(getResources().getColor(R.color.navy));
-                                        }
-                                    });*/
-
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.getResult().isEmpty()){
+                                    TextView noAppointments = findViewById(R.id.avaliableTextBooking);
+                                    noAppointments.setText("Brak dostępnych wizyt");
                                 }
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(BookAppointmentActivity.this, "Nie znaleziono wizyt", Toast.LENGTH_SHORT).show();
-                                System.out.println("Nie znaleziono wizyt");
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                visitRefs.add(documentSnapshot.getId());
+                                visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
+                                avaliableAdapter.notifyDataSetChanged();
                             }
-                        });
+                        }
+                    });
                 }
             });
     }
@@ -118,7 +113,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         docCM = getIntent().getStringExtra("docCM");
         docCity = getIntent().getStringExtra("docCity");
         docPrice = getIntent().getFloatExtra("price", 0);
-        docImg = getIntent().getIntExtra("docImg", 0);
+        docImg = getIntent().getStringExtra("docImg");
         docId = getIntent().getStringExtra("docId");
     }
 
@@ -127,20 +122,23 @@ public class BookAppointmentActivity extends AppCompatActivity {
         mDocSpec.setText(docSpec);
         mDocCM.setText(docCM);
         mDocCity.setText(docCity);
-        mDocPrice.setText(String.format("%.2f", docPrice) + " PLN");
-        mDocImage.setImageResource(docImg);
+        mDocPrice.setText(String.format("%.2f PLN",docPrice));
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
+
+        if(!docImg.equals(noImage)) {
+            StorageReference s = storage.getReferenceFromUrl(docImg);
+            s.getBytes(1024 * 1024)
+                    .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            mDocImage.setImageBitmap(bitmap);
+                        }
+                    });
+        }
+
     }
 
 
-/*
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //visitRefs.clear();
-        //visitDates.clear();
-        //avaliableAdapter.notifyDataSetChanged();
-        //getAppointments();
-        createRecycler();
-        getAppointments();
-    }*/
 }

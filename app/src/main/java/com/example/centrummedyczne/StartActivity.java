@@ -26,9 +26,6 @@ import java.util.List;
 
 public class StartActivity extends AppCompatActivity {
 
-    private Button mLoginButton;
-    private ImageView mAccount;
-
     private AutoCompleteTextView mSpecs, mCities;
 
     private List<String> specs;
@@ -36,10 +33,10 @@ public class StartActivity extends AppCompatActivity {
     private ArrayAdapter<String> specsAdapter;
     private ArrayAdapter<String> citiesAdapter;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference specializations = db.collection("specialization");
-    private CollectionReference clinics = db.collection("clinic");
-    private CollectionReference address = db.collection("address");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference specializations = db.collection("specialization");
+    private final CollectionReference clinics = db.collection("clinic");
+    private final CollectionReference address = db.collection("address");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +51,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void userOrGuest(){
-        mLoginButton = (Button) findViewById(R.id.loginButtonStart);
-        mAccount = (ImageView) findViewById(R.id.accountImageStart);
+        Button mLoginButton = (Button) findViewById(R.id.loginButtonStart);
+        ImageView mAccount = (ImageView) findViewById(R.id.accountImageStart);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -93,7 +90,7 @@ public class StartActivity extends AppCompatActivity {
 
     private void findCities(){
 
-        mCities = (AutoCompleteTextView) findViewById(R.id.citiesAutoComplete);
+        mCities = findViewById(R.id.citiesAutoComplete);
 
         cities = new ArrayList<>();
 
@@ -103,62 +100,72 @@ public class StartActivity extends AppCompatActivity {
 
         //cities hint from Firestore
         clinics.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
-                        for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            Clinic clinic = documentSnapshot.toObject(Clinic.class);
-                            DocumentReference addressRef = clinic.getAddress_id();
-                            String addressId = addressRef.getPath().substring(8);
-                           // System.out.println(addressId);
-                            address.document(addressId);
-                            addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    Address address = documentSnapshot.toObject(Address.class);
-                                    String city = address.getCity();
-                                    if(!cities.contains(city)){
-                                        cities.add(city);
-                                        citiesAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            });
-
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(final QuerySnapshot queryDocumentSnapshots) {
+                for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    DocumentReference addressRef = documentSnapshot.getDocumentReference("address_id");
+                    addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                       // Address address = documentSnapshot.toObject(Address.class);
+                        String city = documentSnapshot.getString("city");
+                        if(!cities.contains(city)){
+                            cities.add(city);
+                            citiesAdapter.notifyDataSetChanged();
                         }
-                    }
-                });
+                        }
+                    });
+                }
+                }
+            });
     }
 
     public void onClickAccount(View view){
         Intent intent = new Intent(view.getContext(), PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void onClickSearch(View view){
-        Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
+
         String specializaion = mSpecs.getText().toString();
         String city = mCities.getText().toString();
 
-        if(specializaion.equals("")) {
-            intent.putExtra("specialization", "Dowolna");
+        if(specializaion.equals("") && city.equals("")){
+            Toast.makeText(StartActivity.this, "Podaj specjalizację lub miasto",
+                    Toast.LENGTH_SHORT).show();
         }
+
         else{
-            intent.putExtra("specialization", specializaion);
-        }
+            Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
+            if(specializaion.equals(""))
+                intent.putExtra("specialization", "Dowolna");
+            else {
+                String chosenSpec = specializaion.substring(0,1).toUpperCase()
+                        .concat(specializaion.substring(1,specializaion.length()).toLowerCase());
+                intent.putExtra("specialization", chosenSpec);
+            }
 
-        if(city.equals("")){
-            intent.putExtra("city", "Dowolna");
-        }
-        else
-            intent.putExtra("city", city);
+            if(city.equals(""))
+                intent.putExtra("city", "Dowolna");
+            else {
+                String chosenCity = city.substring(0,1).toUpperCase()
+                        .concat(city.substring(1,city.length()).toLowerCase());
+                intent.putExtra("city", chosenCity);
+            }
 
-        startActivity(intent);
+            startActivity(intent);
+            finish();
+        }
 
     }
 
     public void onClickLogin(View view){
         Intent intent = new Intent(view.getContext(), LoginActivity.class);
+
         startActivity(intent);
+        finish();
     }
 
 }

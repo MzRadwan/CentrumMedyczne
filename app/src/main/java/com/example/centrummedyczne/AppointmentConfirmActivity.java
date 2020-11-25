@@ -3,6 +3,7 @@ package com.example.centrummedyczne;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -72,12 +73,16 @@ public class AppointmentConfirmActivity extends AppCompatActivity {
         Map<String, Object> visit = new HashMap<>();
         visit.put("booked", true);
         visit.put("patient_id", patientRef);
+        visit.put("notification_sent", false);
         appointmentCol.document(visitId).update(visit)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AppointmentConfirmActivity.this,
                                 "Zarezerwowano wizytę", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AppointmentConfirmActivity.this, PlannedVisitsActivity.class);
+                        finish();
+                        startActivity(intent);
 
                     }
                 })
