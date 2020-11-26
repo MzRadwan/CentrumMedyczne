@@ -11,7 +11,31 @@ public class FormatData {
         String mm = startDate.substring(4,7);
         String month = "";
         switch (mm){
-            case "Sep":
+            case "Jan":
+                month = "1";
+                break;
+            case "Feb":
+                month = "2";
+                break;
+            case "Mar":
+                month = "3";
+                break;
+            case "Apr":
+                month = "4";
+                break;
+            case "May":
+                month = "5";
+                break;
+            case "Jun":
+                month = "6";
+                break;
+            case "Jul":
+                month = "7";
+                break;
+            case "Aug":
+                month = "8";
+                break;
+           case "Sep":
                 month = "9";
                 break;
             case "Oct":
