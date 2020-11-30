@@ -144,7 +144,9 @@
     <string name="avaliable_appointment_dates">Dostępne terminy:</string>
     <string name="no_prescriptions">Brak recept do wyświetlenia</string>
     <string name="liczba_recenzji">Liczba recenzji</string>
-
+    <string name="look_for_doctor">Znajdź lekarza</string>
+    <string name="specialization">Specjalizacja</string>
+    <string name="serach">Szukaj</string>
 
 
     <string-array name="sort_options">

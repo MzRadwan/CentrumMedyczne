@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -139,6 +140,20 @@ public class BookAppointmentActivity extends AppCompatActivity {
         }
 
     }
+    public void onClickBackToDocProfile(View view){
+        finish();
+    }
 
+    public void onClickAccountBooK(View view){
+        Intent intent = new Intent(BookAppointmentActivity.this, PatientAccountActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void onClickSearchBooK(View view){
+        Intent intent = new Intent(BookAppointmentActivity.this, StartActivity.class);
+        finish();
+        startActivity(intent);
+    }
 
 }

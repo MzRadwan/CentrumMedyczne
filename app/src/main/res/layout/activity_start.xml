@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/header_gradient"
         app:srcCompat="@drawable/ic_header_gradient" />
 
     <TextView
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="48dp"
-        android:text="Znajdź lekarza"
+        android:text="@string/look_for_doctor"
         android:textColor="@color/white"
         android:fontFamily="@font/verdana"
         android:textSize="26sp"
@@ -69,8 +70,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/white_button"
-            android:hint="Specjalizacja"
+            android:hint="@string/specialization"
             android:paddingStart="20sp"
+            android:paddingEnd="20sp"
             android:textColor="@color/navy"
             android:textColorHint="@color/sky"
             android:textSize="22sp" />
@@ -86,8 +88,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/white_button"
-            android:hint="Miasto"
+            android:hint="@string/city"
             android:paddingStart="20sp"
+            android:paddingEnd="20sp"
             android:textColor="@color/navy"
             android:textColorHint="@color/sky"
 
@@ -105,7 +108,7 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/lagoon_button"
             android:fontFamily="@font/verdana"
-            android:text="Szukaj"
+            android:text="@string/serach"
             android:onClick="onClickSearch"
             android:textAllCaps="false"
             android:textColor="@color/navy"
@@ -118,7 +121,7 @@
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:contentDescription="profil pacjenta"
+        android:contentDescription="@string/patient_profile"
         android:onClick="onClickAccount"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"

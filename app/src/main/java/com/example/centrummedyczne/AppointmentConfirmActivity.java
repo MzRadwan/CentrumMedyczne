@@ -25,7 +25,7 @@ public class AppointmentConfirmActivity extends AppCompatActivity {
 
     private String visitId, visitDate;
 
-    private Button mVisitDate, mConfirm, mCancel;
+    private Button mVisitDate;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference appointmentCol = db.collection("appointment");
@@ -38,8 +38,6 @@ public class AppointmentConfirmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_confirm);
 
         mVisitDate = findViewById(R.id.avaliableAppointmentConfirm);
-        mCancel = findViewById(R.id.stopBookingConfirm);
-        mConfirm = findViewById(R.id.confirmBookingConfirm);
 
         getData();
         setData();
@@ -93,5 +91,21 @@ public class AppointmentConfirmActivity extends AppCompatActivity {
                                 "Nieudana rezerwacja wizyty", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void onClickCancelBooking(View view){
+        finish();
+    }
+
+    public void onClickAccountConfirmBooking(View view){
+        Intent intent = new Intent(AppointmentConfirmActivity.this, PatientAccountActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void onClickSearchConfirmBooking(View view){
+        Intent intent = new Intent(AppointmentConfirmActivity.this, StartActivity.class);
+        finish();
+        startActivity(intent);
     }
 }

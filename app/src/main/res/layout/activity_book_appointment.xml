@@ -42,6 +42,7 @@
             android:contentDescription="@string/search_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onClickSearchBooK"
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
@@ -53,6 +54,7 @@
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onClickAccountBooK"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:srcCompat="@drawable/ic_account_box_white" />
 
@@ -239,6 +241,7 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/sky_button"
                 android:fontFamily="@font/verdana"
+                android:onClick="onClickBackToDocProfile"
                 android:text="@string/back_to_doc_profile"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
