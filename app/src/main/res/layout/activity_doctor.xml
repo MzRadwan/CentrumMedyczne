@@ -25,11 +25,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/doc_profile"
             android:textColor="@color/white"
             android:textSize="22sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -40,9 +40,9 @@
             android:layout_marginTop="14dp"
             android:layout_marginEnd="85dp"
             android:contentDescription="@string/search_icon"
+            android:onClick="onClickSearchDocActivity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="onClickSearchDocActivity"
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
@@ -52,9 +52,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:onClick="onClickAccountDocActivity"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="onClickAccountDocActivity"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:srcCompat="@drawable/ic_account_box_white" />
 
@@ -67,10 +67,10 @@
             android:background="@drawable/white_button"
             android:fontFamily="@font/verdana"
             android:text="@string/login_text"
-            android:textColor="@color/navy"
-            android:visibility="invisible"
             android:textAllCaps="false"
+            android:textColor="@color/navy"
             android:textSize="18sp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:paddingBottom="10dp"
-                android:background="@drawable/white_background">
+                android:background="@drawable/white_background"
+                android:paddingBottom="10dp">
 
 
                 <ImageView
@@ -107,14 +107,16 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="prof. dr hab. n. med. \nJanusz Szeligowski"
-                    android:textSize="17sp"
                     android:fontFamily="@font/verdana_bold"
+                    android:paddingStart="110dp"
+                    android:paddingEnd="10sp"
+                    android:text="prof. dr hab. n. med. Janusz Szeligowski"
                     android:textColor="@color/navy"
+                    android:textSize="17sp"
                     app:layout_constraintStart_toEndOf="@+id/mainImageView"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,10 +127,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/example_spec"
-                    android:textSize="15sp"
                     android:fontFamily="@font/verdana"
+                    android:text="@string/example_spec"
                     android:textColor="@color/navy"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@+id/mainImageView"
                     app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -137,10 +139,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:textSize="15sp"
                     android:fontFamily="@font/verdana"
-                    android:textColor="@color/navy"
                     android:text="C"
+                    android:textColor="@color/navy"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@+id/mainImageView"
                     app:layout_constraintTop_toBottomOf="@+id/docSpecDocActivity" />
 
@@ -149,10 +151,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:textSize="15sp"
                     android:fontFamily="@font/verdana"
-                    android:textColor="@color/navy"
                     android:text="@string/example_address"
+                    android:textColor="@color/navy"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toEndOf="@+id/mainImageView"
                     app:layout_constraintTop_toBottomOf="@+id/docCMDocA" />
 
@@ -178,33 +180,33 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:padding="10dp"
-            android:background="@drawable/white_background"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/textView39"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
-                android:textColor="@color/navy"
-                android:textSize="16sp"
-                android:text="O lekarzu:" />
+                android:layout_marginTop="15dp"
+                android:background="@drawable/white_background"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/docInfoDocAcitivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
-                android:textColor="@color/blue"
-                android:textSize="14sp"
-                android:text="@string/lorem_ipsum" />
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView39"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/verdana"
+                    android:text="O lekarzu:"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/docInfoDocAcitivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/verdana"
+                    android:text="@string/lorem_ipsum"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
             <LinearLayout
@@ -212,8 +214,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/white_background"
-                android:padding="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/rateAvgTextDocA"
@@ -229,21 +231,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/navy"
-                    android:textSize="16sp"
                     android:fontFamily="@font/verdana"
-                    android:text="4.78" />
+                    android:text="4.78"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/rateCounterTextDocA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/navy"
-                    android:textSize="16sp"
                     android:fontFamily="@font/verdana"
+                    android:text="12 ocen"
                     android:textAlignment="textEnd"
-                    android:text="12 ocen" />
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -251,9 +253,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:padding="10dp"
                 android:background="@drawable/white_background"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -264,50 +266,49 @@
                         android:id="@+id/opinionsHeaderDocA"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/verdana"
-                        android:textColor="@color/navy"
                         android:layout_weight="1"
-
-                        android:textSize="16sp"
-                        android:text="@string/opinions_t" />
+                        android:fontFamily="@font/verdana"
+                        android:text="@string/opinions_t"
+                        android:textColor="@color/navy"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/opinionCounterDocA"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/verdana"
-                        android:textColor="@color/navy"
-                        android:textSize="16sp"
-                        android:textAlignment="textEnd"
                         android:layout_weight="1"
+                        android:fontFamily="@font/verdana"
+                        android:text="11 opinii"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/navy"
 
-                        android:text="11 opinii" />
+                        android:textSize="16sp" />
                 </LinearLayout>
-
 
 
                 <TextView
                     android:id="@+id/opinionsDisplayDocA"
                     android:layout_width="match_parent"
+                    android:paddingTop="10sp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/blue"
-                    android:textSize="16sp"
-                    android:text="Anonimowa\nLorem ipsum\n\nKatarzyna\nŚwietny lekarz" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/showMoreOpinionsDocA"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/sky_button"
                     android:fontFamily="@font/verdana"
+                    android:text="@string/show_more"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:text="@string/show_more" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -315,8 +316,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/white_background"
-                android:padding="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/textView50"
@@ -332,50 +333,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/navy"
-                    android:textSize="16sp"
                     android:fontFamily="@font/verdana"
-                    android:text="125 PLN" />
-
+                    android:text="125 PLN"
+                    android:textColor="@color/navy"
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:visibility="gone"
-                android:background="@drawable/white_background"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView37"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/verdana"
-                    android:textColor="@color/navy"
-                    android:layout_margin="10dp"
-                    android:textSize="16sp"
-                    android:visibility="gone"
-                    android:text="Najbliższe dostępne terminy:" />
-
-
-            </LinearLayout>
             <Button
                 android:id="@+id/bookVisitSearch"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/lagoon_button"
                 android:fontFamily="@font/verdana"
+                android:onClick="onClickBookAppointment"
+                android:text="@string/book_appointment"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:onClick="onClickBookAppointment"
-                android:text="@string/book_appointment" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/backToResults"
@@ -384,10 +363,11 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/sky_button"
                 android:fontFamily="@font/verdana"
+                android:onClick="onClickBackToDocsList"
+                android:text="@string/back_to_results"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:text="@string/back_to_results" />
+                android:textSize="16sp" />
 
 
         </LinearLayout>

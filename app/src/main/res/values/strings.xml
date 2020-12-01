@@ -147,6 +147,7 @@
     <string name="look_for_doctor">Znajdź lekarza</string>
     <string name="specialization">Specjalizacja</string>
     <string name="serach">Szukaj</string>
+    <string name="centrum_medyczne">Centrum Medyczne</string>
 
 
     <string-array name="sort_options">

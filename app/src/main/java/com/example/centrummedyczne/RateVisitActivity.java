@@ -110,6 +110,7 @@ public class RateVisitActivity extends AppCompatActivity {
                                                                 opinion_added, Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(RateVisitActivity.this,
                                                                         AppointmentHistoryActivity.class);
+                                                        finish();
                                                         startActivity(intent);
                                                     }
                                                 });

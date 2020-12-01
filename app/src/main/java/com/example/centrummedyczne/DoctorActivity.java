@@ -111,7 +111,7 @@ public class DoctorActivity extends AppCompatActivity {
         description.setText(data2);
         mDocInfo.setText(info);
 
-        mDocPrice.setText(" "+ String.format("%.2f", price) + " PLN");
+        mDocPrice.setText(String.format("%.2f PLN", price));
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
@@ -176,8 +176,9 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         else {
+            System.out.println("OPINIE" + docReview);
             mOpinionCount.setText(""+rateCount+" opinii");
-            mOpinionsDisplay.setText(""+docReview);
+            mOpinionsDisplay.setText(docReview);
         }
     }
 
@@ -294,5 +295,9 @@ public class DoctorActivity extends AppCompatActivity {
         Intent intent = new Intent(DoctorActivity.this, PatientAccountActivity.class);
         finish();
         startActivity(intent);
+    }
+
+    public void onClickBackToDocsList(View view){
+        finish();
     }
 }
