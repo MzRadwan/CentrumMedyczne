@@ -27,7 +27,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
 
     List<String> data1, data2, images, docNames, docInfos, docCMs, docCities, docReviews;
-    List<Integer>  rateCounters;
+    List<Integer>  rateCounters, opinionCounters;
     List<Float> docRates, docPrices;
     List<Boolean> favourites;
 
@@ -37,7 +37,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                                  List<String> img, List<Float> docRates, List<Float> docPrices,
                                  List<String> docNames, List<String> docInfos, List<String> docCMs,
                                  List<String> docCities, List<Boolean> favourites,
-                                 List<Integer> rateCounters, List<String> docReviews){
+                                 List<Integer> rateCounters, List<String> docReviews, List<Integer> opinionCounters){
         context = ct;
         data1 = s1;
         data2 = s2;
@@ -50,7 +50,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         this.favourites = favourites;
         this.docCities = docCities;
         this.rateCounters = rateCounters;
-        //this.opinionCounters = opinionCounters;
+        this.opinionCounters = opinionCounters;
         this.docReviews = docReviews;
 
     }
@@ -120,7 +120,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                 intent.putExtra("city", docCities.get(position));
                 intent.putExtra("isFav", favourites.get(position));
                 intent.putExtra("rateCounter", rateCounters.get(position));
-               // intent.putExtra("opinionCounter", opinionCounters.get(position));
+                intent.putExtra("opinionCounter", opinionCounters.get(position));
                 intent.putExtra("docReviews", docReviews.get(position));
                 context.startActivity(intent);
             }

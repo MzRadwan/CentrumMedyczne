@@ -18,15 +18,12 @@ import me.bendik.simplerangeview.SimpleRangeView;
 public class SortFilterActivity extends AppCompatActivity {
 
 
-    private Spinner mSortOption, mSortDirection;
-    private SimpleRangeView mAverageBar, mRatesNumberBar, mPriceBar;
-
-    private int averageMin, ratesMin, priceMin,
+    private int averageMin, ratesMin, priceMin, opinionMin, opinionMax,
             averageMax, ratesMax, priceMax;
 
-    private int priceMinRange, priceMaxRange, ratesMaxRange;
+    private int priceMinRange, priceMaxRange, ratesMaxRange, opinionsMaxRange;
     private TextView mMaxPriceText, mMinPriceText, mMinAvgText,
-            mMaxAvgText, mMinRatesText, mMaxRatesText;
+            mMaxAvgText, mMinRatesText, mMaxRatesText, mMinOpinionText, mMaxOpinionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +32,14 @@ public class SortFilterActivity extends AppCompatActivity {
 
         getData();
         setAverageFilters();
+        setOpinionFilters();
         setRateFilters();
         setPriceFilters();
 
     }
 
     private void setAverageFilters(){
-        mAverageBar = findViewById(R.id.averageBar);
+        SimpleRangeView mAverageBar = findViewById(R.id.averageBar);
 
         mMinAvgText = findViewById(R.id.avgMinRangeText);
         mMaxAvgText = findViewById(R.id.avgMaxRangeText);
@@ -65,18 +63,50 @@ public class SortFilterActivity extends AppCompatActivity {
                 mMaxAvgText.setText(String.valueOf(i));
             }
         });
-/*
-        mAverageBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
-            @Nullable
-            @Override
-            public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
-                return String.valueOf(i);
-            }
-        });*/
+
+    }
+    private void setOpinionFilters(){
+        SimpleRangeView mOpinionBar = findViewById(R.id.opinionBar);
+        TextView mOpinionsText = findViewById(R.id.textViewOpinionsHeader);
+
+        mMinOpinionText = findViewById(R.id.opinionMinRangeText);
+        mMaxOpinionText = findViewById(R.id.opinionMaxRangeText);
+
+        if(opinionsMaxRange == 0){
+            mOpinionsText.setVisibility(View.GONE);
+            mOpinionBar.setVisibility(View.GONE);
+            mMinOpinionText.setVisibility(View.GONE);
+            mMaxOpinionText.setVisibility(View.GONE);
+        }
+        else{
+            mMaxOpinionText.setText(String.valueOf(opinionsMaxRange));
+
+            mOpinionBar.setCount(opinionsMaxRange+1);
+            mOpinionBar.setEnd(opinionsMaxRange + 1);
+
+            mOpinionBar.setOnChangeRangeListener(new SimpleRangeView.OnChangeRangeListener() {
+                @Override
+                public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
+                    setOpinionMin(i);
+                    setOpinionMin(i1);
+                }
+            });
+            mOpinionBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
+                @Override
+                public void onStartRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                    mMinOpinionText.setText(String.valueOf(i));
+                }
+                @Override
+                public void onEndRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i) {
+                    mMaxOpinionText.setText(String.valueOf(i));
+                }
+            });
+        }
+
     }
 
     private void setRateFilters(){
-        mRatesNumberBar = findViewById(R.id.ratesBar);
+        SimpleRangeView mRatesNumberBar = findViewById(R.id.ratesBar);
         TextView mRatesText = findViewById(R.id.rateNumHeaderText);
 
         mMinRatesText = findViewById(R.id.ratesMinRangeText);
@@ -112,19 +142,10 @@ public class SortFilterActivity extends AppCompatActivity {
                 }
             });
         }
-
-/*
-        mRatesNumberBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
-            @Nullable
-            @Override
-            public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
-                return String.valueOf(i);
-            }
-        });*/
     }
 
     private void setPriceFilters(){
-        mPriceBar = findViewById(R.id.priceBar);
+        SimpleRangeView mPriceBar = findViewById(R.id.priceBar);
         mMinPriceText = findViewById(R.id.priceMinRangeText);
         mMaxPriceText = findViewById(R.id.priceMaxRangeText);
 
@@ -153,25 +174,19 @@ public class SortFilterActivity extends AppCompatActivity {
             }
         });
 
-      /*  mPriceBar.setOnRangeLabelsListener(new SimpleRangeView.OnRangeLabelsListener() {
-            @Nullable
-            @Override
-            public String getLabelTextForPosition(@NotNull SimpleRangeView simpleRangeView, int i, @NotNull SimpleRangeView.State state) {
-                return String.valueOf(i);
-            }
-        });*/
     }
 
     private void getData(){
        // priceMinRange = getIntent().getIntExtra("minPrice", 0);
         priceMaxRange = (int) getIntent().getFloatExtra("maxPrice", 300);
         ratesMaxRange =  getIntent().getIntExtra("maxRatesNumber", 300);
+        opinionsMaxRange =  getIntent().getIntExtra("maxOpinionsNumber", 300);
     }
 
     public void onClickApply(View view){
         Intent applyIntent = new Intent();
-        mSortOption =  findViewById(R.id.sortOptionSpinner);
-        mSortDirection = findViewById(R.id.sortDirectionSpinner);
+        Spinner mSortOption = findViewById(R.id.sortOptionSpinner);
+        Spinner mSortDirection = findViewById(R.id.sortDirectionSpinner);
         String option = mSortOption.getSelectedItem().toString();
         String direction = mSortDirection.getSelectedItem().toString();
         if(!option.equals("Sortuj według") && !direction.equals("Kolejność sortowania")){
@@ -188,8 +203,17 @@ public class SortFilterActivity extends AppCompatActivity {
             applyIntent.putExtra("priceMin", priceMin);
         if (priceMax != priceMaxRange && priceMax != 0)
             applyIntent.putExtra("priceMax", priceMax);
-        //applyIntent.putExtra("ratesMin", ratesMin);
-       // applyIntent.putExtra("ratesMax", ratesMax);
+
+        if(ratesMin != 0)
+            applyIntent.putExtra("ratesMin", ratesMin);
+        if (ratesMax != ratesMaxRange && ratesMax != 0)
+            applyIntent.putExtra("ratesMax", ratesMax);
+
+        if(opinionMin != 0)
+            applyIntent.putExtra("opinionMin", opinionMin);
+        if (opinionMax != opinionsMaxRange && opinionMax != 0)
+            applyIntent.putExtra("opinionMax", opinionMax);
+
         setResult(RESULT_OK, applyIntent);
         finish();
     }
@@ -200,6 +224,14 @@ public class SortFilterActivity extends AppCompatActivity {
 
     public void setAverageMax(int averageMax) {
         this.averageMax = averageMax;
+    }
+
+    public void setOpinionMin(int opinionMin) {
+        this.opinionMin = opinionMin;
+    }
+
+    public void setOpinionMax(int opinionMax) {
+        this.opinionMax = opinionMax;
     }
 
     public void setRatesMin(int ratesMin) {

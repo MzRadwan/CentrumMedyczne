@@ -70,13 +70,13 @@ public class FavDocsActivity extends AppCompatActivity {
         docCMs = new ArrayList<>();
         docCities  = new ArrayList<>();
         favourites = new ArrayList<>();
-       // opinionCounters = new ArrayList<>();
+        opinionCounters = new ArrayList<>();
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
 
         searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
-                docCities, favourites,  rateCounters, docReviews);
+                docCities, favourites,  rateCounters, docReviews, opinionCounters);
         mFavDocRecycler.setAdapter(searchRecyclerAdapter);
         mFavDocRecycler.setLayoutManager(new LinearLayoutManager(this));
     }

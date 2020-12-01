@@ -95,7 +95,7 @@ public class DoctorActivity extends AppCompatActivity {
             docCity = getIntent().getStringExtra("city");
             isFav = getIntent().getBooleanExtra("isFav", false);
             rateCount = getIntent().getIntExtra("rateCounter", 0);
-            //opinionCount = getIntent().getIntExtra("opinionCounter", 0);
+            opinionCount = getIntent().getIntExtra("opinionCounter", 0);
             docReview = getIntent().getStringExtra("docReviews");
 
         }
@@ -168,7 +168,7 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
 
-        if (rateCount == 0){
+        if (opinionCount == 0){
             mOpinionsDisplay.setVisibility(View.GONE);
             mMoreOpinions.setVisibility(View.GONE);
             mOpinionCount.setVisibility(View.GONE);
@@ -177,7 +177,7 @@ public class DoctorActivity extends AppCompatActivity {
 
         else {
             System.out.println("OPINIE" + docReview);
-            mOpinionCount.setText(""+rateCount+" opinii");
+            mOpinionCount.setText(""+opinionCount+" opinii");
             mOpinionsDisplay.setText(docReview);
         }
     }

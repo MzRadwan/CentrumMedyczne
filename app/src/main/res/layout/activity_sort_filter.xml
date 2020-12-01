@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/verdana"
-        android:text="@string/liczba_recenzji"
+        android:text="Liczba ocen"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -156,6 +156,53 @@
         app:start="0" />
 
     <TextView
+        android:id="@+id/textViewOpinionsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/verdana"
+        android:text="Liczba opinii"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp">
+
+        <TextView
+            android:id="@+id/opinionMinRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:fontFamily="@font/verdana"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/opinionMaxRangeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <me.bendik.simplerangeview.SimpleRangeView
+        android:id="@+id/opinionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:activeLineColor="@color/lagoon"
+        app:count="100"
+        app:end="100"
+        app:lineColor="@color/sky"
+        app:showActiveTicks="false"
+        app:showLabels="false"
+        app:showTicks="false"
+        app:start="0" />
+
+    <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -186,7 +233,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="200"
             android:textAlignment="textEnd" />
     </LinearLayout>
 

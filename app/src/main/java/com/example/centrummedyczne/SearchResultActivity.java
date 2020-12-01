@@ -59,7 +59,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
     private SearchRecyclerAdapter searchRecyclerAdapter;
-    private List<Integer>  rateCounters;
+    private List<Integer>  rateCounters, opinionCounters;
 
 
     @Override
@@ -90,7 +90,6 @@ public class SearchResultActivity extends AppCompatActivity {
         mCities.setAdapter(citiesAdapter);
 
 
-
         //search text views settings
         setSpecHints();
         setCityHints();
@@ -117,10 +116,11 @@ public class SearchResultActivity extends AppCompatActivity {
         favourites = new ArrayList<>();
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
+        opinionCounters = new ArrayList<>();
 
         searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
-                docCities, favourites, rateCounters, docReviews);
+                docCities, favourites, rateCounters, docReviews, opinionCounters);
         mRecyclerView.setAdapter(searchRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -163,13 +163,11 @@ public class SearchResultActivity extends AppCompatActivity {
                     addressRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                           // Address address = documentSnapshot.toObject(Address.class);
-                            //String city = address.getCity();
-                            String city = documentSnapshot.getString("city");
-                            if(!cities.contains(city)){
-                                cities.add(city);
-                                citiesAdapter.notifyDataSetChanged();
-                            }
+                        String city = documentSnapshot.getString("city");
+                        if(!cities.contains(city)){
+                            cities.add(city);
+                            citiesAdapter.notifyDataSetChanged();
+                        }
                         }
                     });
                 }
@@ -180,7 +178,6 @@ public class SearchResultActivity extends AppCompatActivity {
     private void isUserLogged(){
         Button mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
         ImageView mAccount = (ImageView) findViewById(R.id.accountImageSearchResult);
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) { // User is signed in
             mLoginButton.setVisibility(View.GONE);
@@ -220,7 +217,6 @@ public class SearchResultActivity extends AppCompatActivity {
             favourites.add(false);
             searchRecyclerAdapter.notifyDataSetChanged();
         }
-
         else {
             String userId = user.getUid();
             patients.document(userId).get()
@@ -277,6 +273,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private void getDocReviews(DocumentReference doctorRef, final int docNum){
         rateCounters.add(0);
+        opinionCounters.add(0);
         docReviews.add("");
         searchRecyclerAdapter.notifyDataSetChanged();
         appointments.whereEqualTo("doctor_id", doctorRef)
@@ -287,7 +284,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     DocumentReference appointmentRef = documentSnapshot.getReference();
                     reviews.whereEqualTo("appointment_id", appointmentRef)
-                            .whereEqualTo("accepted", true).get()
+                        .whereEqualTo("accepted", true).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -296,7 +293,11 @@ public class SearchResultActivity extends AppCompatActivity {
                                     rateCount++;
                                     rateCounters.set(docNum, rateCount);
                                     searchRecyclerAdapter.notifyDataSetChanged();
-                                    if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").equals("")){
+                                    System.out.println("OPINIA" + documentSnapshot.getString("review"));
+                                    if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
+                                        int opinionCount = opinionCounters.get(docNum);
+                                        opinionCount++;
+                                        opinionCounters.set(docNum, opinionCount);
                                         String review = docReviews.get(docNum);
                                         if (!review.equals("")) review += "\n\n";
                                         review += documentSnapshot.getString("review");
@@ -444,8 +445,10 @@ public class SearchResultActivity extends AppCompatActivity {
         Intent intent1 = new Intent(v.getContext(), SortFilterActivity.class);
         Float maxPrice = Collections.max(docPrices);
         int maxRatesNumber = Collections.max(rateCounters);
+        int maxOpinionsNumber = Collections.max(opinionCounters);
         intent1.putExtra("maxPrice",maxPrice);
         intent1.putExtra("maxRatesNumber",maxRatesNumber);
+        intent1.putExtra("maxOpinionsNumber",maxOpinionsNumber);
         startActivityForResult(intent1, 1);
     }
 
@@ -461,6 +464,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     filterByAverage(data);
                 if(data.hasExtra("ratesMin") || data.hasExtra("ratesMax"))
                     filterByRateNum(data);
+                if(data.hasExtra("opinionMin") || data.hasExtra("opinionMax"))
+                    filterByOpinionCount(data);
                 if(data.hasExtra("sortOption") && data.hasExtra("sortDirection"))
                     sortDoctors(data);
             }
@@ -561,6 +566,10 @@ public class SearchResultActivity extends AppCompatActivity {
         rateCounters.set(j, rateCounters.get(next));
         rateCounters.set(next, tempI);
 
+        tempI = opinionCounters.get(j);
+        opinionCounters.set(j, opinionCounters.get(next));
+        opinionCounters.set(next, tempI);
+
         searchRecyclerAdapter.notifyDataSetChanged();
 
     }
@@ -640,6 +649,36 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
+    private void sortByOpinionCountUp(){
+        for (int i = 0; i < opinionCounters.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < opinionCounters.size() - i -1; j++) {
+                if (opinionCounters.get(j) > opinionCounters.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
+    private void sortByOpionCountDown(){
+        for (int i = 0; i < opinionCounters.size(); i++) {
+            boolean swap = false;
+            for (int j = 0; j < opinionCounters.size() - i -1; j++) {
+                if (opinionCounters.get(j) < opinionCounters.get(j + 1)){
+                    swap = true;
+                    swapDoctor(j, j+1);
+                }
+            }
+            if (!swap){
+                break;
+            }
+        }
+    }
+
     private void filterByPrice(Intent data){
         //System.out.println("filter_by_price");
         if(data.hasExtra("priceMin") && data.hasExtra("priceMax")){
@@ -656,6 +695,23 @@ public class SearchResultActivity extends AppCompatActivity {
         else if (data.hasExtra("priceMax")) {
             float priceMax = (float) data.getIntExtra("priceMax", 0);
             filterByMaxPrice(priceMax);
+        }
+    }
+
+    private void filterByOpinionCount(Intent data){
+        if(data.hasExtra("opinionMin") && data.hasExtra("opinionMax")){
+            int opinionMin = data.getIntExtra("opinionMin", 0);
+            int opinionMax = data.getIntExtra("opinionMax", 0);
+            filterByMinAndMaxOpinonCount(opinionMin, opinionMax);
+
+        }
+        else if (data.hasExtra("opinionMin")) {
+            int opinionMin = data.getIntExtra("opinionMin", 0);
+            filterByMinOpinionCount(opinionMin);
+        }
+        else if (data.hasExtra("opinionMax")) {
+            int opinionMax = data.getIntExtra("opinionMax", 0);
+            filterByMaxOpinionCount(opinionMax);
         }
     }
 
@@ -740,6 +796,31 @@ public class SearchResultActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void filterByMinOpinionCount(int minOpinion){
+        for(int i = opinionCounters.size() - 1; i >= 0; i--){
+            if (opinionCounters.get(i) < minOpinion){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMaxOpinionCount(int maxOpinion){
+        for(int i = opinionCounters.size() - 1; i >= 0; i--){
+            if (opinionCounters.get(i) > maxOpinion){
+                removeDoc(i);
+            }
+        }
+    }
+
+    private void filterByMinAndMaxOpinonCount(int minOpinion, int maxOpinion){
+        for(int i = opinionCounters.size() - 1; i >= 0; i--){
+            if ((opinionCounters.get(i) > minOpinion) && (opinionCounters.get(i) < maxOpinion)){
+                removeDoc(i);
+            }
+        }
+    }
+
     private void filterByMinPrice(float minPrice){
         System.out.println("min price:" + minPrice);
         for(int i = docPrices.size() - 1; i >= 0; i--){
