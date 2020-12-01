@@ -47,6 +47,7 @@ public class EditPatientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (EditPatientActivity.this, ResetPassword.class);
+                finish();
                 startActivity(intent);
             }
         });
@@ -62,13 +63,15 @@ public class EditPatientActivity extends AppCompatActivity {
 
     }
 
-    public void onClickSettingsSearch(View view){
+    public void onClickSearchEditPatient(View view){
         Intent intent = new Intent(EditPatientActivity.this, StartActivity.class);
+        finish();
         startActivity(intent);
     }
 
-    public void onClickSettingsAccount(View view){
+    public void onClickAccountEditPatient(View view){
         Intent intent = new Intent(EditPatientActivity.this, PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
@@ -175,6 +178,7 @@ public class EditPatientActivity extends AppCompatActivity {
 
     public void onClickReady(View view){
         Intent intent = new Intent(EditPatientActivity.this, PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 

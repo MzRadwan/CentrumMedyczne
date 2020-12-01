@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/searchLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/white_button"
-    android:id="@+id/searchLayout">
+    android:orientation="vertical">
 
 
     <androidx.cardview.widget.CardView
@@ -16,7 +15,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,10 +28,10 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:contentDescription="@string/profile_pic"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile_blue"
-                android:contentDescription="@string/profile_pic" />
+                app:srcCompat="@drawable/ic_profile_blue" />
 
             <TextView
                 android:id="@+id/searchDocName"
@@ -83,9 +82,8 @@
                 android:layout_height="50dp"
                 android:layout_marginEnd="5dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocSpec"
                 app:srcCompat="@drawable/ic_favorite_full" />
 
             <ImageView
@@ -93,18 +91,17 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchDocSpec"
                 app:srcCompat="@drawable/ic_favorite_border" />
 
             <TextView
                 android:id="@+id/searchDocCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/verdana"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="30dp"
+                android:fontFamily="@font/verdana"
                 android:text="Centrum Medyczne"
                 android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
@@ -116,10 +113,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/verdana"
+                android:text="Kraków, ul. Długa 12a"
                 android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
-                app:layout_constraintTop_toBottomOf="@+id/searchDocCM"
-                android:text="Kraków, ul. Długa 12a" />
+                app:layout_constraintTop_toBottomOf="@+id/searchDocCM" />
 
             <TextView
                 android:id="@+id/docPriceSearchActivity"
@@ -127,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/verdana"
-                android:textColor="@color/navy"
                 android:text="Cena za wizytę: 150 PLN"
+                android:textColor="@color/navy"
                 app:layout_constraintStart_toEndOf="@+id/searchProfileImg"
                 app:layout_constraintTop_toBottomOf="@+id/searchDocCityAddress" />
 
@@ -136,15 +133,15 @@
                 android:id="@+id/addToFavDocs"
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/lagoon_button"
+                android:fontFamily="@font/verdana"
                 android:text="Dodaj do ulubionych"
                 android:textAllCaps="false"
-                android:fontFamily="@font/verdana"
                 android:textColor="@color/navy"
                 android:textSize="18sp"
-                android:background="@drawable/lagoon_button"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
