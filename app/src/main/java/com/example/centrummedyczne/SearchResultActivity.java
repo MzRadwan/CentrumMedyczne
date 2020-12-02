@@ -53,8 +53,6 @@ public class SearchResultActivity extends AppCompatActivity {
     private final CollectionReference reviews = db.collection("review");
 
 
-    private RecyclerView mRecyclerView;
-
     private List<String> s1, s2, docNames, images, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
     private List<Float> docRates, docPrices;
@@ -69,8 +67,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
         isUserLogged();
 
-        mSpecs = (AutoCompleteTextView) findViewById(R.id.specializationTextView);
-        mCities = (AutoCompleteTextView) findViewById(R.id.cityTextView);
+        mSpecs =  findViewById(R.id.specializationTextView);
+        mCities =  findViewById(R.id.cityTextView);
 
         Intent intent = getIntent();
         chosenSpec = intent.getStringExtra("specialization");
@@ -78,7 +76,7 @@ public class SearchResultActivity extends AppCompatActivity {
         chosenCity = intent.getStringExtra("city");
         mCities.setHint(chosenCity);
 
-        mSpecs = (AutoCompleteTextView) findViewById(R.id.specializationTextView);
+        mSpecs =  findViewById(R.id.specializationTextView);
         specs = new ArrayList<>();
         specsAdapter = new ArrayAdapter<String>
                 (this, android.R.layout.simple_dropdown_item_1line, specs);
@@ -102,7 +100,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private void createSearchDocRecycler(){
         //search results display
 
-        mRecyclerView = findViewById(R.id.docRecyler);
+        RecyclerView mRecyclerView = findViewById(R.id.docRecyler);
 
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
@@ -176,8 +174,8 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void isUserLogged(){
-        Button mLoginButton = (Button) findViewById(R.id.loginButtonSearch);
-        ImageView mAccount = (ImageView) findViewById(R.id.accountImageSearchResult);
+        Button mLoginButton =  findViewById(R.id.loginButtonSearch);
+        ImageView mAccount =  findViewById(R.id.accountImageSearchResult);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) { // User is signed in
             mLoginButton.setVisibility(View.GONE);
@@ -293,7 +291,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                     rateCount++;
                                     rateCounters.set(docNum, rateCount);
                                     searchRecyclerAdapter.notifyDataSetChanged();
-                                    System.out.println("OPINIA" + documentSnapshot.getString("review"));
+                                   // System.out.println("OPINIA" + documentSnapshot.getString("review"));
                                     if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
                                         int opinionCount = opinionCounters.get(docNum);
                                         opinionCount++;
@@ -489,11 +487,17 @@ public class SearchResultActivity extends AppCompatActivity {
             case "Średnia ocenaMalejąco":
                 sortByRateDown();
                 break;
-            case "Liczba recenzjiRosnąco":
+            case "Liczba ocenRosnąco":
                 sortByRateNumberUp();
                 break;
-            case "Liczba recenzjiMalejąco":
+            case "Liczba ocenMalejąco":
                 sortByRateNumberDown();
+                break;
+            case "Liczba opiniiRosnąco":
+                sortByOpinionCountUp();
+                break;
+            case "Liczba opiniiMalejąco":
+                sortByOpionCountDown();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + sortSettings);

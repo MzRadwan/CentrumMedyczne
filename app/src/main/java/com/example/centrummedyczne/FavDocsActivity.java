@@ -8,11 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +27,6 @@ import java.util.List;
 
 public class FavDocsActivity extends AppCompatActivity {
 
-
-    private RecyclerView mFavDocRecycler;
 
     private List<String> s1, s2, docNames, images, docInfos, docCMs, docCities, docReviews;
     private List<Boolean> favourites;
@@ -58,7 +54,7 @@ public class FavDocsActivity extends AppCompatActivity {
     }
 
     private void createFavoriteRecycler(){
-        mFavDocRecycler = (RecyclerView) findViewById(R.id.favDocRecycler);
+        RecyclerView mFavDocRecycler = (RecyclerView) findViewById(R.id.favDocRecycler);
 
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
@@ -206,58 +202,44 @@ public class FavDocsActivity extends AppCompatActivity {
 
     private void getDocsReviews(DocumentReference docRef, final int docNum){
         //opinions
-        //opinionCounters.add(0);
+        opinionCounters.add(0);
         rateCounters.add(0);
         docReviews.add("");
         searchRecyclerAdapter.notifyDataSetChanged();
 
         appointments.whereEqualTo("doctor_id", docRef)
-                .whereEqualTo("rated", true).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        int count = 0;
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            count++;
-                            System.out.println(docNum);
-                            System.out.println(documentSnapshot.getId() + "->" +documentSnapshot.getData());
-                            DocumentReference appointmentRef = documentSnapshot.getReference();
-                            reviews.whereEqualTo("appointment_id", appointmentRef).get()
-                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                                if(documentSnapshot.get("accepted").equals(true)){
-                                                    System.out.println(documentSnapshot.get("review"));
-                                                    String text = documentSnapshot.getString("review");
-                                                    String author = "";
-                                                    if(documentSnapshot.get("anonymous").equals(true)){
-                                                        author = "Anonimowa";
-                                                    }
-                                                    else {
-                                                        author = "Pacjent";
-                                                    }
-                                                    String review = docReviews.get(docNum);
-                                                    if (review.equals("")){
-                                                        review += author + "\n" + text;
-                                                    }
-                                                    else {
-                                                        review += "\n" + "\n" + author + "\n" + text;
-                                                    }
-                                                    docReviews.set(docNum, review);
-                                                    searchRecyclerAdapter.notifyDataSetChanged();
-                                                }
-                                            }
-
-                                        }
-                                    });
-
-                        }
-                        //opinionCounters.set(docNum, count);
-                        rateCounters.set(docNum, count);
-                        searchRecyclerAdapter.notifyDataSetChanged();
-                    }
-                });
+            .whereEqualTo("rated", true).get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    DocumentReference appointmentRef = documentSnapshot.getReference();
+                    reviews.whereEqualTo("appointment_id", appointmentRef)
+                        .whereEqualTo("accepted", true).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                int rateCount = rateCounters.get(docNum);
+                                rateCount++;
+                                rateCounters.set(docNum, rateCount);
+                                searchRecyclerAdapter.notifyDataSetChanged();
+                                if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
+                                    int opinionCount = opinionCounters.get(docNum);
+                                    opinionCount++;
+                                    opinionCounters.set(docNum, opinionCount);
+                                    String review = docReviews.get(docNum);
+                                    if (!review.equals("")) review += "\n\n";
+                                    review += documentSnapshot.getString("review");
+                                    docReviews.set(docNum, review);
+                                    searchRecyclerAdapter.notifyDataSetChanged();
+                                }
+                            }
+                            }
+                        });
+                }
+                }
+            });
     }
 
 

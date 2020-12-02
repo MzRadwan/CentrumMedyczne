@@ -86,7 +86,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
         }
         // holder.myImage.setImageResource(images.get(position));
         holder.mDocRate.setRating(docRates.get(position));
-        holder.mDocPrice.setText("" + String.format("Cena za wizytę: %.2f PLN", docPrices.get(position)) + "");
+        holder.mDocPrice.setText(String.format("Cena za wizytę: %.2f PLN", docPrices.get(position)) + "");
         if(docCMs.size() == docNames.size())
             holder.mDocCM.setText(docCMs.get(position));
 

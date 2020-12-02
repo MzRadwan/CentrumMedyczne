@@ -153,7 +153,8 @@
     <string-array name="sort_options">
         <item>Sortuj według</item>
         <item>Średnia ocena</item>
-        <item>Liczba recenzji</item>
+        <item>Liczba ocen</item>
+        <item>Liczba opinii</item>
         <item>Cena za wizytę</item>
     </string-array>
 
