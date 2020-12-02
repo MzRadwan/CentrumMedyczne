@@ -236,9 +236,9 @@ public class DoctorActivity extends AppCompatActivity {
             mHeartBorder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     String userId = user.getUid();
-
                     patients.document(userId).get()
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override

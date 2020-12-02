@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -379,6 +380,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                             getDoctorsData(doctorRef);
                                     }
                                 }
+                                else
+                                    noDoctorsFound();
                             }
                         });
                     }
@@ -390,20 +393,26 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void citySearch(){
-        doctors
-            .get()
+        doctors.get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                        checkDocsCity(documentSnapshot.getReference());
-                    }
+                        for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                            checkDocsCity(documentSnapshot.getReference());
+                        }
+
                 }
                 }
             });
     }
 
+    private void noDoctorsFound(){
+        TextView noDocsText = findViewById(R.id.noSearchDocsFoundText);
+        noDocsText.setVisibility(View.VISIBLE);
+        Button sortFilter = findViewById(R.id.sortFilterButton);
+        sortFilter.setVisibility(View.GONE);
+    }
     private void checkDocsCity(final DocumentReference doctorRef){
         //search based on city
         doctorRef.get()
@@ -426,6 +435,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                 //if (chosenCity.equals(address.getCity()))
                                 if (chosenCity.equals(documentSnapshot.getString("city")))
                                     getDoctorsData(doctorRef);
+                                else
+                                    noDoctorsFound();
                                 }
                             });
                         }
@@ -436,6 +447,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     public void onClickLogin(View view){
         Intent intent = new Intent(view.getContext(), LoginActivity.class);
+        finish();
         startActivity(intent);
     }
 
@@ -454,7 +466,7 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1){//defines parent activity
+        if(requestCode == 1){
             if(resultCode == RESULT_OK){
                 if(data.hasExtra("priceMin") || data.hasExtra("priceMax"))
                     filterByPrice(data);
@@ -505,7 +517,6 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void sortByPriceUp(){
-
         for (int i = 0; i < docPrices.size(); i++) {
             boolean swap = false;
             for (int j = 0; j < docPrices.size() - i -1; j++) {
@@ -514,9 +525,7 @@ public class SearchResultActivity extends AppCompatActivity {
                     swapDoctor(j, j+1);
                 }
             }
-            if (!swap){
-                break;
-            }
+            if (!swap) break;
         }
     }
 

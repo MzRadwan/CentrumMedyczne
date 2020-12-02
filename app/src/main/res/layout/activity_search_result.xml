@@ -147,6 +147,20 @@
                 android:textColor="@color/navy"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/noSearchDocsFoundText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_background"
+                android:padding="20sp"
+                android:textAlignment="center"
+                android:layout_margin="10sp"
+                android:fontFamily="@font/verdana"
+                android:textSize="18sp"
+                android:textColor="@color/navy"
+                android:visibility="gone"
+                android:text="Nie znaleziono lekarzy spełniających kryteria wyszukiwania"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/docRecyler"
                 android:layout_width="match_parent"

@@ -76,13 +76,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
     }
 
     private void getAppointments(){
-        System.out.println("docId" + docId);
         doctorCol.document(docId).get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                 DocumentReference doctorRef = documentSnapshot.getReference();
-                //System.out.println("docRef" + doctorRef);
                 appointmentCol.whereEqualTo("doctor_id",doctorRef)
                     .whereEqualTo("booked", false).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -99,7 +97,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                 visitRefs.add(documentSnapshot.getId());
-                                visitDates.add(FormatData.reformatDateTime(documentSnapshot.getDate("appointment_start")));
+                                visitDates.add(FormatData.reformatDateTime
+                                        (documentSnapshot.getDate("appointment_start")));
                                 avaliableAdapter.notifyDataSetChanged();
                             }
                         }

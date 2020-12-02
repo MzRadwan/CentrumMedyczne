@@ -78,7 +78,8 @@ public class AppointmentConfirmActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(AppointmentConfirmActivity.this,
                                 "Zarezerwowano wizytę", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AppointmentConfirmActivity.this, PlannedVisitsActivity.class);
+                        Intent intent = new Intent(AppointmentConfirmActivity.this,
+                                PlannedVisitsActivity.class);
                         finish();
                         startActivity(intent);
 

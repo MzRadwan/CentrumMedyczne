@@ -88,7 +88,7 @@ public class SortFilterActivity extends AppCompatActivity {
                 @Override
                 public void onRangeChanged(@NotNull SimpleRangeView simpleRangeView, int i, int i1) {
                     setOpinionMin(i);
-                    setOpinionMin(i1);
+                    setOpinionMax(i1);
                 }
             });
             mOpinionBar.setOnTrackRangeListener(new SimpleRangeView.OnTrackRangeListener() {
