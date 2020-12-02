@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/white_button"
         android:fontFamily="@font/verdana"
-        android:text="Zarejestruj"
+        android:text="Anuluj"
         android:textColor="@color/navy"
         android:textSize="24sp"
         android:textAllCaps="false"
