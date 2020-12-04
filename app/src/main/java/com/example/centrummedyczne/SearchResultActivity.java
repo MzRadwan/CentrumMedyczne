@@ -571,7 +571,7 @@ public class SearchResultActivity extends AppCompatActivity {
         docRates.set(j, docRates.get(next));
         docRates.set(next, temp);
 
-        Boolean tempB = favourites.get(j);
+        boolean tempB = favourites.get(j);
         favourites.set(j, favourites.get(next));
         favourites.set(next, tempB);
 
@@ -582,6 +582,7 @@ public class SearchResultActivity extends AppCompatActivity {
         tempI = opinionCounters.get(j);
         opinionCounters.set(j, opinionCounters.get(next));
         opinionCounters.set(next, tempI);
+
 
         searchRecyclerAdapter.notifyDataSetChanged();
 

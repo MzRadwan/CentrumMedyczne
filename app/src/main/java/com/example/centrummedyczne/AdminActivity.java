@@ -2,10 +2,15 @@ package com.example.centrummedyczne;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +61,8 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+        createNotificationChannel();
+
     }
 
     public void onClickGetPhoto(View view){
@@ -71,6 +78,31 @@ public class AdminActivity extends AppCompatActivity {
                         mTestPhoto.setImageBitmap(bitmap);
                     }
                 });
+    }
+
+    private void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel = new NotificationChannel("My notification",
+                    "My notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+    private void createNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AdminActivity.this,
+                "My notification");
+        builder.setContentTitle("Centrum Medyczne");
+        builder.setContentText("Powiadomienie");
+        builder.setAutoCancel(false);
+        builder.setSmallIcon(R.drawable.ic_launcher_custom_background);
+        NotificationManagerCompat manager = NotificationManagerCompat.from(AdminActivity.this);
+        manager.notify(1,builder.build());
+    }
+
+    public void onClickNotification(View view){
+        createNotification();
     }
 
     public void onClickAddPrescription(View view){
