@@ -26,7 +26,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ public class DoctorMessageActivity extends AppCompatActivity {
 
     private TextView mDocName, mDocSpec;
     private ImageView mDocImg;
+
 
     private String docName, docSpec, docId;
     private int docImg;
@@ -101,7 +104,9 @@ public class DoctorMessageActivity extends AppCompatActivity {
         String messageText = messageEdit.getText().toString();
         if (!messageText.trim().equals("")){
             Map<String, Object> newMessage = new HashMap<>();
-            newMessage.put("date", FieldValue.serverTimestamp());
+            Date date = new Date(System.currentTimeMillis());
+            newMessage.put("date", date);
+           // newMessage.put("date", FieldValue.serverTimestamp());
             newMessage.put("to_doctor", true);
             newMessage.put("text", messageEdit.getText().toString());
             newMessage.put("doctor_id", docRef);
@@ -110,9 +115,8 @@ public class DoctorMessageActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(DoctorMessageActivity.this, "Message send", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoctorMessageActivity.this, "Wiadomość wysłana", Toast.LENGTH_SHORT).show();
                     messageEdit.setText("");
-                    //getUsersMessages();
                 }
             });
         }
@@ -130,9 +134,17 @@ public class DoctorMessageActivity extends AppCompatActivity {
 
                     for (DocumentChange dc : value.getDocumentChanges()) {
                         if (dc.getType() == DocumentChange.Type.ADDED) {
-                            //System.out.println("NEW: " + dc.getDocument().getData());
                             Message message = dc.getDocument().toObject(Message.class);
-                            System.out.println("NEW: " + message.getDate() + message.getText() );
+                            if(!messageList.contains(message)){
+                                if(message.getDate() == null){
+                                    Date date = new Date(System.currentTimeMillis());
+                                    message.setDate(date);
+                                }
+                                messageList.add(message);
+                                orderMessages();
+                               // messageAdapter.notifyItemInserted(messageList.size() - 1);
+                                //mMessageRecycler.scrollToPosition(messageList.size() - 1);
+                            }
                         }
                     }
                 }
@@ -153,8 +165,8 @@ public class DoctorMessageActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 DocumentReference docRef = documentSnapshot.getReference();
-                                getMessageTexts(userRef, docRef);
-                                //listenForNewMessages(userRef, docRef);
+                                //getMessageTexts(userRef, docRef);
+                                listenForNewMessages(userRef, docRef);
                             }
                         });
                     }
@@ -162,7 +174,7 @@ public class DoctorMessageActivity extends AppCompatActivity {
         }
     }
 
-    private void getMessageTexts(DocumentReference userRef, DocumentReference docRef){
+    private void getMessageTexts(final DocumentReference userRef, final DocumentReference docRef){
         messageCol.whereEqualTo("patient_id",userRef)
             .whereEqualTo("doctor_id", docRef).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -171,9 +183,9 @@ public class DoctorMessageActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                         Message message = documentSnapshot.toObject(Message.class);
                         messageList.add(message);
-                        //notify?
                     }
                     orderMessages();
+                    listenForNewMessages(userRef, docRef);
                 }
             });
     }
@@ -186,7 +198,6 @@ public class DoctorMessageActivity extends AppCompatActivity {
                 Message nextMessage = messageList.get(j + 1);
                 if (currentMessage.getDate().after(nextMessage.getDate())){
                     swap = true;
-                   // Message tempMessage = messageList.get(j);
                     messageList.set(j,nextMessage);
                     messageList.set(j + 1, currentMessage);
                 }
