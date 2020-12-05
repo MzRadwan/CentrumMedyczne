@@ -2,6 +2,7 @@ package com.example.centrummedyczne;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,67 +19,63 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder>{
 
-    private List<String> docIds, docNames, docSpecs, docCMs, docCMAddress;
-    private List<Integer> docImgs;
+    private List<Message> messageList;
 
     Context context;
 
-    public MessageAdapter(Context ct, List<String> docIds, List<String> docNames,
-                              List<String> docSpecs, List<String> docCMs,
-                              List<String> docCMAddress, List<Integer> docImgs){
+    public MessageAdapter(Context ct, List<Message> messageList){
         context = ct;
-        this.docIds = docIds;
-        this.docNames = docNames;
-        this.docSpecs = docSpecs;
-        this.docCMAddress = docCMAddress;
-        this.docCMs = docCMs;
-        this.docImgs = docImgs;
+        this.messageList = messageList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view  = inflater.inflate(R.layout.ask_doc_row, parent, false);
+        View view  = inflater.inflate(R.layout.message_row, parent, false);
+        RecyclerView.LayoutParams lp= new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-
-        holder.mDocName.setText(docNames.get(position));
-        if (docSpecs.size() == docIds.size())
-            holder.mDocSpec.setText(docSpecs.get(position));
-        if (docCMs.size() == docIds.size())
-            holder.mDocCM.setText(docCMs.get(position));
-        if (docCMAddress.size() == docIds.size())
-            holder.mDocCity.setText(docCMAddress.get(position));
-
+        LinearLayoutCompat.LayoutParams params = (LinearLayoutCompat.LayoutParams) holder.messageRowLayout.getLayoutParams();
+        Message message = messageList.get(position);
+        if (message.isTo_doctor()){
+            params.gravity = Gravity.END;
+            params.rightMargin = 0;
+            params.leftMargin = 200;
+            holder.mText.setBackgroundResource(R.drawable.sky_message_background);
+        }
+        else {
+            params.gravity = Gravity.START;
+            params.leftMargin = 0;
+            params.rightMargin = 200;
+            holder.mText.setBackgroundResource(R.drawable.white_message_background);
+        }
+        holder.messageRowLayout.setLayoutParams(params);
+        holder.mText.setText(message.getText());
 
     }
 
     @Override
     public int getItemCount() {
-        return docIds.size();
+        return messageList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView mDocName, mDocSpec, mDocCM, mDocCity;
-        ConstraintLayout askDocLayout;
-        ImageView mDocImg;
-
+        TextView mText;
+        LinearLayoutCompat messageRowLayout;
 
         public MyViewHolder (@NonNull View itemView){
             super(itemView);
 
-            mDocName = itemView.findViewById(R.id.askDocName);
-            mDocSpec = itemView.findViewById(R.id.askDocSpec);
-            mDocCM = itemView.findViewById(R.id.askDocCM);
-            mDocCity = itemView.findViewById(R.id.askDocCityAddress);
-            mDocImg = itemView.findViewById(R.id.askProfileImg);
+            mText = itemView.findViewById(R.id.messageTextRow);
 
-            askDocLayout = itemView.findViewById(R.id.askDocLayout);
+            messageRowLayout = itemView.findViewById(R.id.messageRowLayout);
         }
     }
 

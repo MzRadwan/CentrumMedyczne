@@ -1,6 +1,9 @@
 package com.example.centrummedyczne;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +16,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DoctorMessageActivity extends AppCompatActivity {
@@ -28,6 +38,10 @@ public class DoctorMessageActivity extends AppCompatActivity {
 
     private String docName, docSpec, docId;
     private int docImg;
+
+    private List<Message> messageList;
+    private MessageAdapter messageAdapter;
+    private RecyclerView mMessageRecycler;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -47,10 +61,15 @@ public class DoctorMessageActivity extends AppCompatActivity {
         getData();
         setData();
         createMessageRecycler();
-        getMessages();
+        getUsersMessages();
     }
 
     private void createMessageRecycler(){
+        messageList = new ArrayList<>();
+        mMessageRecycler = findViewById(R.id.messageRecycler);
+        messageAdapter = new MessageAdapter(this, messageList);
+        mMessageRecycler.setAdapter(messageAdapter);
+        mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -93,16 +112,96 @@ public class DoctorMessageActivity extends AppCompatActivity {
                 public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(DoctorMessageActivity.this, "Message send", Toast.LENGTH_SHORT).show();
                     messageEdit.setText("");
+                    //getUsersMessages();
                 }
             });
         }
-
     }
 
-    private void getMessages(){
+    private void listenForNewMessages(DocumentReference userRef, DocumentReference docRef){
+        messageCol.whereEqualTo("patient_id",userRef)
+            .whereEqualTo("doctor_id", docRef)
+            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Toast.makeText(DoctorMessageActivity.this, "Message error:" + error, Toast.LENGTH_SHORT).show();
+                    }
 
-
+                    for (DocumentChange dc : value.getDocumentChanges()) {
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
+                            //System.out.println("NEW: " + dc.getDocument().getData());
+                            Message message = dc.getDocument().toObject(Message.class);
+                            System.out.println("NEW: " + message.getDate() + message.getText() );
+                        }
+                    }
+                }
+            });
     }
+
+    private void getUsersMessages(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            String userId = user.getUid();
+            patientCol.document(userId).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    final DocumentReference userRef = documentSnapshot.getReference();
+                    doctorCol.document(docId).get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                DocumentReference docRef = documentSnapshot.getReference();
+                                getMessageTexts(userRef, docRef);
+                                //listenForNewMessages(userRef, docRef);
+                            }
+                        });
+                    }
+                });
+        }
+    }
+
+    private void getMessageTexts(DocumentReference userRef, DocumentReference docRef){
+        messageCol.whereEqualTo("patient_id",userRef)
+            .whereEqualTo("doctor_id", docRef).get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                        Message message = documentSnapshot.toObject(Message.class);
+                        messageList.add(message);
+                        //notify?
+                    }
+                    orderMessages();
+                }
+            });
+    }
+
+    private void orderMessages(){
+        for (int i = 0; i < messageList.size(); i++){
+            boolean swap = false;
+            for (int j = 0; j < messageList.size() - i -1; j++){
+                Message currentMessage = messageList.get(j);
+                Message nextMessage = messageList.get(j + 1);
+                if (currentMessage.getDate().after(nextMessage.getDate())){
+                    swap = true;
+                   // Message tempMessage = messageList.get(j);
+                    messageList.set(j,nextMessage);
+                    messageList.set(j + 1, currentMessage);
+                }
+            }
+            if (!swap) {
+                break;
+            }
+        }
+        for (Message m : messageList){
+            System.out.println(m.getDate().toString() + m.getText());
+        }
+        messageAdapter.notifyDataSetChanged();
+        mMessageRecycler.scrollToPosition(messageList.size() - 1);
+    }
+
 
 
     private void getData(){
