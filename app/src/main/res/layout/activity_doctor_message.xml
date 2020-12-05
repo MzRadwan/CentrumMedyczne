@@ -52,6 +52,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/message_gradient"
@@ -61,17 +62,17 @@
             android:id="@+id/messageEdit"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:ems="10"
-            android:padding="10sp"
             android:layout_marginStart="10sp"
             android:layout_marginEnd="80dp"
-            android:background="@drawable/message_background"
+            android:background="@drawable/white_message_background"
+            android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:textSize="16sp"
-            android:textColor="@color/navy"
             android:hint="@string/your_message"
+            android:inputType="textMultiLine"
+            android:padding="10sp"
+            android:textColor="@color/navy"
             android:textColorHint="@color/sky"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -81,11 +82,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:onClick="sendMessage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_send_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="105dp"
+        android:padding="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,7 +69,7 @@ public class AdminActivity extends AppCompatActivity {
         final ImageView mTestPhoto = findViewById(R.id.testPhotoImageView);
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference s = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1604259130016.jpeg?alt=media&token=1a33c800-72cf-4288-b687-6e99496d4e3f");
-        StorageReference imageRef = storage.getReference().child("doctors").child("1604256112092.jpg");
+        //StorageReference imageRef = storage.getReference().child("doctors").child("1604256112092.jpg");
         s.getBytes(1024 * 1024)
                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override
