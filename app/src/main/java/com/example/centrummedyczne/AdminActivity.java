@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,7 +37,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.internal.$Gson$Preconditions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdminActivity extends AppCompatActivity {
@@ -55,6 +58,10 @@ public class AdminActivity extends AppCompatActivity {
     private final CollectionReference doctorCol = db.collection("doctor");
     private final CollectionReference patientCol = db.collection("patient");
 
+    private List<Double>  docRatesSum, docRatesCount;
+    private List<Double>  docRatesAvg;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,7 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
 
         createNotificationChannel();
+
 
     }
 
@@ -151,22 +159,59 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickAddReviewed(View view){
-        appointments.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            DocumentReference appointmenRef = documentSnapshot.getReference();
-                            appointmenRef.update("rated", false);
-                        }
 
-                    }
-                });
-    }
 
     public void onClickUpdateReviews(View view){
-
+        docRatesAvg = new ArrayList<>();
+        docRatesSum = new ArrayList<>();
+        docRatesCount = new ArrayList<>();
+    doctorCol.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        @Override
+        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                docRatesAvg.add( 0.0);
+                docRatesSum.add(0.0);
+                docRatesCount.add(0.0);
+                final int docNum = docRatesAvg.size() -1;
+                final DocumentReference docRef = documentSnapshot.getReference();
+                appointments.whereEqualTo("doctor_id", docRef)
+                    .whereEqualTo("rated", true).get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (final QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                            DocumentReference visitRef = documentSnapshot1.getReference();
+                            reviewCol.whereEqualTo("appointment_id", visitRef).get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots){
+                                                Double review = documentSnapshot2.getDouble("rate");
+                                                Double sum = docRatesSum.get(docNum);
+                                                sum += review;
+                                                docRatesSum.set(docNum, sum);
+                                                Double count = docRatesCount.get(docNum);
+                                                docRatesCount.set(docNum, ++count);
+                                                Double avg = sum / count;
+                                                docRatesAvg.set(docNum, avg);
+                                                System.out.println(docRef.toString() + review + count + sum + avg);
+                                                Map<String, Object> newRate = new HashMap<>();
+                                                newRate.put("average_rate", avg);
+                                                docRef.update(newRate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(AdminActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                            }
+                        }
+                    });
+            }
+        }
+    });
 
 
     }

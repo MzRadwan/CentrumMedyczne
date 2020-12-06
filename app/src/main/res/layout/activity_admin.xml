@@ -64,6 +64,7 @@
                 android:id="@+id/updateRateAvg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="onClickUpdateReviews"
                 android:text="update rate avg" />
 
             <Button
