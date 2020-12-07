@@ -126,10 +126,16 @@ public class FavDocsActivity extends AppCompatActivity {
                     docPrices.add(doc.getAppointment_price());
                     docInfos.add(doc.getPersonal_info());
                     favourites.add(true);
-                    searchRecyclerAdapter.notifyDataSetChanged();
+
                     final int docNum = s1.size() - 1;
+                    docCMs.add("");
+                    docCities.add("");
+                    opinionCounters.add(0);
+                    rateCounters.add(0);
+                    docReviews.add("");
+                    searchRecyclerAdapter.notifyDataSetChanged();
                     getDocsSpec(docRef,docNum);
-                    getDocsClinics(doc.getClinic_id());
+                    getDocsClinics(doc.getClinic_id(), docNum);
                     getDocsReviews(docRef, docNum);
                 }
             });
@@ -167,12 +173,12 @@ public class FavDocsActivity extends AppCompatActivity {
             });
     }
 
-    private void getDocsClinics(DocumentReference clinicRef){
+    private void getDocsClinics(DocumentReference clinicRef, final int docNum){
         clinicRef.get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
+                docCMs.set(docNum,String.valueOf(documentSnapshot.get("clinic_name")));
                // System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
                 searchRecyclerAdapter.notifyDataSetChanged();
                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
@@ -181,7 +187,7 @@ public class FavDocsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Address address = documentSnapshot.toObject(Address.class);
-                        docCities.add(address.getFullAddress());
+                        docCities.set(docNum,address.getFullAddress());
                         searchRecyclerAdapter.notifyDataSetChanged();
                         }
                     });
@@ -191,20 +197,14 @@ public class FavDocsActivity extends AppCompatActivity {
 
     private void getDocsReviews(DocumentReference docRef, final int docNum){
         //opinions
-        opinionCounters.add(0);
-        rateCounters.add(0);
-        docReviews.add("");
-        searchRecyclerAdapter.notifyDataSetChanged();
-
-        appointments.whereEqualTo("doctor_id", docRef)
+                appointments.whereEqualTo("doctor_id", docRef)
             .whereEqualTo("rated", true).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     DocumentReference appointmentRef = documentSnapshot.getReference();
-                    reviews.whereEqualTo("appointment_id", appointmentRef)
-                        .whereEqualTo("accepted", true).get()
+                    reviews.whereEqualTo("appointment_id", appointmentRef).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -213,7 +213,8 @@ public class FavDocsActivity extends AppCompatActivity {
                                 rateCount++;
                                 rateCounters.set(docNum, rateCount);
                                 searchRecyclerAdapter.notifyDataSetChanged();
-                                if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
+                                if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")
+                                && documentSnapshot.getBoolean("accepted").equals(true)){
                                     int opinionCount = opinionCounters.get(docNum);
                                     opinionCount++;
                                     opinionCounters.set(docNum, opinionCount);

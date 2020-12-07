@@ -40,9 +40,9 @@
             android:layout_marginTop="14dp"
             android:layout_marginEnd="85dp"
             android:contentDescription="@string/search_icon"
+            android:onClick="onClickSearchBooK"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="onClickSearchBooK"
             app:srcCompat="@drawable/ic_search_white_box" />
 
         <ImageView
@@ -52,9 +52,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:onClick="onClickAccountBooK"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="onClickAccountBooK"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:srcCompat="@drawable/ic_account_box_white" />
 
@@ -96,8 +96,8 @@
 
                 <ImageView
                     android:id="@+id/docImgBooking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
@@ -107,9 +107,9 @@
 
                 <TextView
                     android:id="@+id/docNameBooking"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="120dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/verdana_bold"
                     android:text="@string/example_doc_name"
@@ -120,9 +120,9 @@
 
                 <TextView
                     android:id="@+id/docSpecBooking"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="120dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/verdana"
                     android:text="@string/example_spec"
@@ -133,9 +133,9 @@
 
                 <TextView
                     android:id="@+id/docCMBooking"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="120dp"
                     android:fontFamily="@font/verdana"
                     android:text="@string/example_cm"
                     android:textColor="@color/navy"
@@ -145,9 +145,9 @@
 
                 <TextView
                     android:id="@+id/docCMAddressBooking"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="120dp"
                     android:fontFamily="@font/verdana"
                     android:text="@string/example_address"
                     android:textColor="@color/navy"

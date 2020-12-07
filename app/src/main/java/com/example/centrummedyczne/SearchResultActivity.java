@@ -282,8 +282,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     DocumentReference appointmentRef = documentSnapshot.getReference();
-                    reviews.whereEqualTo("appointment_id", appointmentRef)
-                        .whereEqualTo("accepted", true).get()
+                    reviews.whereEqualTo("appointment_id", appointmentRef).get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -292,7 +291,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                     rateCount++;
                                     rateCounters.set(docNum, rateCount);
                                     searchRecyclerAdapter.notifyDataSetChanged();
-                                    if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
+                                    if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")
+                                    && documentSnapshot.getBoolean("accepted").equals(true)){
                                         int opinionCount = opinionCounters.get(docNum);
                                         opinionCount++;
                                         opinionCounters.set(docNum, opinionCount);
@@ -354,7 +354,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
 
     private void docSearch(){
-        System.out.println(chosenSpec.toUpperCase());
+        //System.out.println(chosenSpec.toUpperCase());
         specializations
             .whereEqualTo("specialization_name",chosenSpec)
             .get()
@@ -430,8 +430,6 @@ public class SearchResultActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                //Address address = documentSnapshot.toObject(Address.class);
-                                //if (chosenCity.equals(address.getCity()))
                                 if (chosenCity.equals(documentSnapshot.getString("city")))
                                     getDoctorsData(doctorRef);
                                 else
