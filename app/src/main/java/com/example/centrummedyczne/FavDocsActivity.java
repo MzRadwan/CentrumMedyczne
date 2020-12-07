@@ -196,7 +196,7 @@ public class FavDocsActivity extends AppCompatActivity {
     }
 
     private void getDocsReviews(DocumentReference docRef, final int docNum){
-        //opinions
+        //reviews & rates
                 appointments.whereEqualTo("doctor_id", docRef)
             .whereEqualTo("rated", true).get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
