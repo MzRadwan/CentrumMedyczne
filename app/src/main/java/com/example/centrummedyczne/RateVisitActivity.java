@@ -20,16 +20,20 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.centrummedyczne.R.string.filtruj;
 import static com.example.centrummedyczne.R.string.opinion_added;
 
 public class RateVisitActivity extends AppCompatActivity {
 
     RatingBar  mDocRateBar;
     private float rate;
+    private double rateAvg, rateSum, rateCount;
     private String docName, docSpec, visitId;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -66,7 +70,7 @@ public class RateVisitActivity extends AppCompatActivity {
     private void setIntentData(){
         TextView mDoctor = findViewById(R.id.docNameRate);
         TextView mSpec = findViewById(R.id.docSpecRate);
-        mDoctor.setText("" + docName);
+        mDoctor.setText(docName);
         mSpec.setText(docSpec);
 
     }
@@ -85,6 +89,8 @@ public class RateVisitActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    final DocumentReference docRef = documentSnapshot.getDocumentReference("doctor_id");
+
                                     Map<String, Object> review = new HashMap<>();
                                     review.put("accepted", false);
                                     review.put("patient_id", userRef);
@@ -93,7 +99,7 @@ public class RateVisitActivity extends AppCompatActivity {
                                     review.put("review", mReview.getText().toString());
                                     Switch mAnon = findViewById(R.id.anonSwitch);
                                     review.put("anonymous", mAnon.isChecked());
-                                    System.out.println(documentSnapshot.getData());
+                                    //System.out.println(documentSnapshot.getData());
                                     final DocumentReference appointmentRef = documentSnapshot.getReference();
                                     review.put("appointment_id", appointmentRef);
 
@@ -108,6 +114,7 @@ public class RateVisitActivity extends AppCompatActivity {
                                                     public void onSuccess(Void aVoid) {
                                                         Toast.makeText(RateVisitActivity.this,
                                                                 opinion_added, Toast.LENGTH_SHORT).show();
+                                                        updateDocRateAvg(docRef);
                                                         Intent intent = new Intent(RateVisitActivity.this,
                                                                         AppointmentHistoryActivity.class);
                                                         finish();
@@ -128,6 +135,44 @@ public class RateVisitActivity extends AppCompatActivity {
             });
     }
 
+    private void updateDocRateAvg(final DocumentReference docRef){
+        rateAvg = 0.0;
+        rateSum = 0.0;
+        rateCount = 0.0;
+        appointmentCol.whereEqualTo("doctor_id", docRef)
+            .whereEqualTo("rated", true).get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (final QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots){
+                    DocumentReference visitRef = documentSnapshot1.getReference();
+                    reviewCol.whereEqualTo("appointment_id", visitRef).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots){
+                                Double review = documentSnapshot2.getDouble("rate");
+                                rateSum += review;
+                                rateCount++;
+                                rateAvg = rateSum / rateCount;
+                                //System.out.println(docRef.toString() + review + rateCount + rateSum + rateAvg);
+                                Map<String, Object> newRate = new HashMap<>();
+                                newRate.put("average_rate", rateAvg);
+                                docRef.update(newRate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(RateVisitActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            }
+                        });
+                }
+                }
+            });
+
+    }
+
 
     public float getRate() {
         return rate;
@@ -137,13 +182,15 @@ public class RateVisitActivity extends AppCompatActivity {
         this.rate = rate;
     }
 
-    public void onClickAccount(View view){
+    public void onClickAccountRateVisit(View view){
         Intent intent = new Intent(view.getContext(),PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
-    public void onClickSearch(View view){
+    public void onClickSearchRateVisit(View view){
         Intent intent = new Intent(view.getContext(),StartActivity.class);
+        finish();
         startActivity(intent);
     }
 
@@ -151,5 +198,6 @@ public class RateVisitActivity extends AppCompatActivity {
         Intent intent = new Intent(RateVisitActivity.this,
                 AppointmentHistoryActivity.class);
         startActivity(intent);
+        finish();
     }
 }

@@ -33,7 +33,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     private List<String> docNames, docSpecs, appointmentDates,
             docCms, docAddresses, patientNotes, opinions;
     private List<Float> rates;
-    private List<Integer> docImages;
+    private List<String> docImages;
     private List<String> visitRefs;
 
     private HistoryAdapter historyAdapter;
@@ -185,12 +185,9 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                         docNames.set(visitNum,doc.getDegree() + " "
                                 + doc.getFirst_name() + " "
                                 + doc.getLast_name());
-                        docImages.add(R.drawable.ic_profile_lagoon);
-
-
+                       // docImages.add(R.drawable.ic_profile_lagoon);
+                        docImages.add(doc.getPhoto_url());
                         historyAdapter.notifyDataSetChanged();
-
-                       // final int docNum = docNames.size() - 1;
                         getDocsSpec(docRef,visitNum);
                         getDocsClinics(doc.getClinic_id(), visitNum);
 
@@ -218,19 +215,8 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     String docSpec= documentSnapshot.getString("specialization_name");
                                     String allSpecs = docSpecs.get(visitNum);
-                                    if(allSpecs.equals("")){
-                                        allSpecs += docSpec;
-                                    }
-                                    else {
-                                        allSpecs += ", " + docSpec;
-                                    }
-                                    if(allSpecs.length() > 30){
-                                        for (int i = allSpecs.length(); i > 5; i--){
-                                            if(allSpecs.startsWith(",", i-1)){
-                                                allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1);
-                                            }
-                                        }
-                                    }
+                                    if(allSpecs.equals("")) allSpecs += docSpec;
+                                    else allSpecs += ", " + docSpec;
                                     docSpecs.set(visitNum, allSpecs);
                                     historyAdapter.notifyDataSetChanged();
                                 }
@@ -254,14 +240,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Address address = documentSnapshot.toObject(Address.class);
-                        String cmAddress = "";
-                        cmAddress += address.getCity() + ", "
-                                + address.getStreet() + " " + address.getBuilding_number();
-                        //if (address.getApartment()!=null){
-                        //  cmAddress += "/" + address.getApartment();
-                        //}
-
-                        docAddresses.set(visitNum,cmAddress);
+                        docAddresses.set(visitNum,address.getFullAddress());
                         historyAdapter.notifyDataSetChanged();
                         }
                     });
@@ -271,11 +250,13 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
 
     public void onClickAccountIconHistory(View view){
         Intent intent = new Intent(view.getContext(), PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void onClickSearchIconHistory(View view){
         Intent intent = new Intent(view.getContext(), StartActivity.class);
+        finish();
         startActivity(intent);
     }
 }

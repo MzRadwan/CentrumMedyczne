@@ -146,19 +146,8 @@ public class PlannedVisitsActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                     String docSpec= documentSnapshot.getString("specialization_name");
                                     String allSpecs = docSpecs.get(visitNum);
-                                    if(allSpecs.equals("")){
-                                        allSpecs += docSpec;
-                                    }
-                                    else {
-                                        allSpecs += ", " + docSpec;
-                                    }
-                                    if(allSpecs.length() > 30){
-                                        for (int i = allSpecs.length(); i > 5; i--){
-                                            if(allSpecs.startsWith(",", i-1)){
-                                                allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1);
-                                            }
-                                        }
-                                    }
+                                    if(allSpecs.equals("")) allSpecs += docSpec;
+                                    else allSpecs += ", " + docSpec;
                                     docSpecs.set(visitNum, allSpecs);
                                     plannedVisitAdapter.notifyDataSetChanged();                                }
                             });

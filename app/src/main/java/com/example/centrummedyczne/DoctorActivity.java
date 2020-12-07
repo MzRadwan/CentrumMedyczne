@@ -176,9 +176,8 @@ public class DoctorActivity extends AppCompatActivity {
         }
 
         else {
-            System.out.println("OPINIE" + docReview);
             mOpinionCount.setText(""+opinionCount+" opinii");
-            mOpinionsDisplay.setText(docReview);
+            mOpinionsDisplay.setText(" " +docReview);
         }
     }
 

@@ -87,12 +87,8 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</string>
     <string name="patient_account">profil pacjenta</string>
     <string name="back_to_results">Powrót do listy lekarzy</string>
-    <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
-    <string name="rates_avg">Średnia ocen: </string>
+
+    <string name="rates_avg">Średnia ocen:  </string>
     <string name="doc_price">Cena za wizytę: </string>
     <string name="doctor_added_to_favorites">Dodano lekarza do ulubionych</string>
     <string name="doctor_deleted_from_favourites">Usunięto lekarza z ulubionych</string>

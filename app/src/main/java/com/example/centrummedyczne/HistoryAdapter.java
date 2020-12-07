@@ -2,6 +2,8 @@ package com.example.centrummedyczne;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     private List<String> docNames, docSpecs, appointmentDates,
             docCms, docAddresses, patientNotes, opinions;
     private final List<Float> rates;
-    private final List<Integer> docImages;
+    private final List<String> docImages;
     private final List<String> visitRefs;
 
     Context context;
@@ -35,7 +40,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                           List<String> appointmentDates, List<String> docCms,
                           List<String> docAddresses, List<String> patientNotes,
                           List<String> opinions, List<Float> rates,
-                          List<Integer> docImages, List<String> visitRefs){
+                          List<String> docImages, List<String> visitRefs){
         context = ct;
         this.docNames = docNames;
         this.docSpecs = docSpecs;
@@ -58,14 +63,29 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         holder.mVisitDate.setText(appointmentDates.get(position));
         holder.mDocName.setText(docNames.get(position));
         if (docSpecs.size() == docNames.size())
             holder.mDocSpec.setText(docSpecs.get(position));
-        if (docImages.size() == docNames.size())
-            holder.mProfileImg.setImageResource(docImages.get(position));
+        if (docImages.size() == docNames.size()){
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            String noImage = "https://firebasestorage.googleapis.com/v0/b/centrum-medyczne-8367d.appspot.com/o/doctors%2F1606218227891.png?alt=media&token=73b5f128-40c4-4ff2-9179-4145c9daab39";
+
+            if(!docImages.get(position).equals(noImage)) {
+                StorageReference s = storage.getReferenceFromUrl(docImages.get(position));
+                s.getBytes(1024 * 1024)
+                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                holder.mProfileImg.setImageBitmap(bitmap);
+                            }
+                        });
+            }
+        }
+          //  holder.mProfileImg.setImageResource(docImages.get(position));
         if (patientNotes.size() == docNames.size())
             holder.mPatientNote.setText(patientNotes.get(position));
         holder.mDocCm.setText(docCms.get(position));
@@ -85,7 +105,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             }
         }
 
-        System.out.println("His Rate:" + rates.get(position));
+      //  System.out.println("His Rate:" + rates.get(position));
         if (rates.size() == docNames.size()){
             if(rates.get(position) == -1
                     ) {

@@ -292,7 +292,6 @@ public class SearchResultActivity extends AppCompatActivity {
                                     rateCount++;
                                     rateCounters.set(docNum, rateCount);
                                     searchRecyclerAdapter.notifyDataSetChanged();
-                                   // System.out.println("OPINIA" + documentSnapshot.getString("review"));
                                     if (documentSnapshot.getString("review") != null && !documentSnapshot.getString("review").trim().equals("")){
                                         int opinionCount = opinionCounters.get(docNum);
                                         opinionCount++;
@@ -336,13 +335,13 @@ public class SearchResultActivity extends AppCompatActivity {
                                 else {
                                     allSpecs += ", " + docSpec;
                                 }
-                                if(allSpecs.length() > 30){
+                                /*if(allSpecs.length() > 30){
                                     for (int i = allSpecs.length(); i > 5; i--){
                                         if(allSpecs.substring(i-1, i).equals(",")){
                                             allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
                                         }
                                     }
-                                }
+                                }*/
                                 s2.set(docNum, allSpecs);
                                 searchRecyclerAdapter.notifyDataSetChanged();
                                 }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -128,19 +130,8 @@ public class DoctorsChatActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 String docSpec= documentSnapshot.getString("specialization_name");
                                 String allSpecs = docSpecs.get(docNum);
-                                if(allSpecs.equals("")){
-                                    allSpecs += docSpec;
-                                }
-                                else {
-                                    allSpecs += ", " + docSpec;
-                                }
-                                if(allSpecs.length() > 30){
-                                    for (int i = allSpecs.length(); i > 5; i--){
-                                        if(allSpecs.substring(i-1, i).equals(",")){
-                                            allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1);
-                                        }
-                                    }
-                                }
+                                if(allSpecs.equals("")) allSpecs += docSpec;
+                                else allSpecs += ", " + docSpec;
                                 docSpecs.set(docNum, allSpecs);
                                     doctorsChatAdapter.notifyDataSetChanged();
                                 }
@@ -157,7 +148,7 @@ public class DoctorsChatActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                 docCMs.set(docNum,String.valueOf(documentSnapshot.get("clinic_name")));
-                System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
+               // System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
                     doctorsChatAdapter.notifyDataSetChanged();
                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
                 clinicAddress.get()
@@ -165,18 +156,23 @@ public class DoctorsChatActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Address address = documentSnapshot.toObject(Address.class);
-                        String cmAddress = "";
-                        cmAddress += address.getCity() + ", "
-                                + address.getStreet() + " " + address.getBuilding_number();
-                        //if (address.getApartment()!=null){
-                        //  cmAddress += "/" + address.getApartment();
-                        //}
-
-                        docCMAddress.set(docNum,cmAddress);
+                        docCMAddress.set(docNum,address.getFullAddress());
                             doctorsChatAdapter.notifyDataSetChanged();
                         }
                         });
                 }
             });
+    }
+
+    public void onClickAccountDocChat(View view){
+        Intent intent = new Intent(view.getContext(),PatientAccountActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void onClickSearchDocChat(View view){
+        Intent intent = new Intent(view.getContext(),StartActivity.class);
+        finish();
+        startActivity(intent);
     }
 }

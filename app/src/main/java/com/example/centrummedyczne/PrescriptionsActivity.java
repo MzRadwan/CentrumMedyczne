@@ -106,16 +106,6 @@ public class PrescriptionsActivity extends AppCompatActivity {
                 }
                 }
             });
-            /*
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    TextView mNoPrescriptions = findViewById(R.id.noPrescriptionsText);
-                    mNoPrescriptions.setVisibility(View.VISIBLE);
-                    Toast.makeText(PrescriptionsActivity.this, "brak", Toast.LENGTH_SHORT).show();
-
-                }
-            });*/
 
     }
 
@@ -163,11 +153,13 @@ public class PrescriptionsActivity extends AppCompatActivity {
 
     public void onClickSearchPrescriptions(View view){
         Intent intent = new Intent(PrescriptionsActivity.this, StartActivity.class);
+        finish();
         startActivity(intent);
     }
 
     public void onClickAccountPrescriptions(View view){
         Intent intent = new Intent(PrescriptionsActivity.this, PatientAccountActivity.class);
+        finish();
         startActivity(intent);
     }
 }

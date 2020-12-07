@@ -44,6 +44,7 @@
             android:layout_marginEnd="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onClickAccountDocChat"
             app:srcCompat="@drawable/ic_account_box_white" />
 
         <ImageView
@@ -54,6 +55,7 @@
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toStartOf="@+id/accountImageDocChat"
             app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onClickSearchDocChat"
             app:srcCompat="@drawable/ic_search_white_box" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

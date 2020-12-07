@@ -66,7 +66,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
-
         holder.myTextView1.setText(docNames.get(position));
         holder.myTextView2.setText(data2.get(position));
 
@@ -84,7 +83,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
                         }
                     });
         }
-        // holder.myImage.setImageResource(images.get(position));
+
         holder.mDocRate.setRating(docRates.get(position));
         holder.mDocPrice.setText(String.format("Cena za wizytę: %.2f PLN", docPrices.get(position)) + "");
         if(docCMs.size() == docNames.size())

@@ -155,19 +155,8 @@ public class FavDocsActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 String docSpec= documentSnapshot.getString("specialization_name");
                                 String allSpecs = s2.get(docNum);
-                                if(allSpecs.equals("")){
-                                    allSpecs += docSpec;
-                                }
-                                else {
-                                    allSpecs += ", " + docSpec;
-                                }
-                                if(allSpecs.length() > 30){
-                                    for (int i = allSpecs.length(); i > 5; i--){
-                                        if(allSpecs.substring(i-1, i).equals(",")){
-                                            allSpecs = allSpecs.substring(0,i) + "\n" + allSpecs.substring(i+1, allSpecs.length());
-                                        }
-                                    }
-                                }
+                                if(allSpecs.equals("")) allSpecs += docSpec;
+                                else allSpecs += ", " + docSpec;
                                 s2.set(docNum, allSpecs);
                                 searchRecyclerAdapter.notifyDataSetChanged();
                                 }
@@ -184,7 +173,7 @@ public class FavDocsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                 docCMs.add(String.valueOf(documentSnapshot.get("clinic_name")));
-                System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
+               // System.out.println("Clinic_name" + String.valueOf(documentSnapshot.get("clinic_name")));
                 searchRecyclerAdapter.notifyDataSetChanged();
                 DocumentReference clinicAddress = documentSnapshot.getDocumentReference("address_id");
                 clinicAddress.get()
