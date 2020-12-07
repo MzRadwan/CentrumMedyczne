@@ -66,13 +66,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         mCancelButton = (Button) findViewById(R.id.cancelButton);
+        mCancelButton.setText("Zarejestruj");//register
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),WelcomeActivity.class); //cancel
+               // Intent intent = new Intent(v.getContext(),WelcomeActivity.class); //cancel
 
-                /*mCancelButton.setText("Zarejestruj");//register
-                Intent intent = new Intent(v.getContext(),RegisterActivity.class);*/
+
+                Intent intent = new Intent(v.getContext(),RegisterActivity.class);
 
                 startActivity(intent);
             }

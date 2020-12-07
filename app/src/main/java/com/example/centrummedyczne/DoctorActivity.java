@@ -76,9 +76,12 @@ public class DoctorActivity extends AppCompatActivity {
         mOpinionsHeader = findViewById(R.id.opinionsHeaderDocA);
 
 
+
         getData();
         setData();
+
     }
+
 
     private void getData() {
         if(getIntent().hasExtra("images")
@@ -138,6 +141,7 @@ public class DoctorActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         ImageView mAccountImage = findViewById(R.id.accountImageDocA);
         ImageView mSearchImage = findViewById(R.id.searchIconDocA);
+        Button mVisitBooking = findViewById(R.id.bookVisitSearch);
         Button mLogin = findViewById(R.id.loginButtonDocA);
 
         if(user == null){
@@ -145,6 +149,15 @@ public class DoctorActivity extends AppCompatActivity {
             mHeartBorder.setVisibility(View.GONE);
             mAccountImage.setVisibility(View.GONE);
             mLogin.setVisibility(View.VISIBLE);
+            mLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(DoctorActivity.this, LoginActivity.class);
+                    finish();
+                    startActivity(intent);
+                }
+            });
+            mVisitBooking.setVisibility(View.GONE);
             mSearchImage.setVisibility(View.GONE);
         }
         else {

@@ -39,6 +39,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private String chosenCity, chosenSpec;
 
     private boolean isListFiltered;
+    private RecyclerView mRecyclerView;
     private List<String> specs, cities;
     private ArrayAdapter <String> specsAdapter,citiesAdapter;
 
@@ -101,7 +102,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private void createSearchDocRecycler(){
         //search results display
 
-        RecyclerView mRecyclerView = findViewById(R.id.docRecyler);
+        mRecyclerView = findViewById(R.id.docRecyler);
 
         s1 = new ArrayList<>();
         s2 = new ArrayList<>();
@@ -185,11 +186,20 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
+    private void displayDoctors(){
+        TextView noDocsText = findViewById(R.id.noSearchDocsFoundText);
+        noDocsText.setVisibility(View.GONE);
+        Button sortFilter = findViewById(R.id.sortFilterButton);
+        sortFilter.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
     private void getDoctorsData(final DocumentReference doctorRef){
         doctorRef.get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    displayDoctors();
                 final Doctor foundDoctor = documentSnapshot.toObject(Doctor.class);
                 System.out.println(doctorRef.getId());
                 s1.add(doctorRef.getId());
@@ -368,8 +378,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                             getDoctorsData(doctorRef);
                                     }
                                 }
-                                else
-                                    noDoctorsFound();
+                                //else
+                                   // noDoctorsFound();
                             }
                         });
                     }
@@ -394,13 +404,10 @@ public class SearchResultActivity extends AppCompatActivity {
                 }
             });
     }
-
+/*
     private void noDoctorsFound(){
-        TextView noDocsText = findViewById(R.id.noSearchDocsFoundText);
-        noDocsText.setVisibility(View.VISIBLE);
-        Button sortFilter = findViewById(R.id.sortFilterButton);
-        sortFilter.setVisibility(View.GONE);
-    }
+
+    }*/
     private void checkDocsCity(final DocumentReference doctorRef){
         //search based on city
         doctorRef.get()
@@ -421,8 +428,8 @@ public class SearchResultActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 if (chosenCity.equals(documentSnapshot.getString("city")))
                                     getDoctorsData(doctorRef);
-                                else
-                                    noDoctorsFound();
+                               // else
+                                 //   noDoctorsFound();
                                 }
                             });
                         }

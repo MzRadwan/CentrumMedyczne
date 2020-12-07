@@ -93,7 +93,6 @@
                 android:background="@drawable/white_background"
                 android:paddingBottom="10dp">
 
-
                 <ImageView
                     android:id="@+id/docImgBooking"
                     android:layout_width="100dp"

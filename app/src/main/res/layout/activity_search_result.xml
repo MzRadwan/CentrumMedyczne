@@ -141,7 +141,7 @@
                 android:background="@drawable/sky_button"
                 android:fontFamily="@font/verdana"
                 android:onClick="onClickSortFilter"
-
+                android:visibility="gone"
                 android:text="Sortuj / Filtruj"
                 android:textAllCaps="false"
                 android:textColor="@color/navy"
@@ -158,11 +158,12 @@
                 android:fontFamily="@font/verdana"
                 android:textSize="18sp"
                 android:textColor="@color/navy"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:text="Nie znaleziono lekarzy spełniających kryteria wyszukiwania"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/docRecyler"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

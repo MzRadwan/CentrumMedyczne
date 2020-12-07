@@ -9,15 +9,15 @@ import android.widget.Button;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    Button loginButton, continueButton;
+   // Button loginButton, continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        loginButton = (Button) findViewById(R.id.loginStart);
-        continueButton = (Button) findViewById(R.id.guestStart);
+        //loginButton = (Button) findViewById(R.id.loginStart);
+        //continueButton = (Button) findViewById(R.id.guestStart);
     }
 
     public void onClickLogin(View view){
@@ -30,8 +30,5 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickAdmin(View view){
-        Intent intent = new Intent(view.getContext(),AdminActivity.class);
-        startActivity(intent);
-    }
+
 }
