@@ -62,6 +62,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private List<Integer>  rateCounters, opinionCounters;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,7 @@ public class SearchResultActivity extends AppCompatActivity {
         rateCounters = new ArrayList<>();
         docReviews = new ArrayList<>();
         opinionCounters = new ArrayList<>();
+
 
         searchRecyclerAdapter = new SearchRecyclerAdapter(this,s1, s2,
                 images, docRates, docPrices, docNames, docInfos, docCMs,
@@ -454,6 +456,8 @@ public class SearchResultActivity extends AppCompatActivity {
         intent1.putExtra("maxOpinionsNumber",maxOpinionsNumber);
         startActivityForResult(intent1, 1);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
